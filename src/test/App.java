@@ -1,5 +1,7 @@
 package test;
 
+import coppelia.FloatWA;
+import coppelia.IntW;
 import coppelia.remoteApi;
 
 public class App {
@@ -9,7 +11,13 @@ public class App {
 		
 		remoteApi vrep = new remoteApi();
 		
-		//vrep.simxStart(connectionAddress, connectionPort, waitUntilConnected, doNotReconnectOnceDisconnected, timeOutInMs, commThreadCycleInMs)
+        int clientID = vrep.simxStart("127.0.0.1",19997,true,true,5000,5);
+        
+        IntW cubo = new IntW(1);
+        
+        vrep.simxGetObjectHandle(clientID, "cubo", cubo, vrep.simx_opmode_blocking);
+        
+        vrep.simxSetObjectPosition(clientID, cubo.getValue(), -1, new FloatWA(12), vrep.simx_opmode_blocking);
 	}
 
 }
