@@ -15,6 +15,7 @@ public class App {
         
         IntW cubo = new IntW(1);
         
+        
         vrep.simxGetObjectHandle(clientID, "cubo", cubo, vrep.simx_opmode_blocking);
         
         vrep.simxSetObjectPosition(clientID, cubo.getValue(), -1, new FloatWA(12), vrep.simx_opmode_blocking);
