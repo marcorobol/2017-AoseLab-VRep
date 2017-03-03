@@ -14,7 +14,7 @@ public class App {
         int clientID = vrep.simxStart("127.0.0.1",19997,true,true,5000,5);
         
         IntW cubo = new IntW(1);
-        
+        IntW joint = new IntW(1);
         
         vrep.simxGetObjectHandle(clientID, "cubo", cubo, vrep.simx_opmode_blocking);
         
