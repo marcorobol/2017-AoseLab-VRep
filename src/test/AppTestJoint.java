@@ -65,9 +65,8 @@ public class AppTestJoint {
       //Recupero e stampo la velocità di Bob
         FloatWA velocity = new FloatWA(0);
         vrep.simxGetObjectVelocity(clientID, bob.getValue(), velocity, null, vrep.simx_opmode_blocking);
-        pippo =  velocity.getArray(); 	//Recupero l'array di Float
         System.out.println("\nLa Velocità lineare di Bob è:");
-        for (float a : pippo) {
+        for (float a : velocity.getArray()) {
         	System.out.println(a);  
         }
         
@@ -87,7 +86,7 @@ public class AppTestJoint {
         System.out.println("stampa prova");
         //Prova da codice c++
         
-        int leftMotorHandle;
+        int leftGetHandleResponse;
         int rightMotorHandle;
         int sensorHandle;
         
@@ -97,16 +96,19 @@ public class AppTestJoint {
         
         
         
-        leftMotorHandle = vrep.simxGetObjectHandle(clientID, "remoteApiControlledBubbleRobLeftMotor", leftMotor, vrep.simx_opmode_blocking);
+        leftGetHandleResponse = vrep.simxGetObjectHandle(clientID, "remoteApiControlledBubbleRobLeftMotor", leftMotor, vrep.simx_opmode_blocking);
         rightMotorHandle = vrep.simxGetObjectHandle(clientID, "remoteApiControlledBubbleRobRightMotor", rightMotor, vrep.simx_opmode_blocking);
         sensorHandle = vrep.simxGetObjectHandle(clientID, "remoteApiControlledBubbleRobSensingNose", proximitySensor, vrep.simx_opmode_blocking);
         
-        System.out.print("left motor: " + leftMotorHandle);
-        System.out.print("right motor: " + rightMotorHandle);
+        System.out.println("left motor: " + leftGetHandleResponse);
+        System.out.println("right motor: " + rightMotorHandle);
         
         int driveBackStartTime=-99000;
         float[] motorSpeeds = new float[3];
         
+		int setJ = vrep.simxSetJointTargetVelocity(clientID,leftMotor.getValue(),3.14f,vrep.simx_opmode_blocking);
+        System.out.println("SetJointTargetVelocity:" + setJ);
+		
         while (vrep.simxGetConnectionId(clientID)!=-1){
         	//System.out.println("dentro ciclo while");
         	BoolW sensorTrigger= new BoolW(false);
@@ -125,7 +127,7 @@ public class AppTestJoint {
                     if (sensorTrigger.getValue())
                         driveBackStartTime=simulationTime; // We detected something, and start the backward mode
                 }
-        		vrep.simxSetJointTargetVelocity(clientID,leftMotorHandle,motorSpeeds[0],vrep.simx_opmode_oneshot);
+        		vrep.simxSetJointTargetVelocity(clientID,leftGetHandleResponse,motorSpeeds[0],vrep.simx_opmode_oneshot);
         		vrep.simxSetJointTargetVelocity(clientID,rightMotorHandle,motorSpeeds[1],vrep.simx_opmode_oneshot); 
         	//}
         }
