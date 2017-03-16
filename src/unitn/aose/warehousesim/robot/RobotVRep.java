@@ -1,33 +1,43 @@
 package unitn.aose.warehousesim.robot;
 
+import coppelia.FloatW;
 import coppelia.IntW;
 import coppelia.remoteApi;
-import unitn.aose.warehousesim.api.Box;
 import unitn.aose.warehousesim.api.ILoadUnloadFSM;
 import unitn.aose.warehousesim.api.IMovementListener;
 import unitn.aose.warehousesim.api.IRobot;
-import unitn.aose.warehousesim.api.LoadUnloadArea;
 import unitn.aose.warehousesim.api.MovementState;
-import unitn.aose.warehousesim.api.Rail;
+import unitn.aose.warehousesim.api.data.Box;
+import unitn.aose.warehousesim.api.data.LandingArea;
+import unitn.aose.warehousesim.api.data.Rail;
+import unitn.aose.warehousesim.api.data.Robot;
 
-public class RobotVRep implements IRobot {
+public class RobotVRep extends Robot implements IRobot {
 	
 	/*
 	 * Parameters
 	 */
 	final float targetVelocity = 1f;
+	final float lenght = 7.5f;
 	
-	remoteApi vrep;
-	IntW jointH;
-	int clientID;
+	private remoteApi vrep;
+	private IntW jointH;
+	private String name;
+	private int clientID;
+	
 
 	MovementState movementState = MovementState.stop;
 	
 	
-	public RobotVRep(remoteApi vrep, int clientID, IntW joint) {
+	public RobotVRep(remoteApi vrep, int clientID, String name) {
 		this.vrep = vrep;
 		this.clientID = clientID;
-		this.jointH = joint;
+		this.name = name;
+		/*
+		 * Retrive handle
+		 */
+        this.jointH = new IntW(1);
+        vrep.simxGetObjectHandle(clientID, name, jointH, remoteApi.simx_opmode_blocking);
 	}
 	
 //	void setStato(s) {
@@ -48,11 +58,14 @@ public class RobotVRep implements IRobot {
 	
 	@Override
 	public void stopHere() {
-		// TODO to be fixed
-		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0f, remoteApi.simx_opmode_blocking);
-
+		Integer index = getPosition();
+		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), lenght/getRail().getLenght()*index, remoteApi.simx_opmode_blocking);
 	}
 
+	public MovementState setState(MovementState s) {
+		return this.movementState = s;
+	}
+	
 	@Override
 	public MovementState getState() {
 		return movementState;
@@ -89,13 +102,13 @@ public class RobotVRep implements IRobot {
 	}
 
 	@Override
-	public LoadUnloadArea getStorageAreaOnLeft() {
+	public LandingArea getStorageAreaOnLeft() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public LoadUnloadArea getStorageAreaOnRight() {
+	public LandingArea getStorageAreaOnRight() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -119,21 +132,26 @@ public class RobotVRep implements IRobot {
 	}
 
 	@Override
-	public unitn.aose.warehousesim.api.Robot getRobotHaed() {
+	public unitn.aose.warehousesim.api.data.Robot getRobotHaed() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public unitn.aose.warehousesim.api.Robot getRobotBehind() {
+	public unitn.aose.warehousesim.api.data.Robot getRobotBehind() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public Rail getRail() {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer getPosition() {
+		FloatW position = new FloatW(3f);
+		vrep.simxGetJointPosition(clientID, jointH.getValue(), position, remoteApi.simx_opmode_blocking);
+		return Math.round( position.getValue() / (lenght/getRail().getLenght()) );
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

@@ -1,5 +1,10 @@
 package unitn.aose.warehousesim.api;
 
+import unitn.aose.warehousesim.api.data.Box;
+import unitn.aose.warehousesim.api.data.LandingArea;
+import unitn.aose.warehousesim.api.data.Rail;
+import unitn.aose.warehousesim.api.data.Robot;
+
 public interface IRobot {
 	
 	/*
@@ -21,8 +26,8 @@ public interface IRobot {
 	 * Surrounding environment
 	 */
 	
-	LoadUnloadArea getStorageAreaOnLeft();
-	LoadUnloadArea getStorageAreaOnRight();
+	LandingArea getStorageAreaOnLeft();
+	LandingArea getStorageAreaOnRight();
 	
 	Box getBoxOnLeft();
 	Box getBoxOnRight();

@@ -1,5 +1,6 @@
 package unitn.aose.warehousesim.api;
 
+
 public interface ILoadUnloadFSM {
 	
 	LoadUnloadState getState();
