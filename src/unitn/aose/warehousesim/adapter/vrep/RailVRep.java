@@ -1,8 +1,9 @@
-package unitn.aose.warehousesim.robot;
+package unitn.aose.warehousesim.adapter.vrep;
 
 import coppelia.IntW;
 import coppelia.remoteApi;
 import unitn.aose.warehousesim.api.MovementState;
+import unitn.aose.warehousesim.api.data.LandingArea;
 import unitn.aose.warehousesim.api.data.Rail;
 
 public class RailVRep extends Rail {
@@ -14,8 +15,8 @@ public class RailVRep extends Rail {
 	final float lenght = 7.5f;
 	
 	private remoteApi vrep;
-	private String name;
 	private int clientID;
+	private String name;
 	private IntW handle;
 	
 
@@ -37,6 +38,14 @@ public class RailVRep extends Rail {
 
 	public String getName() {
 		return name;
+	}
+	
+	public void addLeftArea(Integer i, LandingArea l) {
+		leftAreas.put(i, l);
+	}
+	
+	public void addRightArea(Integer i, LandingArea l) {
+		rightAreas.put(i, l);
 	}
 
 }

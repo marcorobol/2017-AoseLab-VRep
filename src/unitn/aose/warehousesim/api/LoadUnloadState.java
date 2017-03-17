@@ -2,6 +2,6 @@ package unitn.aose.warehousesim.api;
 
 public enum LoadUnloadState {
 	
-	unloaded, loaded, loading, unloading;
+	unloaded, loaded, loadingLeft, loadingRight, unloadingLeft, unloadingRight;
 	
 }

@@ -1,12 +1,11 @@
 package unitn.aose.warehousesim.agent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.MovementState;
+import unitn.aose.warehousesim.api.data.LandingArea;
 
 public class AgentJava implements Runnable {
 	
@@ -18,7 +17,34 @@ public class AgentJava implements Runnable {
 
 	@Override
 	public void run() {
+		
+		for(IRobot r : robotList) {
+			r.getAreaOnLeft().registerListener(new IListener<LandingArea>() {
+				@Override
+				public void notifyChanged(LandingArea value) {
+					r.stopHere();
+//					r.loadLeft();
+					r.getMovement().registerListener(new IListener<MovementState>() {
+						@Override
+						public void notifyChanged(MovementState value) {
+							if(value==MovementState.stop) {
+								r.loadLeft();
+								r.getMovement().unregisterListener(this);
+							}
+						}
+					});
+				}
+			});
+		}
+		
 
+    	for(IRobot r : robotList) {
+    		if(r.getPosition().get()<=3)
+    			r.moveForward();
+    		else if(r.getPosition().get()>=12)
+    			r.moveBackward();
+    	}
+		
         while(true) {
         	
 			try {
@@ -27,12 +53,12 @@ public class AgentJava implements Runnable {
 				e.printStackTrace();
 			}
         	
-	    	for(IRobot r : robotList) {
-	    		if(r.getPosition()<=3 && r.getMovementFSM().getState()!=MovementState.runningForward)
-	    			r.moveForward();
-	    		else if(r.getPosition()>=12 && r.getMovementFSM().getState()!=MovementState.runningBackward)
-	    			r.moveBackward();
-	    	}
+//	    	for(IRobot r : robotList) {
+//	    		if(r.getPosition().get()<=3 && r.getMovement().get()!=MovementState.runningForward)
+//	    			r.moveForward();
+//	    		else if(r.getPosition().get()>=12 && r.getMovement().get()!=MovementState.runningBackward)
+//	    			r.moveBackward();
+//	    	}
         }
 	}
 

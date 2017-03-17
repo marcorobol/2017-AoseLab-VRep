@@ -1,5 +1,6 @@
 package unitn.aose.warehousesim.api;
 
+import unitn.aose.warehousesim.Observable;
 import unitn.aose.warehousesim.api.data.Box;
 import unitn.aose.warehousesim.api.data.LandingArea;
 import unitn.aose.warehousesim.api.data.Rail;
@@ -14,31 +15,31 @@ public interface IRobot {
 	void moveForward();
 	void moveBackward();
 	void stopHere();
-	IMovementFSM getMovementFSM();
+	IObservable<MovementState> getMovement();
 	
-	void load(Box b);
-	Box unload();
-	ILoadUnloadFSM getLoadUnloadFSM();
+	void loadLeft();
+	void loadRight();
+	void unloadLeft();
+	void unloadRight();
+	IObservable<LoadUnloadState> getLoadUnload();
 	
 	/*
 	 * Surrounding environment
 	 */
 	
-	LandingArea getStorageAreaOnLeft();
-	LandingArea getStorageAreaOnRight();
+	IObservable<LandingArea> getAreaOnLeft();
+	IObservable<LandingArea> getAreaOnRight();
 	
 	Box getBoxOnLeft();
 	Box getBoxOnRight();
 	
-	Box getLoadedBox();
-	
 	Robot getRobotHaed();
 	Robot getRobotBehind();
-
-	String getName();
 	
+	String getName();
+	Box getLoadedBox();
 	Rail getRail();
-	Integer getPosition();
+	Observable<Integer> getPosition();
 	Float getVelocity();
 	
 }

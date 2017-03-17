@@ -10,8 +10,10 @@ public class Rail {
 	 */
 	
 	private int lenght;
-
-	private Map<Integer, LandingArea> areas;
+	
+	protected Map<Integer, LandingArea> leftAreas;
+	
+	protected Map<Integer, LandingArea> rightAreas;
 	
 	/*
 	 * Costruttore
@@ -19,7 +21,8 @@ public class Rail {
 	
 	public Rail(int lenght) {
 		this.lenght = lenght;
-		this.areas = new HashMap<Integer, LandingArea>();
+		this.leftAreas = new HashMap<Integer, LandingArea>();
+		this.rightAreas = new HashMap<Integer, LandingArea>();
 	}
 	
 	/*
@@ -30,12 +33,12 @@ public class Rail {
 		return lenght;
 	}
 	
-	public void addLoadUnloadArea(Integer i, LandingArea l) {
-		areas.put(i, l);
+	public Map<Integer, LandingArea> getLeftAreas() {
+		return leftAreas;
 	}
 	
-	public Map<Integer, LandingArea> getAreas() {
-		return areas;
+	public Map<Integer, LandingArea> getRightAreas() {
+		return rightAreas;
 	}
 	
 }
