@@ -14,9 +14,7 @@ public interface IRobot {
 	void moveForward();
 	void moveBackward();
 	void stopHere();
-	MovementState getState();
-	void registerMovementListener(IMovementListener listener);
-	void unregisterMovementListener(IMovementListener listener);
+	IMovementFSM getMovementFSM();
 	
 	void load(Box b);
 	Box unload();
@@ -36,7 +34,11 @@ public interface IRobot {
 	
 	Robot getRobotHaed();
 	Robot getRobotBehind();
+
+	String getName();
 	
 	Rail getRail();
+	Integer getPosition();
+	Float getVelocity();
 	
 }

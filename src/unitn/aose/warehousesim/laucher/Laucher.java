@@ -3,97 +3,117 @@ package unitn.aose.warehousesim.laucher;
 import java.util.ArrayList;
 import java.util.List;
 
-import coppelia.FloatW;
-import coppelia.FloatWA;
-import coppelia.IntW;
 import coppelia.remoteApi;
+import unitn.aose.warehousesim.agent.AgentJava;
+import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.LandingArea;
-import unitn.aose.warehousesim.api.data.Rail;
+import unitn.aose.warehousesim.robot.LandingAreaVRep;
+import unitn.aose.warehousesim.robot.RailVRep;
 import unitn.aose.warehousesim.robot.RobotVRep;
 
 public class Laucher {
 
 	public static void main(String[] args) throws InterruptedException {
 
-
-//      a = new Parametrizzzaion Amb();
-//      
-//      la1 = a.addLoadUnloadArea(2, 6);
-//      
-//      r = a.addRail();
-//      sp1 = a.addStopPosition(r, 0);
-//      sp2 = a.addStopPosition(r, 3);
-//      sp3 = a.addStopPosition(r, 5);
-//      a.linkStorageArea(sp1, la1, );
-//      
-//      a.setBoxPosition(b1, la1);
-//      
-//      r1 = a.addRobot(r, "robot1", "joint1");
-//      
-//      a.addJ(r1, "joint1", -2.5, 0, 5.0, 0, 0, 5);
-		
+		/*
+		 * Connection with VRep
+		 */
 		
 		remoteApi vrep = new remoteApi();
-		
         int clientID = vrep.simxStart("127.0.0.1",19997,true,true,5000,5);
+		
+        
+		
+		/*
+         * Areas
+         */
+        
+        LandingAreaVRep area_a = new LandingAreaVRep(vrep, clientID, "PickAreaA");
+        LandingAreaVRep area_b = new LandingAreaVRep(vrep, clientID, "PickAreaB");
+        LandingAreaVRep area_c = new LandingAreaVRep(vrep, clientID, "PickAreaC");
+        LandingAreaVRep area_d = new LandingAreaVRep(vrep, clientID, "PickAreaD");
+
+        LandingAreaVRep area_ac = new LandingAreaVRep(vrep, clientID, "ShareAreaAC");
+        LandingAreaVRep area_bc = new LandingAreaVRep(vrep, clientID, "ShareAreaBC");
+        LandingAreaVRep area_bd = new LandingAreaVRep(vrep, clientID, "ShareAreaBD");
+        LandingAreaVRep area_ad = new LandingAreaVRep(vrep, clientID, "ShareAreaAD");
+
+        LandingAreaVRep area_a1 = new LandingAreaVRep(vrep, clientID, "StorageAreaA1");
+        LandingAreaVRep area_c1 = new LandingAreaVRep(vrep, clientID, "StorageAreaC1");
+        LandingAreaVRep area_c2 = new LandingAreaVRep(vrep, clientID, "StorageAreaC2");
+        LandingAreaVRep area_c3 = new LandingAreaVRep(vrep, clientID, "StorageAreaC3");
+        LandingAreaVRep area_d1 = new LandingAreaVRep(vrep, clientID, "StorageAreaD1");
+        LandingAreaVRep area_d2 = new LandingAreaVRep(vrep, clientID, "StorageAreaD2");
+        LandingAreaVRep area_d3 = new LandingAreaVRep(vrep, clientID, "StorageAreaD3");
 
         
+
+        /*
+         * Rails
+         */
+        
+        RailVRep rail_a = new RailVRep(vrep, clientID, "rail_a", 16);
+        rail_a.addLoadUnloadArea(1, area_a);
+        rail_a.addLoadUnloadArea(3, area_ac);
+        rail_a.addLoadUnloadArea(7, area_a1);
+        rail_a.addLoadUnloadArea(12, area_ad);
+        RailVRep rail_b = new RailVRep(vrep, clientID, "rail_b", 16);
+        RailVRep rail_c = new RailVRep(vrep, clientID, "rail_c", 16);
+        RailVRep rail_d = new RailVRep(vrep, clientID, "rail_d", 16);
         
         
-        
-        List<RobotVRep> robotVrepList = new ArrayList<RobotVRep>();
         /*
          * Robots
          */
-		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC1"));
-		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC2"));
         
-		
-		
-		
-		
-        //System.createTrhead(r);
-		
-		//List<> listaPacchi;
+        List<RobotVRep> robotVrepList = new ArrayList<RobotVRep>();
         
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorA1", rail_a));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorA2", rail_a));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorB1", rail_b));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorB2", rail_b));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC1", rail_c));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC2", rail_c));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorD1", rail_d));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorD2", rail_d));
 		
-        List<IntW> loadUnloadAresHandles = new ArrayList<>();
+		
+        
 		/*
-		 * LoadUnloadArea
+		/*
+		 * Agents
 		 */
-        IntW pickAreaA = new IntW(1);
-        vrep.simxGetObjectHandle(clientID, "PickAreaA", pickAreaA, remoteApi.simx_opmode_blocking);
-        loadUnloadAresHandles.add(pickAreaA);
+		List<IRobot> robotList = new ArrayList<IRobot>();
+		for(IRobot r : robotVrepList) {
+			robotList.add(r);
+		}
+		new Thread(new AgentJava(robotList)).start();
         
-        Rail a = new Rail(16);
         
-        List<LandingArea> loadUnloadAreas = new ArrayList<LandingArea>();
+        
         /*
-         * Read area positions
+         * Simulation cycle
          */
-        for(IntW h : loadUnloadAresHandles) {
-        	FloatWA pos = new FloatWA(3);
-        	vrep.simxGetObjectPosition(clientID, h.getValue(), -1, pos, remoteApi.simx_opmode_blocking);
-        	loadUnloadAreas.add(new LandingArea());
-        }
-        
         
         while(true) {
         	Thread.sleep(500);
         	
         	for(RobotVRep r : robotVrepList) {
-        		Integer index = r.getPosition();
-            	System.out.println("DEBUG Robot"+r.getName()+"actual index :"+index);
-        		if(r.getRail().getAreas().get(index)!=null) {
-        			r.setState(MovementState.approaching);
+        		r.updatePosition();
+        		r.updateVelocity();
+            	
+        		LandingArea a = r.getRail().getAreas().get(r.getPosition());
+        		if(a!=null) {
+        			r.getAgent().notifyApproachingToArea(a);
         		}
+        		
+    			if(r.getMovementFSM().getState()==MovementState.stopping && r.getVelocity()<0.001f && r.getVelocity()>-0.001f)
+        			r.setMovementStopState();
+        		
+            	System.out.println("DEBUG Robot "+r.getName()+" pos: "+r.getPosition()+", vel: "+r.getVelocity()+", state: "+r.getMovementFSM().getState());
         	}
         	
-        	
-        	
-        	
-//        	r.setMsfMovement("approaching");
         }
 
 	}

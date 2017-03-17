@@ -4,22 +4,26 @@ public class Robot {
 	
 	private Rail rail;
 	
-	private Integer position;
+	protected Integer position = 0;
 
+	protected Float velocity = 0f;
+
+
+	public Robot(Rail rail) {
+		this.rail = rail;
+	}
+	
+	
 	public Rail getRail() {
 		return rail;
 	}
-
-	public void setRail(Rail rail) {
-		this.rail = rail;
-	}
-
+	
 	public Integer getPosition() {
 		return position;
 	}
-
-	public void setPosition(Integer position) {
-		this.position = position;
+	
+	public Float getVelocity() {
+		return velocity;
 	}
 	
 }

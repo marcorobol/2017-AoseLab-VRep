@@ -11,7 +11,7 @@ public interface IAgent {
 	void notifyApproachingToARailCrossing(Rail r);
 	void notifyStopBeforeARailCrossing(Rail r);
 	
-	void notifyApproachingToALoadUnloadArea(LandingArea a);
+	void notifyApproachingToArea(LandingArea a);
 	void notifyStopInALoadUnloadArea(LandingArea a);
 	
 }
