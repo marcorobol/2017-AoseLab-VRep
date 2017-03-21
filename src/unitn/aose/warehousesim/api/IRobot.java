@@ -13,6 +13,8 @@ public interface IRobot {
 	
 	void moveForward();
 	void moveBackward();
+	void moveApproaching();
+	void moveNotApproaching();
 	void stopHere();
 	MovementState getState();
 	void registerMovementListener(IMovementListener listener);

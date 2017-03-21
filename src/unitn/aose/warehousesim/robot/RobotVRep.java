@@ -49,6 +49,7 @@ public class RobotVRep extends Robot implements IRobot {
 	public void moveForward() {
 		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), targetVelocity, remoteApi.simx_opmode_blocking);
 		movementState = MovementState.runningForward;
+		
 	}
 	
 	@Override
@@ -58,9 +59,27 @@ public class RobotVRep extends Robot implements IRobot {
 	}
 	
 	@Override
+	public void moveApproaching() {
+		// TODO Auto-generated method stub
+		
+		/*FloatW force = new FloatW(3f);
+		vrep.simxGetJointForce(clientID, jointH.getValue(), force, remoteApi.simx_opmode_blocking);*/
+		
+		vrep.simxSetJointForce(clientID, jointH.getValue(), 20000, remoteApi.simx_opmode_blocking);
+	}
+	
+	@Override
+	public void moveNotApproaching() {
+		// TODO Auto-generated method stub
+		vrep.simxSetJointForce(clientID, jointH.getValue(), -50000, remoteApi.simx_opmode_blocking);
+	}
+	
+	@Override
 	public void stopHere() {
 		Integer index = getPosition();
 		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0f, remoteApi.simx_opmode_blocking);
+		vrep.simxSetJointTargetPosition(clientID, jointH.getValue(), 5f, remoteApi.simx_opmode_blocking);
+		
 	}
 
 	public MovementState setState(MovementState s) {
@@ -150,9 +169,21 @@ public class RobotVRep extends Robot implements IRobot {
 		vrep.simxGetJointPosition(clientID, jointH.getValue(), position, remoteApi.simx_opmode_blocking);
 		return Math.round( position.getValue() / (lenght/getRail().getLenght()) );
 	}
+	
+	
+	@Override
+	public void setPosition(Integer position) {
+		FloatW pos = new FloatW(3f);
+		vrep.simxGetJointPosition(clientID, jointH.getValue(), pos, remoteApi.simx_opmode_blocking);
+		vrep.simxSetJointPosition(clientID, jointH.getValue(), pos.getValue(), remoteApi.simx_opmode_blocking);
+	}
 
 	public String getName() {
 		return name;
 	}
+
+	
+
+	
 
 }

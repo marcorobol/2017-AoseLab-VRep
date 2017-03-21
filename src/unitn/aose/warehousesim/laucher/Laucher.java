@@ -47,6 +47,12 @@ public class Laucher {
         Rail c = new Rail(16);
         Rail d = new Rail(16);
         
+        List<Rail> railList = new ArrayList<Rail>();
+        railList.add(a);
+        railList.add(b);
+        railList.add(c);
+        railList.add(d);
+        
         List<RobotVRep> robotVrepList = new ArrayList<RobotVRep>();
         
         /*
@@ -65,15 +71,13 @@ public class Laucher {
 		
 		
 		
-        //System.createTrhead(r);
-		
 		//List<> listaPacchi;
         
 		
-        List<IntW> LandingAreasHandles = new ArrayList<>();
+        
 		/*
 		 * LoadUnloadArea
-		 */
+		 List<IntW> LandingAreasHandles = new ArrayList<>();
         
         //Aggiungo le 4 Aree verdi di sharing
         IntW ShareAreaAC = new IntW(1);
@@ -89,50 +93,75 @@ public class Laucher {
         LandingAreasHandles.add(ShareAreaBC);
         LandingAreasHandles.add(ShareAreaBD);
         
-        
-        
         List<LandingArea> LandingAreasList = new ArrayList<LandingArea>();
         /*
          * Read area positions
-         */
         for(IntW h : LandingAreasHandles) {
         	FloatWA pos = new FloatWA(3);
         	vrep.simxGetObjectPosition(clientID, h.getValue(), -1, pos, remoteApi.simx_opmode_blocking);
         	int landingIndex = Math.abs(Math.round(pos.getArray()[0]));
-        	System.out.println(Math.round(pos.getArray()[0]));
-        	LandingAreasList.add(new LandingArea(landingIndex));  
-        	
+        	System.out.println(landingIndex);
+        	LandingAreasList.add(new LandingArea(landingIndex));        	
         }
-                
+
         a.addLandingArea(0, LandingAreasList.get(0));
         b.addLandingArea(0, LandingAreasList.get(1));
         c.addLandingArea(0, LandingAreasList.get(2));
         d.addLandingArea(0, LandingAreasList.get(3));
         
         System.out.println("PROVA STAMPA AREA INDEX " + LandingAreasList.get(0).getLandinIndex());
+        */
+        
+        
+        
+        
+        // Prova astrazione mappa statica delle LandingAreas
+        
+		// 2 aree verdi per rotaia
+        int area1 = 3;
+        int area2 = 12;        
+        
+        List<Integer> LandingAreasIndexList = new ArrayList<>();
+        LandingAreasIndexList.add(area1);
+        LandingAreasIndexList.add(area2);
         
         while(true) {
         	//Thread.sleep(100);
         	
         	for(RobotVRep r : robotVrepList) {
         		Integer index = r.getPosition();        		
-            	System.out.println("DEBUG Robot: "+r.getName()+" actual index :"+index);            	            	
+            	System.out.println("DEBUG Robot: "+r.getName()+" actual index :"+index);
+            	
             	
         		if(r.getRail().getAreas().get(index)!=null) {        			
         			r.setState(MovementState.approaching); //??Non dovremmo anche controllare nell if se si trova entro un range di distanza dal robot per settare lo stato di approaching?
         			System.out.println("Indice Area " + r.getRail().getAreas().get(index).getLandinIndex());
-        			if (index == r.getRail().getAreas().get(index).getLandinIndex()){        			
-            			//r.setState(MovementState.stop);
-            			r.stopHere();        			
-            		}
-        		}        		
-        		else if(index == 0){
+        			
+        		}
+        		
+        		if(index == 0){
         			r.setState(MovementState.runningForward);
         			r.moveForward();        			
         		}
-        		else if(index == 15){
+        		if(index == 15){
         			r.setState(MovementState.runningBackward);
         			r.moveBackward();      			
+        		}        		
+        		
+        		for(Integer i : LandingAreasIndexList) {
+        			
+        			if(index >= i-1 && index <= i+1){
+        				r.moveApproaching();
+        			}
+        			else{
+        				r.moveNotApproaching();
+        			}
+        			
+        			if (index == i){        			
+            			r.setState(MovementState.stop);
+            			//r.stopHere();
+            			//r.setPosition(5);
+            		}
         		}
         		
         		
