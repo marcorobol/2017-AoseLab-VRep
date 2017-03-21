@@ -29,7 +29,8 @@ public class RobotVRep extends Robot implements IRobot {
 	MovementState movementState = MovementState.stop;
 	
 	
-	public RobotVRep(remoteApi vrep, int clientID, String name) {
+	public RobotVRep(remoteApi vrep, int clientID, String name, Rail r) {
+		super(r);
 		this.vrep = vrep;
 		this.clientID = clientID;
 		this.name = name;
@@ -59,7 +60,7 @@ public class RobotVRep extends Robot implements IRobot {
 	@Override
 	public void stopHere() {
 		Integer index = getPosition();
-		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), lenght/getRail().getLenght()*index, remoteApi.simx_opmode_blocking);
+		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0f, remoteApi.simx_opmode_blocking);
 	}
 
 	public MovementState setState(MovementState s) {

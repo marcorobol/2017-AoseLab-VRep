@@ -6,6 +6,10 @@ public class Robot {
 	
 	private Integer position;
 
+	public Robot(Rail r) {
+		this.rail = r;
+	}
+	
 	public Rail getRail() {
 		return rail;
 	}

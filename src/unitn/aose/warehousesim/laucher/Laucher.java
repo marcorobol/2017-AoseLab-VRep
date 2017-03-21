@@ -37,17 +37,29 @@ public class Laucher {
 		remoteApi vrep = new remoteApi();
 		
         int clientID = vrep.simxStart("127.0.0.1",19997,true,true,5000,5);
-
         
         
-        
+        /*
+         * Rails
+         */
+        Rail a = new Rail(16);
+        Rail b = new Rail(16);
+        Rail c = new Rail(16);
+        Rail d = new Rail(16);
         
         List<RobotVRep> robotVrepList = new ArrayList<RobotVRep>();
+        
         /*
          * Robots
          */
-		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC1"));
-		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC2"));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorA1", a));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorA2", a));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorB1", b));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorB2", b));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC1", c));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorC2", c));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorD1", d));
+		robotVrepList.add(new RobotVRep(vrep, clientID, "RobotMotorD2", d));
         
 		
 		
@@ -58,36 +70,72 @@ public class Laucher {
 		//List<> listaPacchi;
         
 		
-        List<IntW> loadUnloadAresHandles = new ArrayList<>();
+        List<IntW> LandingAreasHandles = new ArrayList<>();
 		/*
 		 * LoadUnloadArea
 		 */
-        IntW pickAreaA = new IntW(1);
-        vrep.simxGetObjectHandle(clientID, "PickAreaA", pickAreaA, remoteApi.simx_opmode_blocking);
-        loadUnloadAresHandles.add(pickAreaA);
         
-        Rail a = new Rail(16);
+        //Aggiungo le 4 Aree verdi di sharing
+        IntW ShareAreaAC = new IntW(1);
+        IntW ShareAreaAD = new IntW(1);
+        IntW ShareAreaBC = new IntW(1);
+        IntW ShareAreaBD = new IntW(1);
+        vrep.simxGetObjectHandle(clientID, "ShareAreaAC", ShareAreaAC, remoteApi.simx_opmode_blocking);
+        vrep.simxGetObjectHandle(clientID, "ShareAreaAD", ShareAreaAD, remoteApi.simx_opmode_blocking);
+        vrep.simxGetObjectHandle(clientID, "ShareAreaBC", ShareAreaBC, remoteApi.simx_opmode_blocking);
+        vrep.simxGetObjectHandle(clientID, "ShareAreaBD", ShareAreaBD, remoteApi.simx_opmode_blocking);
+        LandingAreasHandles.add(ShareAreaAC);
+        LandingAreasHandles.add(ShareAreaAD);
+        LandingAreasHandles.add(ShareAreaBC);
+        LandingAreasHandles.add(ShareAreaBD);
         
-        List<LandingArea> loadUnloadAreas = new ArrayList<LandingArea>();
+        
+        
+        List<LandingArea> LandingAreasList = new ArrayList<LandingArea>();
         /*
          * Read area positions
          */
-        for(IntW h : loadUnloadAresHandles) {
+        for(IntW h : LandingAreasHandles) {
         	FloatWA pos = new FloatWA(3);
         	vrep.simxGetObjectPosition(clientID, h.getValue(), -1, pos, remoteApi.simx_opmode_blocking);
-        	loadUnloadAreas.add(new LandingArea());
+        	int landingIndex = Math.abs(Math.round(pos.getArray()[0]));
+        	System.out.println(Math.round(pos.getArray()[0]));
+        	LandingAreasList.add(new LandingArea(landingIndex));  
+        	
         }
+                
+        a.addLandingArea(0, LandingAreasList.get(0));
+        b.addLandingArea(0, LandingAreasList.get(1));
+        c.addLandingArea(0, LandingAreasList.get(2));
+        d.addLandingArea(0, LandingAreasList.get(3));
         
+        System.out.println("PROVA STAMPA AREA INDEX " + LandingAreasList.get(0).getLandinIndex());
         
         while(true) {
-        	Thread.sleep(500);
+        	//Thread.sleep(100);
         	
         	for(RobotVRep r : robotVrepList) {
-        		Integer index = r.getPosition();
-            	System.out.println("DEBUG Robot"+r.getName()+"actual index :"+index);
-        		if(r.getRail().getAreas().get(index)!=null) {
-        			r.setState(MovementState.approaching);
+        		Integer index = r.getPosition();        		
+            	System.out.println("DEBUG Robot: "+r.getName()+" actual index :"+index);            	            	
+            	
+        		if(r.getRail().getAreas().get(index)!=null) {        			
+        			r.setState(MovementState.approaching); //??Non dovremmo anche controllare nell if se si trova entro un range di distanza dal robot per settare lo stato di approaching?
+        			System.out.println("Indice Area " + r.getRail().getAreas().get(index).getLandinIndex());
+        			if (index == r.getRail().getAreas().get(index).getLandinIndex()){        			
+            			//r.setState(MovementState.stop);
+            			r.stopHere();        			
+            		}
+        		}        		
+        		else if(index == 0){
+        			r.setState(MovementState.runningForward);
+        			r.moveForward();        			
         		}
+        		else if(index == 15){
+        			r.setState(MovementState.runningBackward);
+        			r.moveBackward();      			
+        		}
+        		
+        		
         	}
         	
         	

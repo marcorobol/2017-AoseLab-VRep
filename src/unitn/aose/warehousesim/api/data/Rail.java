@@ -31,8 +31,8 @@ public class Rail {
 		return lenght;
 	}
 	
-	public void addLoadUnloadArea(Integer i, LandingArea l) {
-		areas.put(i, l);
+	public void addLandingArea(Integer i, LandingArea l) {
+		areas.put(i, l); //Aggiungo una landing area l nella posizione i del binario
 	}
 	
 	public Map<Integer, LandingArea> getAreas() {
