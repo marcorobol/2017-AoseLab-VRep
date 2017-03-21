@@ -27,7 +27,7 @@ public class RailVRep extends Rail {
 	MovementState movementState = MovementState.stop;
 	
 	
-	public RailVRep(remoteApi vrep, int clientID2, String name2,
+	public RailVRep(remoteApi vrep, int clientID, String name,
 			float total_lenght, int steps,
 			EnvironmentVRep environmentVRep) {
 		super(steps);

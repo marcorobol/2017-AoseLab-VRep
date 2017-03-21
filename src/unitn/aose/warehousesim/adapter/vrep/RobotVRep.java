@@ -96,7 +96,7 @@ public class RobotVRep extends Robot implements IRobot {
 	@Override
 	public BoxVRep getBoxOnLeft() {
 		if(areaOnLeft.get()!=null)
-			return ((LandingAreaVRep)areaOnLeft.get()).getBox();
+			return areaOnLeft.get().getBox();
 		else
 			return null;
 	}
@@ -104,7 +104,7 @@ public class RobotVRep extends Robot implements IRobot {
 	@Override
 	public BoxVRep getBoxOnRight() {
 		if(areaOnRight.get()!=null)
-			return ((LandingAreaVRep)areaOnRight.get()).getBox();
+			return areaOnRight.get().getBox();
 		else
 			return null;
 	}
@@ -117,7 +117,7 @@ public class RobotVRep extends Robot implements IRobot {
 				return areaOnLeft.get();
 			}
 			@Override
-			public void registerListener(IListener<LandingArea> listener) {
+			public void registerListener(final IListener<LandingArea> listener) {
 				areaOnLeft.registerListener(new IListener<LandingAreaVRep>() {
 					@Override
 					public void notifyChanged(LandingAreaVRep value) {
@@ -140,7 +140,7 @@ public class RobotVRep extends Robot implements IRobot {
 				return areaOnRight.get();
 			}
 			@Override
-			public void registerListener(IListener<LandingArea> listener) {
+			public void registerListener(final IListener<LandingArea> listener) {
 				areaOnRight.registerListener(new IListener<LandingAreaVRep>() {
 					@Override
 					public void notifyChanged(LandingAreaVRep value) {
@@ -180,12 +180,12 @@ public class RobotVRep extends Robot implements IRobot {
 	
 	@Override
 	public void loadLeft() {
-		loadBox((LandingAreaVRep)getAreaOnLeft().get(), getBoxOnLeft(), LoadUnloadState.loadingLeft);
+		loadBox(areaOnLeft.get(), getBoxOnLeft(), LoadUnloadState.loadingLeft);
 	}
 	
 	@Override
 	public void loadRight() {
-		loadBox((LandingAreaVRep)getAreaOnRight().get(), getBoxOnRight(), LoadUnloadState.loadingRight);
+		loadBox(areaOnRight.get(), getBoxOnRight(), LoadUnloadState.loadingRight);
 	}
 	
 	public void loadBox(LandingAreaVRep area, BoxVRep box, LoadUnloadState stateToBe) {
@@ -196,7 +196,7 @@ public class RobotVRep extends Robot implements IRobot {
 			int r = vrep.simxSetObjectParent(clientID, box.getHandle().getValue(),
 					connectorH.getValue(), false, remoteApi.simx_opmode_streaming);
 	        if(r!=remoteApi.simx_return_ok) {
-	        	System.out.println("ERROR Setting parent of "+getName()+", error : "+r);
+	        	System.out.println("ERROR Setting parent of box error : "+r);
 	        }
 	        /*
 	         * Move
@@ -208,7 +208,7 @@ public class RobotVRep extends Robot implements IRobot {
 			r = vrep.simxSetObjectPosition(clientID, box.getHandle().getValue(),
 					remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_streaming);
 	        if(r!=remoteApi.simx_return_ok) {
-	        	System.out.println("ERROR Setting parent of "+getName()+", error : "+r);
+	        	System.out.println("ERROR Setting parent of box error : "+r);
 	        }
 	        /*
 	         * Update data structure

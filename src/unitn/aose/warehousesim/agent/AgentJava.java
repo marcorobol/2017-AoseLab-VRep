@@ -18,7 +18,7 @@ public class AgentJava implements Runnable {
 	@Override
 	public void run() {
 		
-		for(IRobot r : robotList) {
+		for(final IRobot r : robotList) {
 			r.getAreaOnLeft().registerListener(new IListener<LandingArea>() {
 				@Override
 				public void notifyChanged(LandingArea value) {
