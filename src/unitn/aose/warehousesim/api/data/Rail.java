@@ -9,36 +9,22 @@ public class Rail {
 	 * Variabili
 	 */
 	
-	private int lenght;
-	
-	protected Map<Integer, LandingArea> leftAreas;
-	
-	protected Map<Integer, LandingArea> rightAreas;
+	private int steps;
 	
 	/*
 	 * Costruttore
 	 */
 	
-	public Rail(int lenght) {
-		this.lenght = lenght;
-		this.leftAreas = new HashMap<Integer, LandingArea>();
-		this.rightAreas = new HashMap<Integer, LandingArea>();
+	public Rail(int steps) {
+		this.steps = steps;
 	}
 	
 	/*
 	 * Metodi
 	 */
 	
-	public int getLenght() {
-		return lenght;
-	}
-	
-	public Map<Integer, LandingArea> getLeftAreas() {
-		return leftAreas;
-	}
-	
-	public Map<Integer, LandingArea> getRightAreas() {
-		return rightAreas;
+	public int getSteps() {
+		return steps;
 	}
 	
 }
