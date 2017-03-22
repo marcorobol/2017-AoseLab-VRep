@@ -17,7 +17,7 @@ public class RobotVRep extends Robot implements IRobot {
 	/*
 	 * Parameters
 	 */
-	final float targetVelocity = 1f;
+	float targetVelocity = 1f;
 	final float lenght = 7.5f;
 	
 	private remoteApi vrep;
@@ -47,6 +47,7 @@ public class RobotVRep extends Robot implements IRobot {
 	
 	@Override
 	public void moveForward() {
+		targetVelocity = 1f;
 		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), targetVelocity, remoteApi.simx_opmode_blocking);
 		movementState = MovementState.runningForward;
 		
@@ -54,7 +55,8 @@ public class RobotVRep extends Robot implements IRobot {
 	
 	@Override
 	public void moveBackward() {
-		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), -targetVelocity, remoteApi.simx_opmode_blocking);
+		targetVelocity = -1f;
+		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), targetVelocity, remoteApi.simx_opmode_blocking);
 		movementState = MovementState.runningBackward;
 	}
 	
@@ -65,13 +67,16 @@ public class RobotVRep extends Robot implements IRobot {
 		/*FloatW force = new FloatW(3f);
 		vrep.simxGetJointForce(clientID, jointH.getValue(), force, remoteApi.simx_opmode_blocking);*/
 		
-		vrep.simxSetJointForce(clientID, jointH.getValue(), 20000, remoteApi.simx_opmode_blocking);
+		//vrep.simxSetJointForce(clientID, jointH.getValue(), 0, remoteApi.simx_opmode_blocking);
+		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), targetVelocity/2, remoteApi.simx_opmode_blocking);
+		
 	}
 	
 	@Override
 	public void moveNotApproaching() {
 		// TODO Auto-generated method stub
-		vrep.simxSetJointForce(clientID, jointH.getValue(), -50000, remoteApi.simx_opmode_blocking);
+		//vrep.simxSetJointForce(clientID, jointH.getValue(), 50, remoteApi.simx_opmode_blocking);
+		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), targetVelocity, remoteApi.simx_opmode_blocking);
 	}
 	
 	@Override
@@ -182,6 +187,10 @@ public class RobotVRep extends Robot implements IRobot {
 		return name;
 	}
 
+	public void setVelocity(float velocity){
+		 this.targetVelocity = velocity;
+	}
+	
 	
 
 	

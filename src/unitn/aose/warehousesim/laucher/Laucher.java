@@ -146,23 +146,28 @@ public class Laucher {
         		if(index == 15){
         			r.setState(MovementState.runningBackward);
         			r.moveBackward();      			
-        		}        		
+        		}
+        		
+        		
         		
         		for(Integer i : LandingAreasIndexList) {
         			
-        			if(index >= i-1 && index <= i+1){
-        				r.moveApproaching();
-        			}
-        			else{
-        				r.moveNotApproaching();
-        			}
-        			
+        			if(index >= i-2 && index <=i){
+        			r.moveApproaching();
+        			System.out.println("DENTRO APPROACHING");
+        		}else{
+        			r.moveNotApproaching();
+        			System.out.println("FUORI APPROACHING");
+        		}
+        		
+        			/*
         			if (index == i){        			
             			r.setState(MovementState.stop);
             			//r.stopHere();
             			//r.setPosition(5);
             		}
-        		}
+        			}
+        			 */
         		
         		
         	}
@@ -175,4 +180,5 @@ public class Laucher {
 
 	}
 
+}
 }
