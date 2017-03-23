@@ -215,7 +215,7 @@ public class RobotVRep extends Robot implements IRobot {
 	         */
 	        area.setBox(null);
 	        loadedBox = box;
-	        getLoadUnload().set(stateToBe);
+	        getLoadUnload().set(LoadUnloadState.loaded);
 		}
 	}
 	
@@ -254,9 +254,9 @@ public class RobotVRep extends Robot implements IRobot {
 	        /*
 	         * Update data structure
 	         */
-//	        area.setBox(loadedBox);
+	        area.setBox(loadedBox);
 	        loadedBox = null;
-	        getLoadUnload().set(stateToBe);
+	        getLoadUnload().set(LoadUnloadState.unloaded);
 		}
 	}
 	
@@ -304,11 +304,6 @@ public class RobotVRep extends Robot implements IRobot {
 			/*
 			 * Check if there is a different area on left side
 			 */
-//			for(LandingAreaVRep a : environmentVRep.getAreaVrepList()) {
-//				if(a.getPosition().orthogonalDistance(positionVRep)<1f) {
-//					a.getPosition()[0]-
-//				}
-//			}
 			LandingAreaVRep leftAreaCurrent = rail.getLeftAreas().get(getPosition().get());
 			if(areaOnLeft.get()!=leftAreaCurrent) {
 				areaOnLeft.set(leftAreaCurrent);

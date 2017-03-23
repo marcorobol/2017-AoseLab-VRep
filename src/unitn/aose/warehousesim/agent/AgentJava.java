@@ -19,6 +19,13 @@ public class AgentJava implements Runnable {
 	public void run() {
 		
 		for(final IRobot r : robotList) {
+			
+			final boolean d = (r.getPosition().get()<=3?true:false);
+//    		if(r.getPosition().get()<=3)
+//    			d = true;
+//    		else if(r.getPosition().get()>=12)
+//    			d = false;
+    		
 			r.getAreaOnLeft().registerListener(new IListener<LandingArea>() {
 				@Override
 				public void notifyChanged(LandingArea value) {
@@ -29,29 +36,44 @@ public class AgentJava implements Runnable {
 						public void notifyChanged(MovementState value) {
 							if(value==MovementState.stop) {
 								r.loadLeft();
+
+					    		if(d)
+					    			r.moveForward();
+					    		else
+					    			r.moveBackward();
+					    		
 								r.getMovement().unregisterListener(this);
+								
+								r.getAreaOnLeft().registerListener(new IListener<LandingArea>() {
+									@Override
+									public void notifyChanged(LandingArea value) {
+										r.stopHere();
+										r.getMovement().registerListener(new IListener<MovementState>() {
+											@Override
+											public void notifyChanged(MovementState value) {
+												r.unloadLeft();
+											}
+										});
+									}
+								});
 							}
 						}
 					});
 				}
 			});
+    		if(d)
+    			r.moveForward();
+    		else
+    			r.moveBackward();
 		}
 		
-
-    	for(IRobot r : robotList) {
-    		if(r.getPosition().get()<=3)
-    			r.moveForward();
-    		else if(r.getPosition().get()>=12)
-    			r.moveBackward();
-    	}
-		
-        while(true) {
-        	
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//        while(true) {
+//        	
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
         	
 //	    	for(IRobot r : robotList) {
 //	    		if(r.getPosition().get()<=3 && r.getMovement().get()!=MovementState.runningForward)
@@ -59,7 +81,7 @@ public class AgentJava implements Runnable {
 //	    		else if(r.getPosition().get()>=12 && r.getMovement().get()!=MovementState.runningBackward)
 //	    			r.moveBackward();
 //	    	}
-        }
+//        }
 	}
 
 }
