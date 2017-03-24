@@ -1,27 +1,25 @@
 package unitn.aose.warehousesim;
 
 import unitn.aose.warehousesim.api.IRobot;
-import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
-import unitn.aose.warehousesim.api.data.Rail;
 import unitn.aose.warehousesim.api.data.RobotRef;
 
 
 public abstract class Robot extends RobotRef implements IRobot {
 	
-	private Observable<MovementState> movementFSM;
-	private Observable<LoadUnloadState> loadUnloadFSM;
-	private Observable<Integer> position = new Observable<Integer>();
+	private ObservableMovementState movementFSM;
+	private ObservableLoadUnload loadUnloadFSM;
+	private ObservableInteger position = new ObservableInteger();
 	private Float velocity = 0f;
 	
 	public Robot(String name) {
 		super(name);
-		this.movementFSM = new Observable<MovementState>(MovementState.stop);
-		this.loadUnloadFSM = new Observable<LoadUnloadState>();
+		this.movementFSM = new ObservableMovementState(MovementState.stop);
+		this.loadUnloadFSM = new ObservableLoadUnload();
 	}
 
 	@Override
-	public Observable<Integer> getPosition() {
+	public ObservableInteger getPosition() {
 		return position;
 	}
 
@@ -35,12 +33,12 @@ public abstract class Robot extends RobotRef implements IRobot {
 	}
 
 	@Override
-	public Observable<MovementState> getMovement() {
+	public ObservableMovementState getMovement() {
 		return this.movementFSM;
 	}
 
 	@Override
-	public Observable<LoadUnloadState> getLoadUnload() {
+	public ObservableLoadUnload getLoadUnload() {
 		return loadUnloadFSM;
 	}
 	

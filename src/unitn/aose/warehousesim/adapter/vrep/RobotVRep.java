@@ -3,14 +3,12 @@ package unitn.aose.warehousesim.adapter.vrep;
 import java.text.DecimalFormat;
 
 import unitn.aose.warehousesim.Observable;
+import unitn.aose.warehousesim.ObservableArea;
 import unitn.aose.warehousesim.Robot;
-import unitn.aose.warehousesim.api.IListener;
-import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.LandingArea;
-import unitn.aose.warehousesim.api.data.Rail;
 import unitn.aose.warehousesim.api.data.RobotRef;
 import coppelia.FloatW;
 import coppelia.FloatWA;
@@ -34,8 +32,8 @@ public class RobotVRep extends Robot implements IRobot {
 	private EnvironmentVRep environmentVRep;
 	private RailVRep rail;
 
-	private Observable<LandingAreaVRep> areaOnLeft;
-	private Observable<LandingAreaVRep> areaOnRight;
+	private Observable<LandingAreaVRep, LandingArea> areaOnLeft;
+	private Observable<LandingAreaVRep, LandingArea> areaOnRight;
 	
 	private IntW jointH;
 	private IntW robotH;
@@ -56,8 +54,8 @@ public class RobotVRep extends Robot implements IRobot {
 		this.environmentVRep = environmentVRep;
 		this.rail = rail;
 
-		this.areaOnLeft = new Observable<LandingAreaVRep>();
-		this.areaOnRight = new Observable<LandingAreaVRep>();
+		this.areaOnLeft = new ObservableArea();
+		this.areaOnRight = new ObservableArea();
 		
 		/*
 		 * Retrive handles
@@ -110,49 +108,13 @@ public class RobotVRep extends Robot implements IRobot {
 	}
 	
 	@Override
-	public IObservable<LandingArea> getAreaOnLeft() {
-		return new IObservable<LandingArea>() {
-			@Override
-			public LandingArea get() {
-				return areaOnLeft.get();
-			}
-			@Override
-			public void registerListener(final IListener<LandingArea> listener) {
-				areaOnLeft.registerListener(new IListener<LandingAreaVRep>() {
-					@Override
-					public void notifyChanged(LandingAreaVRep value) {
-						listener.notifyChanged(value);
-					}
-				});
-			}
-			@Override
-			public void unregisterListener(IListener<LandingArea> listener) {
-				//TODO
-			}
-		};
+	public Observable<LandingAreaVRep, LandingArea> getAreaOnLeft() {
+		return areaOnLeft;
 	}
 	
 	@Override
-	public IObservable<LandingArea> getAreaOnRight() {
-		return new IObservable<LandingArea>() {
-			@Override
-			public LandingArea get() {
-				return areaOnRight.get();
-			}
-			@Override
-			public void registerListener(final IListener<LandingArea> listener) {
-				areaOnRight.registerListener(new IListener<LandingAreaVRep>() {
-					@Override
-					public void notifyChanged(LandingAreaVRep value) {
-						listener.notifyChanged(value);
-					}
-				});
-			}
-			@Override
-			public void unregisterListener(IListener<LandingArea> listener) {
-				//TODO
-			}
-		};
+	public Observable<LandingAreaVRep, LandingArea> getAreaOnRight() {
+		return areaOnRight;
 	}
 	
 	@Override

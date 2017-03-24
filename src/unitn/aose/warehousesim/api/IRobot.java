@@ -1,9 +1,7 @@
 package unitn.aose.warehousesim.api;
 
-import unitn.aose.warehousesim.Observable;
 import unitn.aose.warehousesim.api.data.Box;
 import unitn.aose.warehousesim.api.data.LandingArea;
-import unitn.aose.warehousesim.api.data.Rail;
 import unitn.aose.warehousesim.api.data.RobotRef;
 
 public interface IRobot {
@@ -38,7 +36,7 @@ public interface IRobot {
 	
 	String getName();
 	Box getLoadedBox();
-	Observable<Integer> getPosition();
+	IObservable<Integer> getPosition();
 	Float getVelocity();
 	
 }

@@ -6,9 +6,10 @@ import java.util.List;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IObservable;
 
-public class Observable<T> implements IObservable<T> {
+public abstract class Observable<T extends L, L>  implements IObservable<L> {
 	
-	List<IListener<T>> listeners = new ArrayList<IListener<T>>();
+	@SuppressWarnings("rawtypes")
+	List<IListener> listeners = new ArrayList<IListener>();
 	
 	private T value = null;
 
@@ -21,8 +22,8 @@ public class Observable<T> implements IObservable<T> {
 	
 	public void set(T value) {
 		this.value = value;
-		for(Object l : listeners.toArray()) {
-			((IListener<T>)l).notifyChanged(value);
+		for(IListener<L> l : listeners) {
+			l.notifyChanged(value);
 		}
 	}
 	
@@ -30,15 +31,14 @@ public class Observable<T> implements IObservable<T> {
 	public T get() {
 		return value;
 	}
-
-
+	
 	@Override
-	public void registerListener(IListener<T> listener) {
+	public void registerListener(IListener<L> listener) {
 		listeners.add(listener);
 	}
-
+	
 	@Override
-	public void unregisterListener(IListener<T> listener) {
+	public void unregisterListener(IListener<L> listener) {
 		listeners.remove(listener);
 	}
 
