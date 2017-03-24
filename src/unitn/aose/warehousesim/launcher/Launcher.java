@@ -4,6 +4,7 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
+import coppelia.FloatWA;
 import coppelia.remoteApi;
 import unitn.aose.warehousesim.adapter.vrep.BoxVRep;
 import unitn.aose.warehousesim.adapter.vrep.EnvironmentVRep;
@@ -102,8 +103,34 @@ public class Launcher {
         area_d2.setBox(b_8);
         area_d3.setBox(b_3);
 
+        ///POSIZIONE DEI PACCHI per ogni landing area faccio set parent teleport 00 3 e posiziono i pacchi sulle landing
         
-
+        for(LandingAreaVRep la : env.getAreasVrep()){
+        	/*
+			 * Set parent
+			 */
+        	
+			int r = vrep.simxSetObjectParent(clientID, la.getBox().getHandle().getValue(),
+					la.getHandle().getValue(), false, remoteApi.simx_opmode_streaming);
+	        if(r!=remoteApi.simx_return_ok) {
+	        	System.out.println("ERROR Setting parent of box " + la.getBox().getName() +". Error : "+r);
+	        }
+	        
+	        /*
+	         * Move
+	         */
+			FloatWA posBoxStart = new FloatWA(3);
+			posBoxStart.getArray()[0] = 0f;
+			posBoxStart.getArray()[1] = 0f;
+			posBoxStart.getArray()[2] = 0.3f;
+			r = vrep.simxSetObjectPosition(clientID, la.getBox().getHandle().getValue(),
+					remoteApi.sim_handle_parent, posBoxStart, remoteApi.simx_opmode_streaming);
+	        if(r!=remoteApi.simx_return_ok) {
+	        	System.out.println("ERROR Setting position of box " + la.getBox().getName() +". Error : "+r);
+	        }
+        }
+        
+        
         /*
          * Rails
          */
