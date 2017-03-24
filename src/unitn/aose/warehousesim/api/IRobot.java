@@ -2,8 +2,7 @@ package unitn.aose.warehousesim.api;
 
 import unitn.aose.warehousesim.api.data.Box;
 import unitn.aose.warehousesim.api.data.LandingArea;
-import unitn.aose.warehousesim.api.data.Rail;
-import unitn.aose.warehousesim.api.data.Robot;
+import unitn.aose.warehousesim.api.data.RobotRef;
 
 public interface IRobot {
 	
@@ -16,29 +15,30 @@ public interface IRobot {
 	void moveApproaching();
 	void moveNotApproaching();
 	void stopHere();
-	MovementState getState();
-	void registerMovementListener(IMovementListener listener);
-	void unregisterMovementListener(IMovementListener listener);
+	IObservable<MovementState> getMovement();
 	
-	void load(Box b);
-	Box unload();
-	ILoadUnloadFSM getLoadUnloadFSM();
+	void loadLeft();
+	void loadRight();
+	void unloadLeft();
+	void unloadRight();
+	IObservable<LoadUnloadState> getLoadUnload();
 	
 	/*
 	 * Surrounding environment
 	 */
 	
-	LandingArea getStorageAreaOnLeft();
-	LandingArea getStorageAreaOnRight();
+	IObservable<LandingArea> getAreaOnLeft();
+	IObservable<LandingArea> getAreaOnRight();
 	
 	Box getBoxOnLeft();
 	Box getBoxOnRight();
 	
+	RobotRef getRobotHaed();
+	RobotRef getRobotBehind();
+	
+	String getName();
 	Box getLoadedBox();
-	
-	Robot getRobotHaed();
-	Robot getRobotBehind();
-	
-	Rail getRail();
+	IObservable<Integer> getPosition();
+	Float getVelocity();
 	
 }

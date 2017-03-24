@@ -10,6 +10,14 @@ public class FloatWA
     {
         w = new float[i];
     }
+    
+    public float orthogonalDistance(FloatWA p) {
+    	float sum = 0f;
+    	for(int i=0; i<w.length; i++) {
+    		sum = sum + Math.abs(w[i]-p.getArray()[i]);
+    	}
+    	return sum;
+    }
 
     public void initArray(int i)
     {
