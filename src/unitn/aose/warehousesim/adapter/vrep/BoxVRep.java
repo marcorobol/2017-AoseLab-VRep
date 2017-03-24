@@ -37,6 +37,9 @@ public class BoxVRep extends Box {
 //        }
 //	}
 	
+	public String getName(){
+		return this.name;
+	}
 	
 
 }
