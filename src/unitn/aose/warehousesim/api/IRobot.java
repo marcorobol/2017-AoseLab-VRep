@@ -12,8 +12,6 @@ public interface IRobot {
 	
 	void moveForward();
 	void moveBackward();
-	void moveApproaching();
-	void moveNotApproaching();
 	void stopHere();
 	IObservable<MovementState> getMovement();
 	
