@@ -10,6 +10,7 @@ import unitn.aose.warehousesim.adapter.vrep.EnvironmentVRep;
 import unitn.aose.warehousesim.adapter.vrep.AreaVRep;
 import unitn.aose.warehousesim.adapter.vrep.RailVRep;
 import unitn.aose.warehousesim.adapter.vrep.RobotVRep;
+import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.agent.AgentJava;
 import unitn.aose.warehousesim.api.IRobot;
 
@@ -88,26 +89,7 @@ public class Launcher {
     	
     	/*
     	 * Initialize boxes position
-    	 */
-//      area_a.setBox(b_0);
-//      area_b.setBox(b_5);
-//      area_c.setBox(b_1);
-//      area_d.setBox(b_14);
-//
-//      area_ac.setBox(b_2);
-//      area_bc.setBox(b_6);
-//      area_bd.setBox(b_4);
-//      area_ad.setBox(b_13);
-//
-//      area_a1.setBox(b_12);
-//      area_c1.setBox(b_10);
-//      area_c2.setBox(b_9);
-//      area_c3.setBox(b_7);
-//      area_d1.setBox(b_11);
-//      area_d2.setBox(b_8);
-//      area_d3.setBox(b_3);
-//      
-    	/*
+    	 * 
     	 * POSIZIONE DEI PACCHI
     	 * per ogni landing area faccio
     	 * - set parent
@@ -130,6 +112,24 @@ public class Launcher {
         }
         env.createBoxIn(area_ac);
         env.createBoxIn(area_bd);
+//      area_a.setBox(b_0);
+//      area_b.setBox(b_5);
+//      area_c.setBox(b_1);
+//      area_d.setBox(b_14);
+//
+//      area_ac.setBox(b_2);
+//      area_bc.setBox(b_6);
+//      area_bd.setBox(b_4);
+//      area_ad.setBox(b_13);
+//
+//      area_a1.setBox(b_12);
+//      area_c1.setBox(b_10);
+//      area_c2.setBox(b_9);
+//      area_c3.setBox(b_7);
+//      area_d1.setBox(b_11);
+//      area_d2.setBox(b_8);
+//      area_d3.setBox(b_3);
+//      
         
         
         
@@ -152,7 +152,7 @@ public class Launcher {
         rail_c.addRightArea(3, area_bc);
         rail_c.addRightArea(6, area_c2);
         rail_c.addLeftArea(9, area_c1);
-        rail_c.addRightArea(13, area_ac);
+        rail_c.addRightArea(12, area_ac);
         rail_d.addRightArea(3, area_ad);
         rail_d.addLeftArea(6, area_d1);
         rail_d.addRightArea(9, area_d2);
@@ -164,23 +164,23 @@ public class Launcher {
          * Robots
          */
         
-        env.defineRobot("RobotMotorA1", rail_a);
-        env.defineRobot("RobotMotorA2", rail_a);
-        env.defineRobot("RobotMotorB1", rail_b);
-        env.defineRobot("RobotMotorB2", rail_b);
-        env.defineRobot("RobotMotorC1", rail_c);
-        env.defineRobot("RobotMotorC2", rail_c);
-        env.defineRobot("RobotMotorD1", rail_d);
-        env.defineRobot("RobotMotorD2", rail_d);
+        IRobot robot_a1 = env.defineRobot("RobotMotorA1", rail_a);
+        IRobot robot_a2 = env.defineRobot("RobotMotorA2", rail_a);
+        IRobot robot_b1 = env.defineRobot("RobotMotorB1", rail_b);
+        IRobot robot_b2 = env.defineRobot("RobotMotorB2", rail_b);
+        IRobot robot_c1 = env.defineRobot("RobotMotorC1", rail_c);
+        IRobot robot_c2 = env.defineRobot("RobotMotorC2", rail_c);
+        IRobot robot_d1 = env.defineRobot("RobotMotorD1", rail_d);
+        IRobot robot_d2 = env.defineRobot("RobotMotorD2", rail_d);
 		
 		
         
-		/*
-		 * Preload environment data
-		 */
-    	for(RobotVRep r : env.getRobotVrepList()) {
-    		r.update();
-    	}
+//		/*
+//		 * Preload environment data
+//		 */
+//    	for(RobotVRep r : env.getRobotVrepList()) {
+//    		r.update();
+//    	}
     	
     	
     	
@@ -191,7 +191,14 @@ public class Launcher {
 		for(IRobot r : env.getRobotVrepList()) {
 			robotList.add(r);
 		}
-		new Thread(new AgentJava(robotList)).start();
+//		robotList.add(robot_a1);
+//		robotList.add(robot_d1);
+//		robotList.add(robot_d2);
+//		new Thread(new AgentJava(robotList)).start();
+
+//		List<IRobot> guiRobotList = new ArrayList<IRobot>();
+//		guiRobotList.add(robot_a2);
+		new AgentGui(robotList);
         
         
         
@@ -202,7 +209,7 @@ public class Launcher {
         long ms = System.currentTimeMillis();
         while(true) {
         	Thread.sleep(500);
-        	System.out.println(System.currentTimeMillis()-ms+" ms");
+//        	System.out.println(System.currentTimeMillis()-ms+" ms");
         	ms = System.currentTimeMillis();
         	
         	for(RobotVRep r : env.getRobotVrepList()) {

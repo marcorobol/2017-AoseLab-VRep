@@ -11,8 +11,8 @@ import unitn.aose.warehousesim.observable.ObservableAreaState;
 public class Area extends AreaRef implements ITeller {
 
 	private IEnvironment environment;
-	
 	private ObservableAreaState areaState;
+	private Box box;
 	
 	public Area(String name, IEnvironment environment) {
 		super(name);
@@ -23,6 +23,18 @@ public class Area extends AreaRef implements ITeller {
 	@Override
 	public ObservableAreaState getState() {
 		return areaState;
+	}
+	
+	public Box getBox() {
+		return box;
+	}
+	
+	public void setBox(Box box) {
+		if(box!=null)
+			getState().set(AreaState.boxAvailable);
+		else
+			getState().set(AreaState.free);
+		this.box = box;
 	}
 
 	@Override

@@ -2,15 +2,16 @@ package unitn.aose.warehousesim.adapter.vrep;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import coppelia.FloatWA;
+import coppelia.remoteApi;
 import unitn.aose.warehousesim.IEnvironment;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.RailRef;
 import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.data.Box;
-import unitn.aose.warehousesim.data.Robot;
-import coppelia.FloatWA;
-import coppelia.remoteApi;
+import unitn.aose.warehousesim.data.Cart;
 
 public class EnvironmentVRep implements IEnvironment {
 	
@@ -102,8 +103,8 @@ public class EnvironmentVRep implements IEnvironment {
     
     
 	@Override
-	public List<Robot> getRobots() {
-		List<Robot> list = new ArrayList<Robot>();
+	public List<Cart> getRobots() {
+		List<Cart> list = new ArrayList<Cart>();
 		list.addAll(robotVrepList);
 		return list;
 	}
@@ -171,7 +172,7 @@ public class EnvironmentVRep implements IEnvironment {
 		posBoxStart.getArray()[0] = 100f;
 		posBoxStart.getArray()[1] = 100f;
 		posBoxStart.getArray()[2] = 100f;
-		int r = vrep.simxSetObjectPosition(clientID, a.getBox().getHandle().getValue(),
+		int r = vrep.simxSetObjectPosition(clientID, b.getHandle().getValue(),
 				remoteApi.sim_handle_all, posBoxStart, remoteApi.simx_opmode_streaming);
         if(r!=remoteApi.simx_return_ok) {
         	System.out.println("ERROR Setting position of box " + a.getBox().getName() +". Error : "+r);
@@ -179,6 +180,15 @@ public class EnvironmentVRep implements IEnvironment {
         
 		a.setBox(null);
 		b.setArea(null);
+	}
+
+
+
+	@Override
+	public void update() {
+    	for(RobotVRep r : getRobotVrepList()) {
+    		r.update();
+    	}
 	}
 	
 }

@@ -3,33 +3,32 @@ package unitn.aose.warehousesim.adapter.vrep;
 import coppelia.FloatWA;
 import coppelia.IntW;
 import coppelia.remoteApi;
-import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.data.Area;
 
 public class AreaVRep extends Area {
 	
-	@SuppressWarnings("unused")
 	private remoteApi vrep;
-	@SuppressWarnings("unused")
 	private int clientID;
 	
 	private IntW areaH;
 	private FloatWA position = new FloatWA(3);
-	private BoxVRep box;
 	
 	
 	public AreaVRep(remoteApi vrep, int clientID, String name, EnvironmentVRep environmentVRep) {
 		super(name, environmentVRep);
 		this.vrep = vrep;
 		this.clientID = clientID;
-		
+		init();
+	}
+	
+	public void init() {
 		/*
 		 * Retrieve handle
 		 */
 		areaH = new IntW(0);
-        int r = vrep.simxGetObjectHandle(clientID, name, areaH, remoteApi.simx_opmode_blocking);
+        int r = vrep.simxGetObjectHandle(clientID, getName(), areaH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of "+name+", error : "+r);
+        	System.out.println("ERROR Retriving handle of "+getName()+", error : "+r);
         }
         
         /*
@@ -48,18 +47,6 @@ public class AreaVRep extends Area {
 	
 	public IntW getHandle() {
 		return areaH;
-	}
-	
-	public BoxVRep getBox() {
-		return box;
-	}
-	
-	public void setBox(BoxVRep box) {
-		if(box!=null)
-			getState().set(AreaState.boxAvailable);
-		else
-			getState().set(AreaState.free);
-		this.box = box;
 	}
 
 }

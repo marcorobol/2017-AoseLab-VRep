@@ -2,30 +2,22 @@ package unitn.aose.warehousesim.adapter.vrep;
 
 import java.text.DecimalFormat;
 
-import unitn.aose.warehousesim.adapter.vrep.observable.ObservableArea;
+import unitn.aose.warehousesim.IUpdatable;
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
-import unitn.aose.warehousesim.api.data.RobotRef;
+import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.data.Area;
-import unitn.aose.warehousesim.data.Robot;
-import unitn.aose.warehousesim.observable.Observable;
+import unitn.aose.warehousesim.data.Cart;
 import coppelia.FloatW;
 import coppelia.FloatWA;
 import coppelia.IntW;
 import coppelia.remoteApi;
 
-public class RobotVRep extends Robot implements IRobot {
-	
-	/*
-	 * Parameters
-	 */
-	final float targetVelocity = 0.1f;
-//	final float lenght = 7.5f;
-//	final float step = 0.5f;
+public class RobotVRep extends Cart implements IRobot, IUpdatable {
 	
 	/*
 	 * VRep
@@ -33,10 +25,6 @@ public class RobotVRep extends Robot implements IRobot {
 	private remoteApi vrep;
 	private int clientID;
 	private EnvironmentVRep environmentVRep;
-	private RailVRep rail;
-
-	private Observable<AreaVRep, AreaRef> areaOnLeft;
-	private Observable<AreaVRep, AreaRef> areaOnRight;
 	
 	private IntW jointH;
 	private IntW robotH;
@@ -45,38 +33,36 @@ public class RobotVRep extends Robot implements IRobot {
 	private FloatWA positionVRep = new FloatWA(3);
 	private FloatWA orientation = new FloatWA(3);
 	
-	
-	private BoxVRep loadedBox;
+	private RailVRep rail;
 	
 	
 	public RobotVRep(remoteApi vrep, int clientID, String name, RailVRep rail, EnvironmentVRep environmentVRep) {
-		super(name);
+		super(name, rail);
 		this.vrep = vrep;
 		this.clientID = clientID;
-		this.rail = rail;
 		this.environmentVRep = environmentVRep;
-		this.rail = rail;
-
-		this.areaOnLeft = new ObservableArea();
-		this.areaOnRight = new ObservableArea();
-		
+		this.rail = environmentVRep.getRailVRep(rail);
+		init();
+	}
+	
+	public void init() {
 		/*
 		 * Retrive handles
 		 */
         this.jointH = new IntW(1);
-        int r = vrep.simxGetObjectHandle(clientID, name, jointH, remoteApi.simx_opmode_blocking);
+        int r = vrep.simxGetObjectHandle(clientID, getName(), jointH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of "+name+", error : "+r);
+        	System.out.println("ERROR Retriving handle of "+getName()+", error : "+r);
         }
 		this.robotH = new IntW(3);
 		r = vrep.simxGetObjectChild(clientID, jointH.getValue(), 0, robotH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of child of "+name+", error : "+r);
+        	System.out.println("ERROR Retriving handle of child of "+getName()+", error : "+r);
         }
 		this.connectorH = new IntW(3);
 		r = vrep.simxGetObjectChild(clientID, robotH.getValue(), 0, connectorH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of child of "+name+", error : "+r);
+        	System.out.println("ERROR Retriving handle of child of "+getName()+", error : "+r);
         }
         
         /*
@@ -84,40 +70,10 @@ public class RobotVRep extends Robot implements IRobot {
          */
 		r = vrep.simxGetObjectOrientation(clientID, jointH.getValue(), -1, orientation, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of child of "+name+", error : "+r);
+        	System.out.println("ERROR Retriving handle of child of "+getName()+", error : "+r);
         }
         
         update();
-	}
-
-	public RailVRep getRail() {
-		return rail;
-	}
-
-	@Override
-	public BoxVRep getBoxOnLeft() {
-		if(areaOnLeft.get()!=null)
-			return areaOnLeft.get().getBox();
-		else
-			return null;
-	}
-	
-	@Override
-	public BoxVRep getBoxOnRight() {
-		if(areaOnRight.get()!=null)
-			return areaOnRight.get().getBox();
-		else
-			return null;
-	}
-	
-	@Override
-	public Observable<AreaVRep, AreaRef> getAreaOnLeft() {
-		return areaOnLeft;
-	}
-	
-	@Override
-	public Observable<AreaVRep, AreaRef> getAreaOnRight() {
-		return areaOnRight;
 	}
 	
 	@Override
@@ -145,16 +101,20 @@ public class RobotVRep extends Robot implements IRobot {
 	
 	@Override
 	public void loadLeft() {
-		loadBox(areaOnLeft.get(), getBoxOnLeft(), LoadUnloadState.loadingLeft);
+		loadBox(getAreaOnLeft().get(), getBoxOnLeft(), LoadUnloadState.loadingLeft);
 	}
 	
 	@Override
 	public void loadRight() {
-		loadBox(areaOnRight.get(), getBoxOnRight(), LoadUnloadState.loadingRight);
+		loadBox(getAreaOnRight().get(), getBoxOnRight(), LoadUnloadState.loadingRight);
 	}
 	
-	public void loadBox(AreaVRep area, BoxVRep box, LoadUnloadState stateToBe) {
-		if(loadedBox==null && box!=null && getMovement().get()==MovementState.stop) {
+	public void loadBox(AreaRef areaRef, BoxRef boxRef, LoadUnloadState stateToBe) {
+		System.out.println("loadBox");
+		AreaVRep ar = environmentVRep.getAreaVRep(areaRef);
+		BoxVRep box = environmentVRep.getBoxVRep(boxRef);
+		if(getLoadedBox()==null && box!=null && getMovement().get()==MovementState.stop) {
+			System.out.println("setting parent");
 			/*
 			 * Set parent
 			 */
@@ -173,28 +133,30 @@ public class RobotVRep extends Robot implements IRobot {
 			r = vrep.simxSetObjectPosition(clientID, box.getHandle().getValue(),
 					remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_streaming);
 	        if(r!=remoteApi.simx_return_ok) {
-	        	System.out.println("ERROR Setting parent of box error : "+r);
+	        	System.out.println("ERROR Moving box error : "+r);
 	        }
 	        /*
 	         * Update data structure
 	         */
-	        area.setBox(null);
-	        loadedBox = box;
+	        ar.setBox(null);
+	        setLoadedBox(box);
 	        getLoadUnload().set(LoadUnloadState.loaded);
 		}
 	}
 	
 	@Override
 	public void unloadLeft() {
-		unloadBox(areaOnLeft.get(), LoadUnloadState.unloadingLeft);
+		unloadBox(getAreaOnLeft().get(), LoadUnloadState.unloadingLeft);
 	}
 	
 	@Override
 	public void unloadRight() {
-		unloadBox(areaOnRight.get(), LoadUnloadState.unloadingLeft);
+		unloadBox(getAreaOnRight().get(), LoadUnloadState.unloadingLeft);
 	}
 	
-	public void unloadBox(AreaVRep area, LoadUnloadState stateToBe) {
+	public void unloadBox(AreaRef areaRef, LoadUnloadState stateToBe) {
+		AreaVRep area = environmentVRep.getAreaVRep(areaRef);
+		BoxVRep loadedBox = environmentVRep.getBoxVRep(getLoadedBox());
 		if(loadedBox!=null && area!=null && getMovement().get()==MovementState.stop) {
 			/*
 			 * Set parent
@@ -214,32 +176,15 @@ public class RobotVRep extends Robot implements IRobot {
 			r = vrep.simxSetObjectPosition(clientID, loadedBox.getHandle().getValue(),
 					remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_streaming);
 	        if(r!=remoteApi.simx_return_ok) {
-	        	System.out.println("ERROR Setting parent of "+getName()+", error : "+r);
+	        	System.out.println("ERROR Moving box "+getName()+", error : "+r);
 	        }
 	        /*
 	         * Update data structure
 	         */
 	        area.setBox(loadedBox);
-	        loadedBox = null;
+	        setLoadedBox(null);
 	        getLoadUnload().set(LoadUnloadState.unloaded);
 		}
-	}
-	
-	@Override
-	public BoxVRep getLoadedBox() {
-		return loadedBox;
-	}
-	
-	@Override
-	public RobotRef getRobotHaed() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public RobotRef getRobotBehind() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	public void update() {
@@ -269,17 +214,17 @@ public class RobotVRep extends Robot implements IRobot {
 			/*
 			 * Check if there is a different area on left side
 			 */
-			AreaVRep leftAreaCurrent = rail.getLeftAreas().get(getPosition().get());
-			if(areaOnLeft.get()!=leftAreaCurrent) {
-				areaOnLeft.set(leftAreaCurrent);
+			Area leftAreaCurrent = getRail().getLeftAreas().get(getPosition().get());
+			if(getAreaOnLeft().get()!=leftAreaCurrent) {
+				getAreaOnLeft().set(leftAreaCurrent);
 			}
 			
 			/*
 			 * Check if there is a different area on right side
 			 */
-			AreaVRep rightAreaCurrent = getRail().getRightAreas().get(getPosition().get());
+			Area rightAreaCurrent = getRail().getRightAreas().get(getPosition().get());
 			if(getAreaOnRight().get()!=rightAreaCurrent) {
-				areaOnRight.set(rightAreaCurrent);
+				getAreaOnRight().set(rightAreaCurrent);
 			}
 		}
 		
@@ -309,15 +254,15 @@ public class RobotVRep extends Robot implements IRobot {
         
         
         
-        DecimalFormat i = new DecimalFormat("00");
-        DecimalFormat f = new DecimalFormat("##.00");
-    	System.out.println("DEBUG Robot "+getName()+
-    			" pos: "+i.format(getPosition().get())+
-    			", vel: "+f.format(getVelocity())+
-    			", force: "+f.format(force.getValue())+
-    			", state: "+getMovement().get()+
-    			", left: "+getAreaOnLeft().get()
-    			);
+//        DecimalFormat i = new DecimalFormat("00");
+//        DecimalFormat f = new DecimalFormat("##.00");
+//    	System.out.println("DEBUG Robot "+getName()+
+//    			" pos: "+i.format(getPosition().get())+
+//    			", vel: "+f.format(getVelocity())+
+//    			", force: "+f.format(force.getValue())+
+//    			", state: "+getMovement().get()+
+//    			", left: "+getAreaOnLeft().get()
+//    			);
     	
     	
     	
@@ -333,18 +278,6 @@ public class RobotVRep extends Robot implements IRobot {
 			vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0f, remoteApi.simx_opmode_streaming);
 			getMovement().set(MovementState.stop);
 		}
-		
-//		/*
-//		 * Update box on it
-//		 */
-//		IntW boxH = new IntW(3);
-//		r = vrep.simxGetObjectChild(clientID, connectorH.getValue(), 0, boxH, remoteApi.simx_opmode_blocking);
-//        if(r!=vrep.simx_return_ok) {
-//        	System.out.println("ERROR Retriving handle of child of "+getName()+", error : "+r);
-//        }
-//        if(loadedBox!=null || loadedBox.getHandle().getValue()!=boxH.getValue()) {
-//        	this.loadedBox = retriveBoxGivenHandle(boxH.getValue());
-//        }
 	}
 
 	@Override
@@ -355,12 +288,5 @@ public class RobotVRep extends Robot implements IRobot {
 		}
 		return null;
 	}
-	
-//	private BoxVRep retriveBoxGivenHandle(int handle) {
-//		for(BoxVRep b : boxVrepList)
-//			if(b.getHandle().getValue()==handle)
-//				return b;
-//		return null;
-//	}
 	
 }

@@ -7,7 +7,7 @@ public class Box extends BoxRef {
 
 	private Area area;
 
-	private Robot robot;
+	private Cart robot;
 	
 	
 	
@@ -25,11 +25,11 @@ public class Box extends BoxRef {
 		this.area = area;
 	}
 
-	public Robot getRobot() {
+	public Cart getRobot() {
 		return robot;
 	}
 
-	public void setRobot(Robot robot) {
+	public void setRobot(Cart robot) {
 		this.robot = robot;
 	}
 

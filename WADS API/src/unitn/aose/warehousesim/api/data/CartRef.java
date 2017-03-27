@@ -1,11 +1,11 @@
 package unitn.aose.warehousesim.api.data;
 
 
-public class RobotRef {
+public class CartRef {
 
 	private String name;
 
-	public RobotRef(String name) {
+	public CartRef(String name) {
 		this.name = name;
 	}
 
