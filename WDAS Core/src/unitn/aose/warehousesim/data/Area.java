@@ -12,6 +12,7 @@ public class Area extends AreaRef implements ITellerMachine {
 
 	private IEnvironment environment;
 	private ObservableAreaState areaState;
+	private BoxRef requestedBox;
 	private Box box;
 	
 	public Area(String name, IEnvironment environment) {
@@ -23,6 +24,10 @@ public class Area extends AreaRef implements ITellerMachine {
 	@Override
 	public ObservableAreaState getState() {
 		return areaState;
+	}
+	
+	public BoxRef getRequestedBox() {
+		return requestedBox;
 	}
 	
 	public Box getBox() {
@@ -49,19 +54,25 @@ public class Area extends AreaRef implements ITellerMachine {
 	public AreaState requestWithdraw(BoxRef box) {
 		if(getState().equals(AreaState.free)) {
 			getState().set(AreaState.elaboratingWithdraw);
-			// TODO Auto-generated method stub
+			requestedBox = box;
 		}
 		return areaState.get();
 	}
 
 	@Override
 	public BoxRef drop() {
-		return environment.createBoxIn(this);
+		if(getState().equals(AreaState.free)) {
+			getState().set(AreaState.boxAvailable);
+			return environment.createBoxIn(this);
+		}
+		return null;
 	}
 
 	@Override
 	public void collect() {
-		environment.deleteBoxIn(this);
+		if(getState().equals(AreaState.boxAvailable)) {
+			environment.deleteBoxIn(this);
+		}
 	}
 	
 }

@@ -16,6 +16,24 @@ public class ConfigurationOne {
 	private remoteApi vrep;
 	private int clientID;
 	
+	AreaVRep area_a;
+	AreaVRep area_b;
+	AreaVRep area_c;
+	AreaVRep area_d;
+
+	AreaVRep area_ac;
+	AreaVRep area_bc;
+	AreaVRep area_bd;
+	AreaVRep area_ad;
+	
+	AreaVRep area_a1;
+	AreaVRep area_c1;
+	AreaVRep area_c2;
+	AreaVRep area_c3;
+	AreaVRep area_d1;
+	AreaVRep area_d2;
+	AreaVRep area_d3;
+	
 	public ConfigurationOne() {
 		
 		/*
@@ -30,7 +48,7 @@ public class ConfigurationOne {
         /*
          * EnvVrep
          */
-        EnvironmentVRep env = new EnvironmentVRep(vrep, clientID);
+        env = new EnvironmentVRep(vrep, clientID);
         
         /*
          * Boxes
@@ -67,28 +85,26 @@ public class ConfigurationOne {
          * Areas
          */
     	
-    	AreaVRep area_a = env.defineArea("PickAreaA");
-    	AreaVRep area_b = env.defineArea("PickAreaB");
-    	AreaVRep area_c = env.defineArea("PickAreaC");
-    	AreaVRep area_d = env.defineArea("PickAreaD");
+    	area_a = env.defineArea("PickAreaA");
+    	area_b = env.defineArea("PickAreaB");
+    	area_c = env.defineArea("PickAreaC");
+    	area_d = env.defineArea("PickAreaD");
 
-    	AreaVRep area_ac = env.defineArea("ShareAreaAC");
-    	AreaVRep area_bc = env.defineArea("ShareAreaBC");
-    	AreaVRep area_bd = env.defineArea("ShareAreaBD");
-    	AreaVRep area_ad = env.defineArea("ShareAreaAD");
+    	area_ac = env.defineArea("ShareAreaAC");
+    	area_bc = env.defineArea("ShareAreaBC");
+    	area_bd = env.defineArea("ShareAreaBD");
+    	area_ad = env.defineArea("ShareAreaAD");
     	
-    	AreaVRep area_a1 = env.defineArea("StorageAreaA1");
-    	AreaVRep area_c1 = env.defineArea("StorageAreaC1");
-    	AreaVRep area_c2 = env.defineArea("StorageAreaC2");
-    	AreaVRep area_c3 = env.defineArea("StorageAreaC3");
-    	AreaVRep area_d1 = env.defineArea("StorageAreaD1");
-    	AreaVRep area_d2 = env.defineArea("StorageAreaD2");
-    	AreaVRep area_d3 = env.defineArea("StorageAreaD3");
+    	area_a1 = env.defineArea("StorageAreaA1");
+    	area_c1 = env.defineArea("StorageAreaC1");
+    	area_c2 = env.defineArea("StorageAreaC2");
+    	area_c3 = env.defineArea("StorageAreaC3");
+    	area_d1 = env.defineArea("StorageAreaD1");
+    	area_d2 = env.defineArea("StorageAreaD2");
+    	area_d3 = env.defineArea("StorageAreaD3");
     	
     	
     	
-        env.createBoxIn(area_ac);
-        env.createBoxIn(area_bd);
 //      area_a.setBox(b_0);
 //      area_b.setBox(b_5);
 //      area_c.setBox(b_1);
@@ -185,6 +201,9 @@ public class ConfigurationOne {
 	        	System.out.println("ERROR Setting initial position of box " + b.getName() +". Error : "+r);
 	        }
         }
+        
+        env.createBoxIn(area_ac);
+        env.createBoxIn(area_bd);
 	}
 
 }

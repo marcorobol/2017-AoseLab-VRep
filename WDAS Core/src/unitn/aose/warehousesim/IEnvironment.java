@@ -1,5 +1,7 @@
 package unitn.aose.warehousesim;
 
+import java.util.Set;
+
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.data.AreaRef;
@@ -8,11 +10,11 @@ import unitn.aose.warehousesim.api.data.CartRef;
 
 public interface IEnvironment {
 	
-	CartRef[] getCarts();
+	Set<CartRef> getCarts();
 	
-	AreaRef[] getAreas();
+	Set<AreaRef> getAreas();
 	
-	BoxRef[] getBoxes();
+	Set<BoxRef> getBoxes();
 	
 	
 	

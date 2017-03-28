@@ -1,7 +1,11 @@
 package unitn.aose.warehousesim.adapter.vrep;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import coppelia.FloatWA;
 import coppelia.remoteApi;
 import unitn.aose.warehousesim.IEnvironment;
@@ -18,10 +22,10 @@ public class EnvironmentVRep implements IEnvironment {
 	private remoteApi vrep;
 	private int clientID;
 	
-    private List<RailVRep> railVrepList = new ArrayList<RailVRep>();
-	private List<AreaVRep> areaVrepList = new ArrayList<AreaVRep>();
-    private List<BoxVRep> boxVrepList = new ArrayList<BoxVRep>();
-	private List<RobotVRep> robotVrepList = new ArrayList<RobotVRep>();
+    private List<RailVRep> rails = new ArrayList<RailVRep>();
+	private Map<AreaRef, AreaVRep> areas = new HashMap<AreaRef, AreaVRep>();
+    private Map<BoxRef, BoxVRep> boxes = new HashMap<BoxRef, BoxVRep>();
+	private Map<CartRef, RobotVRep> robots = new HashMap<CartRef, RobotVRep>();
 	
 	
 	
@@ -38,25 +42,25 @@ public class EnvironmentVRep implements IEnvironment {
 
 	public RailVRep defineRail(String name, float total_lenght, int steps) {
 		RailVRep r = new RailVRep(vrep, clientID, name, total_lenght, steps, this);
-		railVrepList.add(r);
+		rails.add(r);
 		return r;
 	}
 
 	public RobotVRep defineRobot(String name, RailRef rail) {
 		RobotVRep r = new RobotVRep(vrep, clientID, name, getRail(rail), this);
-		robotVrepList.add(r);
+		robots.put(r, r);
 		return r;
 	}
 
 	public AreaVRep defineArea(String name) {
 		AreaVRep a = new AreaVRep(vrep, clientID, name, this);
-		areaVrepList.add(a);
+		areas.put(a, a);
 		return a;
 	}
 
 	public BoxVRep defineBox(String name) {
 		BoxVRep b = new BoxVRep(vrep, clientID, name);
-		boxVrepList.add(b);
+		boxes.put(b, b);
 		return b;
 	}
     
@@ -67,23 +71,15 @@ public class EnvironmentVRep implements IEnvironment {
      */
     
 	public AreaVRep getArea(AreaRef ref) {
-		for(AreaVRep a : areaVrepList) {
-			if(a==ref)
-				return a;
-		}
-		return null;
+		return areas.get(ref);
 	}
 	
 	public BoxVRep getBox(BoxRef ref) {
-		for(BoxVRep b : boxVrepList) {
-			if(b==ref)
-				return b;
-		}
-		return null;
+		return boxes.get(ref);
 	}
 
 	public RailVRep getRail(RailRef ref) {
-		for(RailVRep r : railVrepList) {
+		for(RailVRep r : rails) {
 			if(r==ref)
 				return r;
 		}
@@ -91,11 +87,8 @@ public class EnvironmentVRep implements IEnvironment {
 	}
 	
 	@Override
-	public RobotVRep getRobot(CartRef cart) {
-		for(RobotVRep r : robotVrepList)
-			if(r==cart)
-				return r;
-		return null;
+	public RobotVRep getRobot(CartRef ref) {
+		return robots.get(ref);
 	}
 	
 	@Override
@@ -110,18 +103,18 @@ public class EnvironmentVRep implements IEnvironment {
 	 */
     
 	@Override
-	public Cart[] getCarts() {
-		return (Cart[]) robotVrepList.toArray();
+	public Set<CartRef> getCarts() {
+		return robots.keySet();
 	}
 	
 	@Override
-	public Area[] getAreas() {
-		return (Area[]) areaVrepList.toArray();
+	public Set<AreaRef> getAreas() {
+		return areas.keySet();
 	}
 	
 	@Override
-	public Box[] getBoxes() {
-		return (Box[]) boxVrepList.toArray();
+	public Set<BoxRef> getBoxes() {
+		return boxes.keySet();
 	}
 	
 	
@@ -133,7 +126,7 @@ public class EnvironmentVRep implements IEnvironment {
 	@Override
 	public BoxVRep createBoxIn(AreaRef areaRef) {
 		AreaVRep a = getArea(areaRef);
-		for(BoxVRep b : boxVrepList) {
+		for(BoxVRep b : boxes.values()) {
 			if(b.getArea()==null && b.getRobot()==null) {
 		    	/*
 				 * Set parent
@@ -195,7 +188,7 @@ public class EnvironmentVRep implements IEnvironment {
 	
 	@Override
 	public void update() {
-    	for(RobotVRep r : robotVrepList) {
+    	for(RobotVRep r : robots.values()) {
     		r.update();
     	}
 	}
