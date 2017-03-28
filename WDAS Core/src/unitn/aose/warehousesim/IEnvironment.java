@@ -1,27 +1,31 @@
 package unitn.aose.warehousesim;
 
-import java.util.List;
-
+import unitn.aose.warehousesim.api.IRobot;
+import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
-import unitn.aose.warehousesim.data.Area;
-import unitn.aose.warehousesim.data.Box;
-import unitn.aose.warehousesim.data.Cart;
+import unitn.aose.warehousesim.api.data.CartRef;
 
 public interface IEnvironment {
 	
-	List<Cart> getRobots();
+	CartRef[] getCarts();
 	
-	List<Area> getAreas();
+	AreaRef[] getAreas();
 	
-	List<Box> getBoxes();
+	BoxRef[] getBoxes();
+	
+	
+	
+	IRobot getRobot(CartRef cart);
+	
+	ITellerMachine getTellerMachine(AreaRef area);
 	
 	
 	
 	BoxRef createBoxIn(AreaRef areaRef);
 	
 	void deleteBoxIn(AreaRef areaRef);
-
+	
 	
 	
 	void update();

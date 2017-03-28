@@ -2,12 +2,12 @@ package unitn.aose.warehousesim.adapter.vrep;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import coppelia.FloatWA;
 import coppelia.remoteApi;
 import unitn.aose.warehousesim.IEnvironment;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
+import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.RailRef;
 import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.data.Box;
@@ -31,32 +31,10 @@ public class EnvironmentVRep implements IEnvironment {
     }
     
     
-    
-	public AreaVRep getAreaVRep(AreaRef ref) {
-		for(AreaVRep a : areaVrepList) {
-			if(a==ref)
-				return a;
-		}
-		return null;
-	}
 	
-	public BoxVRep getBoxVRep(BoxRef ref) {
-		for(BoxVRep b : boxVrepList) {
-			if(b==ref)
-				return b;
-		}
-		return null;
-	}
-
-	public RailVRep getRailVRep(RailRef ref) {
-		for(RailVRep r : railVrepList) {
-			if(r==ref)
-				return r;
-		}
-		return null;
-	}
-    
-    
+	/*
+	 * Define elements
+	 */
 
 	public RailVRep defineRail(String name, float total_lenght, int steps) {
 		RailVRep r = new RailVRep(vrep, clientID, name, total_lenght, steps, this);
@@ -65,7 +43,7 @@ public class EnvironmentVRep implements IEnvironment {
 	}
 
 	public RobotVRep defineRobot(String name, RailRef rail) {
-		RobotVRep r = new RobotVRep(vrep, clientID, name, getRailVRep(rail), this);
+		RobotVRep r = new RobotVRep(vrep, clientID, name, getRail(rail), this);
 		robotVrepList.add(r);
 		return r;
 	}
@@ -81,53 +59,80 @@ public class EnvironmentVRep implements IEnvironment {
 		boxVrepList.add(b);
 		return b;
 	}
-	
-	
-	
-    public List<RailVRep> getRailsVrep() {
-		return railVrepList;
-	}
-    
-	public List<RobotVRep> getRobotVrepList() {
-		return robotVrepList;
-	}
-	
-	public List<AreaVRep> getAreasVrep() {
-		return areaVrepList;
-	}
-	
-    public List<BoxVRep> getBoxVrepList() {
-		return boxVrepList;
-	}
-
     
     
-	@Override
-	public List<Cart> getRobots() {
-		List<Cart> list = new ArrayList<Cart>();
-		list.addAll(robotVrepList);
-		return list;
+    
+    /*
+     * Get given reference
+     */
+    
+	public AreaVRep getArea(AreaRef ref) {
+		for(AreaVRep a : areaVrepList) {
+			if(a==ref)
+				return a;
+		}
+		return null;
+	}
+	
+	public BoxVRep getBox(BoxRef ref) {
+		for(BoxVRep b : boxVrepList) {
+			if(b==ref)
+				return b;
+		}
+		return null;
 	}
 
-	@Override
-	public List<Box> getBoxes() {
-		List<Box> list = new ArrayList<Box>();
-		list.addAll(boxVrepList);
-		return list;
+	public RailVRep getRail(RailRef ref) {
+		for(RailVRep r : railVrepList) {
+			if(r==ref)
+				return r;
+		}
+		return null;
 	}
-
+	
 	@Override
-	public List<Area> getAreas() {
-		List<Area> list = new ArrayList<Area>();
-		list.addAll(areaVrepList);
-		return list;
+	public RobotVRep getRobot(CartRef cart) {
+		for(RobotVRep r : robotVrepList)
+			if(r==cart)
+				return r;
+		return null;
 	}
-
-
-
+	
+	@Override
+	public AreaVRep getTellerMachine(AreaRef area) {
+		return getArea(area);
+	}
+	
+	
+	
+	/*
+	 * Get arrays
+	 */
+    
+	@Override
+	public Cart[] getCarts() {
+		return (Cart[]) robotVrepList.toArray();
+	}
+	
+	@Override
+	public Area[] getAreas() {
+		return (Area[]) areaVrepList.toArray();
+	}
+	
+	@Override
+	public Box[] getBoxes() {
+		return (Box[]) boxVrepList.toArray();
+	}
+	
+	
+	
+	/*
+	 * Create and delete boxes
+	 */
+	
 	@Override
 	public BoxVRep createBoxIn(AreaRef areaRef) {
-		AreaVRep a = getAreaVRep(areaRef);
+		AreaVRep a = getArea(areaRef);
 		for(BoxVRep b : boxVrepList) {
 			if(b.getArea()==null && b.getRobot()==null) {
 		    	/*
@@ -163,8 +168,8 @@ public class EnvironmentVRep implements IEnvironment {
 
 	@Override
 	public void deleteBoxIn(AreaRef ref) {
-		AreaVRep a = getAreaVRep(ref);
-		BoxVRep b = getBoxVRep(a.getBox());
+		AreaVRep a = getArea(ref);
+		BoxVRep b = getBox(a.getBox());
         /*
          * Move
          */
@@ -183,12 +188,16 @@ public class EnvironmentVRep implements IEnvironment {
 	}
 
 
-
+	
+	/*
+	 * Update
+	 */
+	
 	@Override
 	public void update() {
-    	for(RobotVRep r : getRobotVrepList()) {
+    	for(RobotVRep r : robotVrepList) {
     		r.update();
     	}
 	}
-	
+
 }

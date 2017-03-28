@@ -41,7 +41,7 @@ public class RobotVRep extends Cart implements IRobot, IUpdatable {
 		this.vrep = vrep;
 		this.clientID = clientID;
 		this.environmentVRep = environmentVRep;
-		this.rail = environmentVRep.getRailVRep(rail);
+		this.rail = environmentVRep.getRail(rail);
 		init();
 	}
 	
@@ -111,8 +111,8 @@ public class RobotVRep extends Cart implements IRobot, IUpdatable {
 	
 	public void loadBox(AreaRef areaRef, BoxRef boxRef, LoadUnloadState stateToBe) {
 		System.out.println("loadBox");
-		AreaVRep ar = environmentVRep.getAreaVRep(areaRef);
-		BoxVRep box = environmentVRep.getBoxVRep(boxRef);
+		AreaVRep ar = environmentVRep.getArea(areaRef);
+		BoxVRep box = environmentVRep.getBox(boxRef);
 		if(getLoadedBox()==null && box!=null && getMovement().get()==MovementState.stop) {
 			System.out.println("setting parent");
 			/*
@@ -155,8 +155,8 @@ public class RobotVRep extends Cart implements IRobot, IUpdatable {
 	}
 	
 	public void unloadBox(AreaRef areaRef, LoadUnloadState stateToBe) {
-		AreaVRep area = environmentVRep.getAreaVRep(areaRef);
-		BoxVRep loadedBox = environmentVRep.getBoxVRep(getLoadedBox());
+		AreaVRep area = environmentVRep.getArea(areaRef);
+		BoxVRep loadedBox = environmentVRep.getBox(getLoadedBox());
 		if(loadedBox!=null && area!=null && getMovement().get()==MovementState.stop) {
 			/*
 			 * Set parent
@@ -282,10 +282,9 @@ public class RobotVRep extends Cart implements IRobot, IUpdatable {
 
 	@Override
 	public IObservable<AreaState> getAreaState(AreaRef area) {
-		for(Area a : environmentVRep.getAreasVrep()) {
-			if(a==area)
-				return a.getState();
-		}
+		Area a = environmentVRep.getArea(area);
+		if(a==area)
+			return a.getState();
 		return null;
 	}
 	

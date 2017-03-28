@@ -14,7 +14,7 @@ public class Rail extends RailRef {
 	
 	
 	
-	public Rail(String name, int steps, IEnvironment env) {
+	public Rail(String name, int steps) {
 		super(name, steps);
 		this.name = name;
 		this.leftAreas = new HashMap<Integer, Area>();

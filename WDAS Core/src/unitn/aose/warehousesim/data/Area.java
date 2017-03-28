@@ -2,13 +2,13 @@ package unitn.aose.warehousesim.data;
 
 import unitn.aose.warehousesim.IEnvironment;
 import unitn.aose.warehousesim.api.AreaState;
-import unitn.aose.warehousesim.api.ITeller;
+import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.observable.ObservableAreaState;
 
 
-public class Area extends AreaRef implements ITeller {
+public class Area extends AreaRef implements ITellerMachine {
 
 	private IEnvironment environment;
 	private ObservableAreaState areaState;
