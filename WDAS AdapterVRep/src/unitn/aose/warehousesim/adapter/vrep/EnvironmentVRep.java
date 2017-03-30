@@ -48,6 +48,7 @@ public class EnvironmentVRep implements IEnvironment {
 
 	public RobotVRep defineRobot(String name, RailRef rail) {
 		RobotVRep r = new RobotVRep(vrep, clientID, name, getRail(rail), this);
+		getRail(rail).addCart(r);
 		robots.put(r, r);
 		return r;
 	}

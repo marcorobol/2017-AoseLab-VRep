@@ -1,8 +1,9 @@
 package unitn.aose.warehousesim.api;
 
 import unitn.aose.warehousesim.api.data.BoxRef;
-import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.CartRef;
+import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
+import unitn.aose.warehousesim.api.data.AreaRef;
 
 public interface IRobot {
 	
@@ -30,11 +31,11 @@ public interface IRobot {
 	
 	BoxRef getBoxOnLeft();
 	BoxRef getBoxOnRight();
-
+	
 	IObservable<AreaState> getAreaState(AreaRef area);
 	
-//	CartRef getRobotHaed();
-//	CartRef getRobotBehind();
+	IObservable<CartRef> getCartAround(PositionWithRespectToMe pos);
+	ICartPerception getCartPerception(CartRef cart);
 	
 	String getName();
 	BoxRef getLoadedBox();

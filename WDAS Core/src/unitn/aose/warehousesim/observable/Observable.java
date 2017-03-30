@@ -21,6 +21,8 @@ public abstract class Observable<T extends L, L>  implements IObservable<L> {
 	}
 	
 	public void set(T value) {
+		if(this.value == value)
+			return;
 		this.value = value;
 		for(Object o : listeners.toArray()) {
 			IListener<L> l = (IListener<L>) o;

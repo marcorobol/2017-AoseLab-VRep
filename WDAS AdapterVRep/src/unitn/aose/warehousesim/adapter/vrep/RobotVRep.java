@@ -1,7 +1,5 @@
 package unitn.aose.warehousesim.adapter.vrep;
 
-import java.text.DecimalFormat;
-
 import unitn.aose.warehousesim.IUpdatable;
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.IObservable;
@@ -12,6 +10,7 @@ import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.data.Cart;
+import unitn.aose.warehousesim.data.CartPerception;
 import coppelia.FloatW;
 import coppelia.FloatWA;
 import coppelia.IntW;
@@ -208,25 +207,7 @@ public class RobotVRep extends Cart implements IRobot, IUpdatable {
         /*
          * Position changed
          */
-		if(getPosition().get()!=posCurrent) {
-			getPosition().set(posCurrent);
-			
-			/*
-			 * Check if there is a different area on left side
-			 */
-			Area leftAreaCurrent = getRail().getLeftAreas().get(getPosition().get());
-			if(getAreaOnLeft().get()!=leftAreaCurrent) {
-				getAreaOnLeft().set(leftAreaCurrent);
-			}
-			
-			/*
-			 * Check if there is a different area on right side
-			 */
-			Area rightAreaCurrent = getRail().getRightAreas().get(getPosition().get());
-			if(getAreaOnRight().get()!=rightAreaCurrent) {
-				getAreaOnRight().set(rightAreaCurrent);
-			}
-		}
+		getPosition().set(posCurrent);
 		
 		
 		
