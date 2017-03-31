@@ -6,6 +6,9 @@ import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.data.Cart;
+
+import java.text.DecimalFormat;
+
 import coppelia.FloatW;
 import coppelia.FloatWA;
 import coppelia.IntW;
@@ -89,7 +92,7 @@ public class RobotVRep extends Cart implements IUpdatable {
 		Integer index = getPosition().get();
 //		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0, remoteApi.simx_opmode_streaming);
 		vrep.simxSetJointTargetPosition(clientID, jointH.getValue(), rail.getStep()*index, remoteApi.simx_opmode_streaming);
-		System.out.println("DEBUG: stopHere() current: "+posJointVRep.getValue()+", target: "+rail.getStep()*index);
+		System.out.println("DEBUG: "+getName()+" stopHere() current: "+posJointVRep.getValue()+", target: "+rail.getStep()*index);
 		getMovement().set(MovementState.stopping);
 	}
 	
@@ -230,27 +233,28 @@ public class RobotVRep extends Cart implements IUpdatable {
         
         
         
-//        DecimalFormat i = new DecimalFormat("00");
-//        DecimalFormat f = new DecimalFormat("##.00");
-//    	System.out.println("DEBUG Robot "+getName()+
-//    			" pos: "+i.format(getPosition().get())+
-//    			", vel: "+f.format(getVelocity())+
-//    			", force: "+f.format(force.getValue())+
-//    			", state: "+getMovement().get()+
-//    			", left: "+getAreaOnLeft().get()
-//    			);
+        DecimalFormat i = new DecimalFormat("00");
+        DecimalFormat f = new DecimalFormat("00.00");
+    	System.out.println("DEBUG Robot "+getName()+
+    			" pos: "+i.format(getPosition().get())+
+    			", vel: "+f.format(getVelocity())+
+    			", force: "+f.format(force.getValue())+
+    			", state: "+getMovement().get()+
+    			", left: "+getAreaOnLeft().get()
+    			);
     	
     	
     	
     	/*
     	 * If impossible to move further -> stop
     	 */
-		if(force.getValue()>=40f && getVelocity()<0.1f && getVelocity()>-0.1f) {
-			if(getMovement().get()!=MovementState.stopping)
-				stopHere();
+		if(Math.abs(force.getValue()) > 40f)
+			if(Math.abs(getVelocity()) < 0.1f) {
+				if(getMovement().get() != MovementState.stopping)
+					stopHere();
 		}
 		
-		if(getMovement().get()==MovementState.stopping && getVelocity()<0.001f && getVelocity()>-0.001f) {
+		if(getMovement().get()==MovementState.stopping && Math.abs(getVelocity())<0.001f) {
 			vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0f, remoteApi.simx_opmode_streaming);
 			getMovement().set(MovementState.stop);
 		}
