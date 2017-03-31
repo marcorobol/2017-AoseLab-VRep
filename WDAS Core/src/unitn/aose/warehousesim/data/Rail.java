@@ -2,6 +2,7 @@ package unitn.aose.warehousesim.data;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import unitn.aose.warehousesim.api.data.RailRef;
@@ -20,6 +21,7 @@ public class Rail extends RailRef {
 		this.leftAreas = new HashMap<Integer, Area>();
 		this.rightAreas = new HashMap<Integer, Area>();
 		this.crosses = new HashMap<Integer, Cross>();
+		this.carts = new HashSet<Cart>();
 	}
 
 	

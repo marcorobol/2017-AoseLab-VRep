@@ -2,11 +2,6 @@ package unitn.aose.warehousesim.adapter.vrep;
 
 import coppelia.FloatWA;
 import coppelia.remoteApi;
-import unitn.aose.warehousesim.IEnvironment;
-import unitn.aose.warehousesim.adapter.vrep.BoxVRep;
-import unitn.aose.warehousesim.adapter.vrep.EnvironmentVRep;
-import unitn.aose.warehousesim.adapter.vrep.AreaVRep;
-import unitn.aose.warehousesim.adapter.vrep.RailVRep;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.data.BoxRef;
 
@@ -131,9 +126,18 @@ public class ConfigurationOne {
          */
         
     	RailVRep rail_a = env.defineRail("rail_a", 7.5f, 15);
-    	RailVRep rail_b = env.defineRail("rail_a", 7.5f, 15);
-    	RailVRep rail_c = env.defineRail("rail_a", 7.5f, 15);
-    	RailVRep rail_d = env.defineRail("rail_a", 7.5f, 15);
+    	RailVRep rail_b = env.defineRail("rail_b", 7.5f, 15);
+    	RailVRep rail_c = env.defineRail("rail_c", 7.5f, 15);
+    	RailVRep rail_d = env.defineRail("rail_d", 7.5f, 15);
+    	
+    	rail_a.addCross(2, rail_c, 11, false);
+    	rail_a.addCross(13, rail_d, 4, true);
+    	rail_b.addCross(2, rail_c, 4, false);
+    	rail_b.addCross(13, rail_d, 11, true);
+    	rail_c.addCross(11, rail_a, 2, true);
+    	rail_c.addCross(4, rail_b, 2, true);
+    	rail_d.addCross(4, rail_a, 13, false);
+    	rail_d.addCross(11, rail_b, 13, true);
     	
         rail_a.addRightArea(0, area_a);
         rail_a.addLeftArea(3, area_ac);

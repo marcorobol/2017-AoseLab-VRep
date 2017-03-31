@@ -1,8 +1,8 @@
 package unitn.aose.warehousesim.data;
 
-import unitn.aose.warehousesim.api.data.CrossRef;
+import unitn.aose.warehousesim.api.ICross;
 
-public class Cross extends CrossRef {
+public class Cross implements ICross {
 	
 	private Rail rail;
 	private int railIndex;

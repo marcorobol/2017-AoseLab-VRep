@@ -2,11 +2,7 @@ package unitn.aose.warehousesim.data;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Locale.Category;
-
 import unitn.aose.warehousesim.api.IListener;
-import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
@@ -16,7 +12,6 @@ import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
 import unitn.aose.warehousesim.observable.Observable;
 import unitn.aose.warehousesim.observable.ObservableArea;
 import unitn.aose.warehousesim.observable.ObservableCart;
-import unitn.aose.warehousesim.observable.ObservableCartPerception;
 import unitn.aose.warehousesim.observable.ObservableCross;
 import unitn.aose.warehousesim.observable.ObservableInteger;
 import unitn.aose.warehousesim.observable.ObservableLoadUnload;
@@ -32,8 +27,9 @@ public class Cart extends CartRef {
 	private Float velocity;
 	private ObservableArea areaOnLeft;
 	private ObservableArea areaOnRight;
-	private ObservableCross crossInFront;
+	private ObservableCross crossHaed;
 	private ObservableCross crossBehind;
+	private ObservableCross crossHere;
 	private Box loadedBox;
 	private Map<CartRef, CartPerception> cartPerceptions;
 	private Map<PositionWithRespectToMe, ObservableCart> cartAround;
@@ -47,8 +43,9 @@ public class Cart extends CartRef {
 		this.velocity = 0f;
 		this.areaOnLeft = new ObservableArea();
 		this.areaOnRight = new ObservableArea();
-		this.crossInFront = new ObservableCross();
+		this.crossHaed = new ObservableCross();
 		this.crossBehind = new ObservableCross();
+		this.crossHere = new ObservableCross();
 		this.loadedBox = null;
 		this.cartPerceptions = new HashMap<CartRef, CartPerception>();
 		this.cartAround = new HashMap<PositionWithRespectToMe, ObservableCart>();
@@ -59,32 +56,47 @@ public class Cart extends CartRef {
 		 * Monitor changes of position and update other
 		 */
 		position.registerListener(new IListener<Integer>() {
-			public void notifyChanged(Integer value) {
+			public void notifyChanged(Integer pos) {
 				/*
 				 * Check if there is a different area on left and right side
 				 */
-				getAreaOnLeft().set( getRail().getLeftAreas().get(getPosition().get()) );
-				getAreaOnRight().set( getRail().getRightAreas().get(getPosition().get()) );
+				getAreaOnLeft().set( getRail().getLeftAreas().get(pos) );
+				getAreaOnRight().set( getRail().getRightAreas().get(pos) );
 				/*
 				 * Check if there is a cross on the next and previous position
 				 */
-				crossInFront.set( getRail().getCrosses().get(getPosition().get()+1) );
-				crossBehind.set( getRail().getCrosses().get(getPosition().get()-1) );
+				crossHaed.set( getRail().getCrosses().get(pos+1) );
+				crossBehind.set( getRail().getCrosses().get(pos-1) );
+				crossHere.set( getRail().getCrosses().get(pos) );
 				/*
 				 * Update perceptions
 				 */
-				updatePerceptions();
+				updateOthersPerceptionOfMe();
+				updateMyPerceptionsOfOthers();
 			}
 		});
 		
 	}
 	
-	private void updatePerceptions() {
+	private void updateOthersPerceptionOfMe() {
 		for(Cart c : rail.getCarts())
-			updatePerception(c);
+			if(c!=this)
+				c.updateMyPerceptionOf(this);
+		for(Cross cross : rail.getCrosses().values())
+			for(Cart c : cross.getRail().getCarts())
+				c.updateMyPerceptionOf(this);
 	}
 	
-	private void updatePerception(Cart c) {
+	private void updateMyPerceptionsOfOthers() {
+		for(Cart c : rail.getCarts())
+			if(c!=this)
+				updateMyPerceptionOf(c);
+		for(Cross cross : rail.getCrosses().values())
+			for(Cart c : cross.getRail().getCarts())
+				updateMyPerceptionOf(c);
+	}
+	
+	public void updateMyPerceptionOf(Cart c) {
 		/*
 		 * Compute distance and movement with respect to me
 		 */
@@ -94,7 +106,8 @@ public class Cart extends CartRef {
 		/*
 		 * Update cart_around map
 		 */
-		cartAround.get(pos).set(c);
+		if(cartAround.containsKey(pos))
+			cartAround.get(pos).set(c);
 		
 		/*
 		 * Update cart_perceptions map
@@ -106,7 +119,7 @@ public class Cart extends CartRef {
 		}
 		
 		// If it is farer than 1,1 hide it
-		if(pos.getForward()>1 || pos.getLateral()>1) {
+		if(pos==PositionWithRespectToMe.unknown || pos.getForward()>1 || pos.getLateral()>1) {
 			p.getInFieldOfView().set(false);
 			p.getPositionWithRespectToMe().set(PositionWithRespectToMe.unknown);
 			p.getMovementWithRespectToMe().set(MovementWithRespectToMe.unknown);
@@ -227,6 +240,23 @@ public class Cart extends CartRef {
 	
 	public ObservableCart getCartAround(PositionWithRespectToMe pos) {
 		return cartAround.get(pos);
+	}
+	
+	
+	/*
+	 * Crosses
+	 */
+
+	public ObservableCross getCrossHaed() {
+		return crossHaed;
+	}
+
+	public ObservableCross getCrossBehind() {
+		return crossBehind;
+	}
+
+	public ObservableCross getCrossHere() {
+		return crossBehind;
 	}
 
 }

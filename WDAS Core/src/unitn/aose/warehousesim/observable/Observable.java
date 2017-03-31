@@ -21,10 +21,11 @@ public abstract class Observable<T extends L, L>  implements IObservable<L> {
 	}
 	
 	public void set(T value) {
-		if(this.value == value)
+		if(this.value!=null && this.value.equals(value))
 			return;
 		this.value = value;
 		for(Object o : listeners.toArray()) {
+			@SuppressWarnings("unchecked")
 			IListener<L> l = (IListener<L>) o;
 			l.notifyChanged(value);
 		}

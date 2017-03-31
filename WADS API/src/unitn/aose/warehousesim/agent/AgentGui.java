@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
+import unitn.aose.warehousesim.api.ICross;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.LoadUnloadState;
@@ -23,7 +24,7 @@ public class AgentGui {
    public AgentGui(List<IRobot> robotList){
 	   this.robotList = robotList;
 	   mainFrame = new Frame("Warehouse Agent GUI");
-	   mainFrame.setSize(1000,400);
+	   mainFrame.setSize(1200,400);
 	   mainFrame.setLayout(new GridLayout(robotList.size(), 1));
 	   mainFrame.addWindowListener(new WindowAdapter() {
 		   public void windowClosing(WindowEvent windowEvent){
@@ -57,6 +58,14 @@ public class AgentGui {
 	   robot.getMovement().registerListener(new IListener<MovementState>() {
     	  public void notifyChanged(MovementState value) {
     		  movement.setText(value.name());
+    	  }
+	   });
+	   
+	   Label position = new Label();
+	   position.setText("Position:    ");
+	   robot.getPosition().registerListener(new IListener<Integer>() {
+    	  public void notifyChanged(Integer pos) {
+    		  position.setText("Position: "+pos);
     	  }
 	   });
 	   
@@ -134,10 +143,19 @@ public class AgentGui {
         	 robot.unloadRight();
 		   }
 	   });
+	   
+	   Label cross = new Label();
+	   cross.setText("Cross:               ");
+	   robot.getCrossHere().registerListener(new IListener<ICross>() {
+		   public void notifyChanged(ICross value) {
+			   cross.setText("Cross: "+(value!=null?value.getRail().getName():"--"));
+		   }
+	   });
 
 	   
 	   controlPanel.add(name);
 	   controlPanel.add(movement);
+	   controlPanel.add(position);
 	   controlPanel.add(loadUnload);
 	   controlPanel.add(moveForeward);
 	   controlPanel.add(moveBackward);
@@ -148,6 +166,7 @@ public class AgentGui {
 	   controlPanel.add(loadRight);
 	   controlPanel.add(unloadLeft);
 	   controlPanel.add(unloadRight);
+	   controlPanel.add(cross);
 	   
 	   mainFrame.setVisible(true);
       

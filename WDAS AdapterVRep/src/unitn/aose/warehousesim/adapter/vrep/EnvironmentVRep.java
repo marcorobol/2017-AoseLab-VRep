@@ -13,9 +13,6 @@ import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.RailRef;
-import unitn.aose.warehousesim.data.Area;
-import unitn.aose.warehousesim.data.Box;
-import unitn.aose.warehousesim.data.Cart;
 
 public class EnvironmentVRep implements IEnvironment {
 	

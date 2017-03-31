@@ -36,6 +36,7 @@ public class ObservableQueue<T extends L, L> implements IObservableQueue<L> {
 	public boolean offer(T e) {
 		boolean result = queue.offer(e);
 		for(Object o : listeners.toArray()) {
+			@SuppressWarnings("unchecked")
 			IListener<IObservableQueue<L>> l = (IListener<IObservableQueue<L>>) o;
 			l.notifyChanged(this);
 		}

@@ -34,6 +34,10 @@ public interface IRobot {
 	
 	IObservable<AreaState> getAreaState(AreaRef area);
 	
+	IObservable<ICross> getCrossHaed();
+	IObservable<ICross> getCrossBehind();
+	IObservable<ICross> getCrossHere();
+	
 	IObservable<CartRef> getCartAround(PositionWithRespectToMe pos);
 	ICartPerception getCartPerception(CartRef cart);
 	
