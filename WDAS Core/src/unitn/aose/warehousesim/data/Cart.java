@@ -2,7 +2,11 @@ package unitn.aose.warehousesim.data;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.IListener;
+import unitn.aose.warehousesim.api.IObservable;
+import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
@@ -18,7 +22,7 @@ import unitn.aose.warehousesim.observable.ObservableLoadUnload;
 import unitn.aose.warehousesim.observable.ObservableMovementState;
 
 
-public class Cart extends CartRef {
+public abstract class Cart extends CartRef implements IRobot {
 
 	private Rail rail;
 	private ObservableMovementState movementFSM;
@@ -174,10 +178,12 @@ public class Cart extends CartRef {
 		return rail;
 	}
 
+	@Override
 	public ObservableInteger getPosition() {
 		return position;
 	}
 
+	@Override
 	public Float getVelocity() {
 		return velocity;
 	}
@@ -186,32 +192,38 @@ public class Cart extends CartRef {
 		this.velocity = f;
 	}
 
+	@Override
 	public ObservableMovementState getMovement() {
 		return this.movementFSM;
 	}
 
+	@Override
 	public ObservableLoadUnload getLoadUnload() {
 		return loadUnloadFSM;
 	}
 
+	@Override
 	public Box getBoxOnLeft() {
 		if(areaOnLeft.get()!=null)
 			return areaOnLeft.get().getBox();
 		else
 			return null;
 	}
-	
+
+	@Override
 	public Box getBoxOnRight() {
 		if(areaOnRight.get()!=null)
 			return areaOnRight.get().getBox();
 		else
 			return null;
 	}
-	
+
+	@Override
 	public Observable<Area, AreaRef> getAreaOnLeft() {
 		return areaOnLeft;
 	}
-	
+
+	@Override
 	public Observable<Area, AreaRef> getAreaOnRight() {
 		return areaOnRight;
 	}
@@ -222,6 +234,19 @@ public class Cart extends CartRef {
 
 	public void setLoadedBox(Box loadedBox) {
 		this.loadedBox = loadedBox;
+	}
+	
+	
+	
+	@Override
+	public IObservable<AreaState> getAreaState(AreaRef area) {
+		for(Area a : rail.getLeftAreas().values())
+			if(a==area)
+				return a.getState();
+		for(Area a : rail.getRightAreas().values())
+			if(a==area)
+				return a.getState();
+		return null;
 	}
 	
 	
@@ -256,7 +281,7 @@ public class Cart extends CartRef {
 	}
 
 	public ObservableCross getCrossHere() {
-		return crossBehind;
+		return crossHere;
 	}
-
+	
 }

@@ -1,21 +1,17 @@
 package unitn.aose.warehousesim.adapter.vrep;
 
 import unitn.aose.warehousesim.IUpdatable;
-import unitn.aose.warehousesim.api.AreaState;
-import unitn.aose.warehousesim.api.IObservable;
-import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
-import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.data.Cart;
 import coppelia.FloatW;
 import coppelia.FloatWA;
 import coppelia.IntW;
 import coppelia.remoteApi;
 
-public class RobotVRep extends Cart implements IRobot, IUpdatable {
+public class RobotVRep extends Cart implements IUpdatable {
 	
 	/*
 	 * VRep
@@ -258,14 +254,6 @@ public class RobotVRep extends Cart implements IRobot, IUpdatable {
 			vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0f, remoteApi.simx_opmode_streaming);
 			getMovement().set(MovementState.stop);
 		}
-	}
-
-	@Override
-	public IObservable<AreaState> getAreaState(AreaRef area) {
-		Area a = environmentVRep.getArea(area);
-		if(a==area)
-			return a.getState();
-		return null;
 	}
 	
 }
