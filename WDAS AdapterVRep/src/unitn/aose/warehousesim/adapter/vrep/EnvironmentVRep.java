@@ -159,6 +159,7 @@ public class EnvironmentVRep implements IEnvironment {
 
 	@Override
 	public void deleteBoxIn(AreaRef ref) {
+		System.out.println("DEBUG deleteBoxIn("+ref.getName()+")");
 		AreaVRep a = getArea(ref);
 		BoxVRep b = getBox(a.getBox());
         /*
@@ -169,7 +170,7 @@ public class EnvironmentVRep implements IEnvironment {
 		posBoxStart.getArray()[1] = 100f;
 		posBoxStart.getArray()[2] = 100f;
 		int r = vrep.simxSetObjectPosition(clientID, b.getHandle().getValue(),
-				remoteApi.sim_handle_all, posBoxStart, remoteApi.simx_opmode_streaming);
+				remoteApi.sim_handle_parent, posBoxStart, remoteApi.simx_opmode_streaming);
         if(r!=remoteApi.simx_return_ok) {
         	System.out.println("ERROR Setting position of box " + a.getBox().getName() +". Error : "+r);
         }

@@ -61,7 +61,7 @@ public class Area extends AreaRef implements ITellerMachine {
 
 	@Override
 	public BoxRef drop() {
-		if(getState().equals(AreaState.free)) {
+		if(getState().get().equals(AreaState.free)) {
 			getState().set(AreaState.boxAvailable);
 			return environment.createBoxIn(this);
 		}
@@ -70,7 +70,7 @@ public class Area extends AreaRef implements ITellerMachine {
 
 	@Override
 	public void collect() {
-		if(getState().equals(AreaState.boxAvailable)) {
+		if(getState().get().equals(AreaState.boxAvailable)) {
 			environment.deleteBoxIn(this);
 		}
 	}

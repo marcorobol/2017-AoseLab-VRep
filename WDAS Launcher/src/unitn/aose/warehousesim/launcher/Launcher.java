@@ -8,7 +8,10 @@ import unitn.aose.warehousesim.Warehouse;
 import unitn.aose.warehousesim.adapter.vrep.ConfigurationOne;
 import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.api.IRobot;
+import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.CartRef;
+import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 
 public class Launcher {
 
@@ -21,9 +24,8 @@ public class Launcher {
 		IEnvironment env = confOne.getEnv();
 		
 		List<IRobot> robotList = new ArrayList<IRobot>();
-		for(CartRef c : env.getCarts()) {
+		for(CartRef c : env.getCarts())
 			robotList.add(env.getRobot(c));
-		}
 		
 		/*
 		 * Agents
@@ -36,7 +38,14 @@ public class Launcher {
 //		List<IRobot> guiRobotList = new ArrayList<IRobot>();
 //		guiRobotList.add(robot_a2);
 		new AgentGui(robotList);
-        
+		
+		/*
+		 * Warehouse GUI
+		 */
+		List<ITellerMachine> machineList = new ArrayList<ITellerMachine>();
+		for(AreaRef a : env.getAreas())
+			machineList.add(env.getTellerMachine(a));
+		new TellerMachineGui(machineList);
         
         
         /*
