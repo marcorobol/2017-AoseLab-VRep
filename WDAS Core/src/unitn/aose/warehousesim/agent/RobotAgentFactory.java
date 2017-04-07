@@ -1,6 +1,6 @@
 package unitn.aose.warehousesim.agent;
 
-import unitn.aose.warehousesim.data.Cart;
+import unitn.aose.warehousesim.api.IRobot;
 
 /**
  * 
@@ -8,11 +8,11 @@ import unitn.aose.warehousesim.data.Cart;
  * 
  */
 
-public class CartAgentFactory {
+public class RobotAgentFactory {
 	/**
 	 * Costruttore della classe, al momento vuota
 	 */
-	public CartAgentFactory(){
+	public RobotAgentFactory(){
 		
 	}
 	/**
@@ -21,8 +21,8 @@ public class CartAgentFactory {
 	 * @param cart
 	 * @return ICartAgent oppure nullo se si è verificato un errore
 	 */
-	public ICartAgent createAgent(Cart cart){
-		System.out.println("agente "+cart);
+	public IRobotAgent createAgent(IRobot robot){
+		System.out.println("agente "+robot);
 		return null;
 	}
 }
