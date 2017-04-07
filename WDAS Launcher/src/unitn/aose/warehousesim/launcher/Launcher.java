@@ -28,15 +28,17 @@ public class Launcher {
 		EnvironmentVRep env = confOne.getEnv();
 		
 		
-		
-		
-		
+		/*
+		 * Sezione per il caricamento degli agenti
+		 */
+		ICartAgent ca;
 		CartAgentFactory caFactory = new CartAgentFactory(); //create a new CartAgentFactory
 		for(CartRef c : env.getCarts()){ //per ogni Cart
-			caFactory.createAgent(env.getRobot(c));
+			ca = caFactory.createAgent(env.getRobot(c));
+			if(ca == null){
+				System.out.println("ERROR no robot");
+			}
 		}
-		
-		
 		
 		
 		List<IRobot> robotList = new ArrayList<IRobot>();
