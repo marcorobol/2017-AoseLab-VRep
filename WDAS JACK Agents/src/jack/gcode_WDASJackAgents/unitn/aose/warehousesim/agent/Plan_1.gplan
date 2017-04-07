@@ -1,0 +1,126 @@
+<BAPI_Plan
+    :version  52
+    :superclass  "Plan"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "Plan_1"
+    :filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
+    :type  "aos.jack.ed.Plan"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :handled_event
+	<BAPI_FileRef
+	    :name  "Event_1"
+	    :filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+	    :label  "handles Event_1"
+	    :type  "aos.jack.ed.Event"
+	    :java
+		<BAPI_Java
+		    :pkg
+			<BAPI_TextLine
+			>
+		>
+	    :refType  "handles"
+	    :refName  "ev"
+	    :dropHandlerName  "NamedEvent.drop"
+	    :allowsReplace  :true
+	>
+    :relevant
+	<BAPI_Text
+	    :lab  "Relevance"
+	    :val  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :init  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :context
+	<BAPI_Text
+	    :lab  "Context"
+	    :val  `context()
+{
+    true;
+}
+`
+	    :init  `context()
+{
+    true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "RobotData"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-robotData.gnd"
+		:label  "uses RobotData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "robotData"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "dataLog"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+    :reasoning_methods
+	(
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "body"
+		:val  `body()
+{
+    dataLog.log("hello plan! " + robotData.getName());
+    
+    while(true){
+        robotData.stopHere();
+        @sleep(1);
+        robotData.moveBackward();
+        @sleep(5);
+        robotData.stopHere();
+        @sleep(1);
+        robotData.moveForward();
+        @sleep(5);
+    }
+    
+    
+    
+}
+`
+	    >
+	)
+>

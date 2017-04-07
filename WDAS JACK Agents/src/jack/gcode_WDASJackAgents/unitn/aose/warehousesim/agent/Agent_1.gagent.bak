@@ -1,0 +1,162 @@
+<BAPI_Agent
+    :version  52
+    :superclass  "Agent"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+test
+*/`
+	>
+    :name  "Agent_1"
+    :filename  "unitn/aose/warehousesim/agent/Agent_1.gagent"
+    :type  "aos.jack.ed.Agent"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	    :interfaces
+		(
+		    <BAPI_TextLine
+			:lab  ""
+			:val  "IRobotAgent"
+		    >
+		)
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.IRobot"
+		    >
+		)
+	    :code
+		(
+		    <BAPI_Text
+			:lab  "IRobot robot"
+			:val  `private IRobot robot;
+`
+		    >
+		    <BAPI_Text
+			:lab  "IRobot getRobot"
+			:val  `public IRobot getRobot(){
+    return robot;
+}
+`
+		    >
+		    <BAPI_Text
+			:lab  "void updateTime"
+			:val  `public void updateTime(long time){
+}
+`
+		    >
+		)
+	>
+    :constructor
+	<BAPI_Text
+	    :lab  "Constructor"
+	    :val  `public <<Type>>(IRobot robot)
+{
+    super(robot.getName());
+    this.robot = robot;
+    dataLog.log("Ciao");
+    postEvent(ev1.start());
+}
+`
+	    :init  `public <<Type>>(String name)
+{
+    super(name);
+}
+`
+	    :isLabelEditable  :false
+	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "RobotData"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-robotData.gnd"
+		:label  "private RobotData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "robotData(this)"
+	    >
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "private DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "dataLog(this)"
+	    >
+	)
+    :events
+	(
+	    <BAPI_FileRef
+		:name  "Event_1"
+		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+		:label  "posts Event_1"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "posts"
+		:refName  "ev1"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "Event_1"
+		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+		:label  "handles"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "handles"
+		:hasName  :false
+		:refName  "ev"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	)
+    :plans
+	(
+	    <BAPI_FileRef
+		:name  "Plan_1"
+		:filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
+		:label  "uses"
+		:type  "aos.jack.ed.Plan"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanList.attrs"
+		:refType  "uses"
+		:hasName  :false
+		:dropHandlerName  "Plan.drop"
+	    >
+	)
+>

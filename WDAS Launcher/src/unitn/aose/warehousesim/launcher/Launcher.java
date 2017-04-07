@@ -8,7 +8,6 @@ import java.util.List;
 import unitn.aose.warehousesim.IEnvironment;
 import unitn.aose.warehousesim.Warehouse;
 import unitn.aose.warehousesim.adapter.vrep.ConfigurationOne;
-import unitn.aose.warehousesim.adapter.vrep.EnvironmentVRep;
 import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.agent.IRobotAgent;
 import unitn.aose.warehousesim.agent.RobotAgentFactory;
@@ -30,8 +29,8 @@ public class Launcher {
 	private static Collection<IRobotAgent> getAgents(IEnvironment env){
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
 		IRobotAgent ra;
-		RobotAgentFactory caFactory = new RobotAgentFactory(); //create a new CartAgentFactory
-		for(CartRef c : env.getCarts()){ //per ogni Cart
+		RobotAgentFactory caFactory = new RobotAgentFactory("unitn.aose.warehousesim.agent.Agent_1"); //create a new RobotAgentFactory
+		for(CartRef c : env.getCarts()){ 
 			IRobot r = env.getRobot(c);
 			ra = caFactory.createAgent(r);
 			if(null == ra){
