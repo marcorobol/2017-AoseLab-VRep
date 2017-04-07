@@ -6,11 +6,15 @@ import java.util.List;
 import unitn.aose.warehousesim.IEnvironment;
 import unitn.aose.warehousesim.Warehouse;
 import unitn.aose.warehousesim.adapter.vrep.ConfigurationOne;
+import unitn.aose.warehousesim.adapter.vrep.EnvironmentVRep;
 import unitn.aose.warehousesim.agent.AgentGui;
+import unitn.aose.warehousesim.agent.CartAgentFactory;
+import unitn.aose.warehousesim.agent.ICartAgent;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.CartRef;
+import unitn.aose.warehousesim.data.Cart;
 import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 
 public class Launcher {
@@ -21,7 +25,19 @@ public class Launcher {
 		
 		confOne.initialize();
 		
-		IEnvironment env = confOne.getEnv();
+		EnvironmentVRep env = confOne.getEnv();
+		
+		
+		
+		
+		
+		CartAgentFactory caFactory = new CartAgentFactory(); //create a new CartAgentFactory
+		for(CartRef c : env.getCarts()){ //per ogni Cart
+			caFactory.createAgent(env.getRobot(c));
+		}
+		
+		
+		
 		
 		List<IRobot> robotList = new ArrayList<IRobot>();
 		for(CartRef c : env.getCarts())

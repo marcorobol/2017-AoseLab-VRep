@@ -1,0 +1,111 @@
+<BAPI_ProjectInfo
+    :version  52
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :root_pkg
+	<BAPI_TextLine
+	>
+    :save_sub  "gcode_WDASJackAgents"
+    :class_sub  "../../bin"
+    :topNodes
+	(
+	    <TaggedList
+		:label  "Design Views"
+		:tag  "ContainerDesc.designs"
+	    >
+	    <TaggedList
+		:label  "Agent Model"
+		:tag  "ContainerDesc.top.misc"
+		:list
+		    (
+			<TaggedList
+			    :label  "Agent Types"
+			    :tag  "ContainerDesc.agents"
+			    :list
+				(
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agents/Agent_1.gagent"
+					:label  "Agent_1"
+					:type  "aos.jack.ed.Agent"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agents"
+						    >
+					    >
+				    >
+				)
+			>
+			<TaggedList
+			    :label  "Capability Types"
+			    :tag  "ContainerDesc.caps"
+			>
+			<TaggedList
+			    :label  "Plan Types"
+			    :tag  "ContainerDesc.plans"
+			>
+			<TaggedList
+			    :label  "Event Types"
+			    :tag  "ContainerDesc.events"
+			>
+			<TaggedList
+			    :label  "Team Types"
+			    :tag  "ContainerDesc.team.teams"
+			>
+			<TaggedList
+			    :label  "TeamPlan Types"
+			    :tag  "ContainerDesc.team.teamplans"
+			>
+			<TaggedList
+			    :label  "Role Types"
+			    :tag  "ContainerDesc.team.roles"
+			>
+			<TaggedList
+			    :label  "Named Roles"
+			    :tag  "ContainerDesc.team.nmroles"
+			>
+			<TaggedList
+			    :label  "Named Data"
+			    :tag  "ContainerDesc.nmdata"
+			>
+		    )
+	    >
+	    <TaggedList
+		:label  "Data Model"
+		:tag  "ContainerDesc.top.misc"
+		:list
+		    (
+			<TaggedList
+			    :label  "Beliefset Types"
+			    :tag  "ContainerDesc.bels"
+			>
+			<TaggedList
+			    :label  "View Types"
+			    :tag  "ContainerDesc.views"
+			>
+			<TaggedList
+			    :label  "TeamData Types"
+			    :tag  "ContainerDesc.team.teamdata"
+			>
+			<TaggedList
+			    :label  "External Classes"
+			    :tag  "ContainerDesc.exts"
+			>
+		    )
+	    >
+	    <TaggedList
+		:label  "Other Files"
+		:tag  "ContainerDesc.other"
+	    >
+	)
+    :packages
+	(
+	    <AString
+		:val  "unitn.aose.warehousesim.agents"
+	    >
+	)
+>
