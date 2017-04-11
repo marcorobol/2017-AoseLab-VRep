@@ -81,9 +81,9 @@ public class Area extends AreaRef implements ITellerMachine {
 		if(getState().get().equals(AreaState.boxAvailable)) {
 			
 			adapter.deleteBox(getBox());
-			
-			setBox(null);
+
 			box.setArea(null);
+			setBox(null);
 			getState().set(AreaState.free);
 		}
 	}
