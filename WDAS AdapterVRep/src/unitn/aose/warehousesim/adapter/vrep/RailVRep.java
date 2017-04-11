@@ -1,30 +1,27 @@
 package unitn.aose.warehousesim.adapter.vrep;
 
-import unitn.aose.warehousesim.data.Rail;
 import coppelia.IntW;
 import coppelia.remoteApi;
+import unitn.aose.warehousesim.data.Rail;
 
-public class RailVRep extends Rail {
+public class RailVRep {
 	
-	/*
-	 * Parameters
-	 */
-//	final float targetVelocity = 1f;
-	float lenght = 7.5f;
+	private final float step_lenght = 0.5f;
 	
-	private remoteApi vrep;
-	private int clientID;
+	private final remoteApi vrep;
+	private final int clientID;
+	private final Rail rail;
+	private final String railName;
+	
 	private IntW handle;
 	
 	
 	
-	public RailVRep(remoteApi vrep, int clientID, String name,
-			float total_lenght, int steps,
-			EnvironmentVRep environmentVRep) {
-		super(name, steps);
+	public RailVRep(remoteApi vrep, int clientID, Rail rail, AdapterVRep adapter) {
 		this.vrep = vrep;
 		this.clientID = clientID;
-		this.lenght = total_lenght;
+		this.rail = rail;
+		this.railName = rail.getName();
 		init();
 	}
 	
@@ -33,17 +30,13 @@ public class RailVRep extends Rail {
 		 * Retrive handle
 		 */
         this.handle = new IntW(1);
-        vrep.simxGetObjectHandle(clientID, getName(), handle, remoteApi.simx_opmode_blocking);
+        vrep.simxGetObjectHandle(clientID, railName, handle, remoteApi.simx_opmode_blocking);
 	}
 	
 	
 
-	public float getLenght() {
-		return lenght;
-	}
-	
-	public float getStep() {
-		return lenght / getSteps();
+	public float getStepLenght() {
+		return step_lenght;
 	}
 
 }

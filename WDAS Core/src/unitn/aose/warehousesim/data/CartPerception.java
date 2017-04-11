@@ -2,14 +2,9 @@ package unitn.aose.warehousesim.data;
 
 import java.util.Date;
 import unitn.aose.warehousesim.api.ICartPerception;
-import unitn.aose.warehousesim.api.IObservable;
-import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.CartRef;
-import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
 import unitn.aose.warehousesim.api.data.RailRef;
 import unitn.aose.warehousesim.observable.ObservableBoolean;
-import unitn.aose.warehousesim.observable.ObservableInteger;
-import unitn.aose.warehousesim.observable.ObservableMovementState;
 import unitn.aose.warehousesim.observable.ObservableMovementWithRespectToMe;
 import unitn.aose.warehousesim.observable.ObservablePositionWithRespectToMe;
 

@@ -8,14 +8,18 @@ public interface ITellerMachine {
 	
 	IObservable<AreaState> getState();
 	
-	BoxRef getRequestedBox();
+	
 	
 	AreaState requestDeposit();
 	
 	AreaState requestWithdraw(BoxRef box);
 	
-	BoxRef drop();
+	BoxRef getRequestedBox();
 	
-	void collect();
+	
+	
+	BoxRef createBox();
+	
+	void removeBox();
 	
 }

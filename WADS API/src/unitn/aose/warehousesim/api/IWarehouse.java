@@ -1,20 +1,21 @@
-package unitn.aose.warehousesim;
+package unitn.aose.warehousesim.api;
 
 import java.util.Set;
 
-import unitn.aose.warehousesim.api.IRobot;
-import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
+import unitn.aose.warehousesim.api.data.RailRef;
 
-public interface IEnvironment {
+public interface IWarehouse {
 	
 	Set<CartRef> getCarts();
 	
 	Set<AreaRef> getAreas();
-	
+
 	Set<BoxRef> getBoxes();
+
+	Set<RailRef> getRails();
 	
 	
 	
@@ -24,12 +25,18 @@ public interface IEnvironment {
 	
 	
 	
-	BoxRef createBoxIn(AreaRef areaRef);
-	
-	void deleteBoxIn(AreaRef areaRef);
+	void deleteBox(BoxRef box);
 	
 	
 	
-	void update();
+	IObservable<SimulationState> getSimulationState();
+
+	IObservable<Long> getSimulationTime();
+	
+	void play();
+	
+	void pause();
+	
+	void stop();
 	
 }

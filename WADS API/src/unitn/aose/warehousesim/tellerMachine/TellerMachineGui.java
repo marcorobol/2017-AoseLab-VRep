@@ -69,14 +69,14 @@ public class TellerMachineGui {
 	   Button drop = new Button("drop");
 	   drop.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-			   m.drop();
+			   m.createBox();
 		   }
 	   });
 	   
 	   Button collect = new Button("collect");
 	   collect.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-        	 m.collect();
+        	 m.removeBox();
 		   }
 	   });
 	   

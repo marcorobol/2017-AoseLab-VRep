@@ -7,9 +7,12 @@ import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
+import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
+import unitn.aose.warehousesim.api.SimulationState;
 import unitn.aose.warehousesim.api.data.AreaRef;
+import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.MovementWithRespectToMe;
 import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
@@ -20,31 +23,34 @@ import unitn.aose.warehousesim.observable.ObservableCross;
 import unitn.aose.warehousesim.observable.ObservableInteger;
 import unitn.aose.warehousesim.observable.ObservableLoadUnload;
 import unitn.aose.warehousesim.observable.ObservableMovementState;
+import unitn.aose.warehousesim.simulator.IAdapter;
 
 
-public abstract class Cart extends CartRef implements IRobot {
+public class Cart extends CartRef implements IRobot {
 
-	private Rail rail;
-	private ObservableMovementState movementFSM;
-	private ObservableLoadUnload loadUnloadFSM;
-	private ObservableInteger position;
-	private Float velocity;
-	private ObservableArea areaOnLeft;
-	private ObservableArea areaOnRight;
-	private ObservableCross crossHaed;
-	private ObservableCross crossBehind;
-	private ObservableCross crossHere;
+	private final IAdapter adapter;
+	private final IWarehouse warehouse;
+	private final Rail rail;
+	private final ObservableMovementState movementFSM;
+	private final ObservableLoadUnload loadUnloadFSM;
+	private final ObservableInteger position;
+	private final ObservableArea areaOnLeft;
+	private final ObservableArea areaOnRight;
+	private final ObservableCross crossHaed;
+	private final ObservableCross crossBehind;
+	private final ObservableCross crossHere;
 	private Box loadedBox;
-	private Map<CartRef, CartPerception> cartPerceptions;
-	private Map<PositionWithRespectToMe, ObservableCart> cartAround;
+	private final Map<CartRef, CartPerception> cartPerceptions;
+	private final Map<PositionWithRespectToMe, ObservableCart> cartAround;
 	
-	public Cart(String name, Rail rail) {
+	public Cart(String name, Rail rail, IAdapter adapter, IWarehouse warehouse) {
 		super(name);
+		this.adapter = adapter;
+		this.warehouse = warehouse;
 		this.rail = rail;
 		this.movementFSM = new ObservableMovementState(MovementState.stop);
 		this.loadUnloadFSM = new ObservableLoadUnload(LoadUnloadState.unloaded);
 		this.position = new ObservableInteger();
-		this.velocity = 0f;
 		this.areaOnLeft = new ObservableArea();
 		this.areaOnRight = new ObservableArea();
 		this.crossHaed = new ObservableCross();
@@ -184,15 +190,6 @@ public abstract class Cart extends CartRef implements IRobot {
 	}
 
 	@Override
-	public Float getVelocity() {
-		return velocity;
-	}
-
-	public void setVelocity(float f) {
-		this.velocity = f;
-	}
-
-	@Override
 	public ObservableMovementState getMovement() {
 		return this.movementFSM;
 	}
@@ -227,12 +224,13 @@ public abstract class Cart extends CartRef implements IRobot {
 	public Observable<Area, AreaRef> getAreaOnRight() {
 		return areaOnRight;
 	}
-	
+
+	@Override
 	public Box getLoadedBox() {
 		return loadedBox;
 	}
 
-	public void setLoadedBox(Box loadedBox) {
+	private void setLoadedBox(Box loadedBox) {
 		this.loadedBox = loadedBox;
 	}
 	
@@ -259,29 +257,124 @@ public abstract class Cart extends CartRef implements IRobot {
 		return cartPerceptions;
 	}
 
+	@Override
 	public CartPerception getCartPerception(CartRef c) {
 		return cartPerceptions.get(c);
 	}
-	
+
+	@Override
 	public ObservableCart getCartAround(PositionWithRespectToMe pos) {
 		return cartAround.get(pos);
 	}
+	
 	
 	
 	/*
 	 * Crosses
 	 */
 
+	@Override
 	public ObservableCross getCrossHaed() {
 		return crossHaed;
 	}
 
+	@Override
 	public ObservableCross getCrossBehind() {
 		return crossBehind;
 	}
 
+	@Override
 	public ObservableCross getCrossHere() {
 		return crossHere;
+	}
+	
+	
+	
+	/*
+	 * Controls
+	 */
+
+	@Override
+	public void moveForward() {
+		adapter.getAdapterCart(this).moveForward();
+		getMovement().set(MovementState.runningForward);
+	}
+
+	@Override
+	public void moveBackward() {
+		adapter.getAdapterCart(this).moveBackward();
+		getMovement().set(MovementState.runningBackward);
+	}
+
+	@Override
+	public void stopHere() {
+		Integer index = getPosition().get();
+		adapter.getAdapterCart(this).moveTo(index);
+		getMovement().set(MovementState.stopping);
+	}
+
+	@Override
+	public void loadRight() {
+		Area area = getAreaOnRight().get();
+		Box box = getBoxOnRight();
+		load(area, box, true);
+	}
+
+	@Override
+	public void loadLeft() {
+		Area area = getAreaOnLeft().get();
+		Box box = getBoxOnLeft();
+		load(area, box, false);
+	}
+	
+	private void load(Area area, Box box, Boolean rightSideOrLeftSide) {
+		if(getLoadedBox()==null && box!=null && getMovement().get()==MovementState.stop) {
+			adapter.getAdapterCart(this).loadBox(box, rightSideOrLeftSide);
+	        area.setBox(null);
+	        setLoadedBox(box);
+	        getLoadUnload().set(LoadUnloadState.loaded);
+		}
+	}
+
+	@Override
+	public void unloadLeft() {
+		Area area = getAreaOnLeft().get();
+		unloadIn(area, false);
+	}
+
+	@Override
+	public void unloadRight() {
+		Area area = getAreaOnRight().get();
+		unloadIn(area, false);
+	}
+
+	private void unloadIn(Area area, Boolean rightSideOrLeftSide) {
+		Box box = getLoadedBox();
+		if(loadedBox!=null && area!=null && area.getBox()==null && getMovement().get()==MovementState.stop) {
+			adapter.getAdapterCart(this).unloadBoxInArea(box, area, rightSideOrLeftSide);
+	        area.setBox(loadedBox);
+	        setLoadedBox(null);
+	        getLoadUnload().set(LoadUnloadState.unloaded);
+		}
+	}
+	
+
+	public void removeBox() {
+		adapter.deleteBox(loadedBox);
+
+		setLoadedBox(null);
+		loadedBox.setCart(null);
+		loadUnloadFSM.set(LoadUnloadState.unloaded);
+	}
+
+	@Override
+	public IObservable<Long> getSimulationTime() {
+		return warehouse.getSimulationTime();
+	}
+
+	@Override
+	public IObservable<SimulationState> getSimulationState() {
+		return warehouse.getSimulationState();
 	}
 	
 }

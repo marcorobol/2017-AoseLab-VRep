@@ -44,6 +44,9 @@ public interface IRobot {
 	String getName();
 	BoxRef getLoadedBox();
 	IObservable<Integer> getPosition();
-	Float getVelocity();
+//	Float getVelocity();
+
+	IObservable<Long> getSimulationTime();
+	IObservable<SimulationState> getSimulationState();
 	
 }
