@@ -11,14 +11,17 @@ import unitn.aose.warehousesim.adapter.vrep.ConfiguratorVRep;
 import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.agent.IRobotAgent;
 import unitn.aose.warehousesim.agent.RobotAgentFactory;
+import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.configuration.ConfigurationOne;
 import unitn.aose.warehousesim.configuration.IConfigurator;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
 import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
+import unitn.aose.warehousesim.simulator.IAdapter;
 import unitn.aose.warehousesim.simulator.SimulationGui;
 import unitn.aose.warehousesim.simulator.Warehouse;
 import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
@@ -29,20 +32,25 @@ public class Launcher {
 	 * Using the RobotAgentFactory create an instance of IRobotAgent
 	 * using the environment variable "wdas.factory.agent.class"
 	 * for each robot currently available in the given environment.
-	 * @param env the current environment to get the robots from
+	 * @param warehouse the current environment to get the robots from
 	 * @return a list with all the created agents 
 	 */
-	private static Collection<IRobotAgent> getAgents(IEnvironment env){
+	private static Collection<IRobotAgent> getAgents(IWarehouse warehouse){
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
-		IRobotAgent ra;
 		RobotAgentFactory caFactory = new RobotAgentFactory("unitn.aose.warehousesim.agent.Agent_1"); //create a new RobotAgentFactory
-		for(CartRef c : env.getCarts()){ 
-			IRobot r = env.getRobot(c);
+		for(CartRef c : warehouse.getCarts()){ 
+			IRobot r = warehouse.getRobot(c);
+			IRobotAgent ra;
 			ra = caFactory.createAgent(r);
 			if(null == ra){
 				System.out.println("ERROR no agent created for robot "+r.getName());
 			}else{
 				raList.add(ra);
+				r.getSimulationTime().registerListener(new IListener<Long>() {
+					public void notifyChanged(Long value) {
+						ra.updateTime(value);
+					}
+				});
 			}
 		}
 		return raList;
@@ -57,10 +65,14 @@ public class Launcher {
 		int clientID = vrep.simxStart("127.0.0.1",19997,true,true,5000,5);
 		AdapterVRep adapter = new AdapterVRep(vrep, clientID);
 		
+		
+		
 		/*
 		 * Warehouse
 		 */
 		Warehouse warehouse = new Warehouse(adapter);
+		
+		
 		
 		/*
 		 * Configuration
@@ -71,18 +83,13 @@ public class Launcher {
 		confOne.initialize(warehouse);
 		
 		
-		List<IRobot> robotList = new ArrayList<IRobot>();
-		for(CartRef c : env.getCarts())
-			robotList.add(env.getRobot(c));
+		
 		/*
 		 * Sezione per il caricamento degli agenti
 		 */
-		Collection<IRobotAgent> agentsList = getAgents(env);
+		Collection<IRobotAgent> agentsList = getAgents(warehouse);
 		
 		
-		List<IRobot> robotList = new ArrayList<IRobot>();
-		for(CartRef c : env.getCarts())
-			robotList.add(env.getRobot(c));
 		
 		/*
 		 * Agents

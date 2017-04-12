@@ -148,8 +148,8 @@ public class RobotData extends Observable {
 		return pos;
 	}
 	
-	public Float getVelocity() {
-		return robot.getVelocity();
-	}
+//	public Float getVelocity() {
+//		return robot.getVelocity();
+//	}
     
 }
