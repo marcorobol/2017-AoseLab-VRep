@@ -1,0 +1,15 @@
+<TupleTable
+    :tuples
+	(
+	    <AgentInfo__Tuple
+		:robot  "RobotMotorB2"
+		:position  "14"
+	    >
+	    <AgentInfo__Tuple
+		:robot  "RobotMotorB2"
+		:position  "0"
+	    >
+	)
+>
+<TupleTable
+>

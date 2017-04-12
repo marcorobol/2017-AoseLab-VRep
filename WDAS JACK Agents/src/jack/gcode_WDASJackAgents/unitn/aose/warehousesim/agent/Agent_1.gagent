@@ -28,6 +28,9 @@ test
 	    :imports
 		(
 		    <BAPI_TextLine
+			:val  "java.util.*"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
 		    >
 		)
@@ -36,6 +39,13 @@ test
 		    <BAPI_Text
 			:lab  "void updateTime"
 			:val  `public void updateTime(long time){
+    //postEventAndWait(updateRobotBeliefset.update());
+    /*try{
+        //beliefset add tutti i campi
+    }
+    catch (Exception e){
+        dataLog.log("Error "+e);
+    }*/
 }
 `
 		    >
@@ -47,8 +57,9 @@ test
 	    :val  `public <<Type>>(IRobot robot)
 {
     super(robot.getName());
-    robotData.setRobot(robot);
+    myRobot.setRobot(robot);
     dataLog.log("Ciao");
+    
     postEvent(ev1.start());
 }
 `
@@ -61,21 +72,6 @@ test
 	>
     :databases
 	(
-	    <BAPI_FileRef
-		:name  "RobotData"
-		:filename  "unitn/aose/warehousesim/agent/RobotData_-robotData.gnd"
-		:label  "private RobotData"
-		:type  "aos.jack.ed.NamedData"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "AccessibleDBList.attrs"
-		:refType  "private"
-		:refName  "robotData"
-	    >
 	    <BAPI_FileRef
 		:name  "DataLog"
 		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
@@ -90,6 +86,36 @@ test
 		:attrs  "AccessibleDBList.attrs"
 		:refType  "private"
 		:refName  "dataLog(this)"
+	    >
+	    <BAPI_FileRef
+		:name  "RobotData"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
+		:label  "private RobotData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "myRobot"
+	    >
+	    <BAPI_FileRef
+		:name  "RobotInfo"
+		:filename  "unitn/aose/warehousesim/agent/RobotInfo_-robotInfo.gnd"
+		:label  "private RobotInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "robotInfo"
 	    >
 	)
     :events

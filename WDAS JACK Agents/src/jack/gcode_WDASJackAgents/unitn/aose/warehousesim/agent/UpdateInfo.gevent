@@ -6,8 +6,8 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	>
-    :name  "Event_1"
-    :filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+    :name  "UpdateInfo"
+    :filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
     :type  "aos.jack.ed.Event"
     :java
 	<BAPI_Java
@@ -19,8 +19,8 @@
     :evconstr
 	(
 	    <BAPI_Text
-		:lab  "start"
-		:val  `start(){}
+		:lab  "update"
+		:val  `update(){}
 `
 	    >
 	)

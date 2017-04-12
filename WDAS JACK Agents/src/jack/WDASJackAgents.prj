@@ -9,6 +9,7 @@
 	<BAPI_TextLine
 	>
     :save_sub  "gcode_WDASJackAgents"
+    :java_sub  "../java"
     :class_sub  "../../bin"
     :topNodes
 	(
@@ -50,6 +51,18 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
+					:label  "UpdateRobotInfo"
+					:type  "aos.jack.ed.Plan"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
 					:label  "Plan_1"
 					:type  "aos.jack.ed.Plan"
@@ -68,6 +81,18 @@
 			    :tag  "ContainerDesc.events"
 			    :list
 				(
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
+					:label  "UpdateInfo"
+					:type  "aos.jack.ed.Event"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
 				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
 					:label  "Event_1"
@@ -104,8 +129,21 @@
 			    :list
 				(
 				    <BAPI_Filename
-					:name  "robotData"
-					:filename  "unitn/aose/warehousesim/agent/RobotData_-robotData.gnd"
+					:name  "dataLog"
+					:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+					:label  "DataLog"
+					:type  "aos.jack.ed.NamedData"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
+					:name  "myRobot"
+					:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
 					:label  "RobotData"
 					:type  "aos.jack.ed.NamedData"
 					:java
@@ -117,9 +155,9 @@
 					    >
 				    >
 				    <BAPI_Filename
-					:name  "dataLog"
-					:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
-					:label  "DataLog"
+					:name  "robotInfo"
+					:filename  "unitn/aose/warehousesim/agent/RobotInfo_-robotInfo.gnd"
+					:label  "RobotInfo"
 					:type  "aos.jack.ed.NamedData"
 					:java
 					    <BAPI_Java
@@ -141,6 +179,21 @@
 			<TaggedList
 			    :label  "Beliefset Types"
 			    :tag  "ContainerDesc.bels"
+			    :list
+				(
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/RobotInfo.gdb"
+					:label  "RobotInfo"
+					:type  "aos.jack.ed.Database"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				)
 			>
 			<TaggedList
 			    :label  "View Types"
@@ -188,6 +241,12 @@
 	)
     :packages
 	(
+	    <AString
+		:val  "java.text"
+	    >
+	    <AString
+		:val  "java.util"
+	    >
 	    <AString
 		:val  "unitn.aose.warehousesim"
 	    >

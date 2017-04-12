@@ -66,22 +66,6 @@
     :databases
 	(
 	    <BAPI_FileRef
-		:name  "RobotData"
-		:filename  "unitn/aose/warehousesim/agent/RobotData_-robotData.gnd"
-		:label  "uses RobotData"
-		:type  "aos.jack.ed.NamedData"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "ReadWriteableDBList.attrs"
-		:refType  "uses"
-		:refName  "robotData"
-		:dropHandlerName  "NamedData.drop"
-	    >
-	    <BAPI_FileRef
 		:name  "DataLog"
 		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
 		:label  "uses DataLog"
@@ -97,6 +81,36 @@
 		:refName  "dataLog"
 		:dropHandlerName  "NamedData.drop"
 	    >
+	    <BAPI_FileRef
+		:name  "RobotData"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
+		:label  "uses RobotData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "myRobot"
+	    >
+	    <BAPI_FileRef
+		:name  "RobotInfo"
+		:filename  "unitn/aose/warehousesim/agent/RobotInfo_-robotInfo.gnd"
+		:label  "uses RobotInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "robotInfo"
+	    >
 	)
     :reasoning_methods
 	(
@@ -104,19 +118,37 @@
 		:lab  "body"
 		:val  `body()
 {
-    dataLog.log("hello plan! " + robotData.getName());
-    
-    while(true){
-        robotData.stopHere();
+    dataLog.log("hello plan! " + myRobot.getName());
+    Object onLeft=null;
+    while(onLeft == null){
+        try{ 
+            //Object pos = myRobot.getPosition().get(); //position of the robot
+            /* Object movement = myRobot.getMovement().get(); //what the robot is doing
+            onLeft = myRobot.getAreaOnLeft().get();
+            Object loadUnloadState = myRobot.getLoadUnload().get(); //load or unload state
+            agentInfo.add(myRobot.getName(), pos.toString(), movement.toString(), loadUnloadState.toString());*/
+            //dataLog.log("ROBOT NAME = " + myRobot.getName()); // + " POSITION = " + pos + " MOVEMENT = " + movement + " LEFT " + onLeft+ " STATE= " + loadUnloadState);
+            
+        }
+        catch(Exception e){
+            dataLog.log("Error beliefset: "+e);
+        }
+        
+        myRobot.stopHere();
         @sleep(1);
-        robotData.moveBackward();
+        myRobot.moveBackward();
+        
         @sleep(5);
-        robotData.stopHere();
+        myRobot.stopHere();
         @sleep(1);
-        robotData.moveForward();
-        @sleep(5);
+        myRobot.moveForward();
+        @sleep(5); 
     }
-    
+  
+    if(onLeft != null){
+        myRobot.stopHere();
+        //myRobot.loadLeft();
+    }
     
     
 }

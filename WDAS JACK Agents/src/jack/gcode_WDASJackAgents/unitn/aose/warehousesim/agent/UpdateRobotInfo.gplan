@@ -6,8 +6,8 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	>
-    :name  "Plan_1"
-    :filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
+    :name  "UpdateRobotInfo"
+    :filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
     :type  "aos.jack.ed.Plan"
     :java
 	<BAPI_Java
@@ -18,9 +18,9 @@
 	>
     :handled_event
 	<BAPI_FileRef
-	    :name  "Event_1"
-	    :filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
-	    :label  "handles Event_1"
+	    :name  "UpdateInfo"
+	    :filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
+	    :label  "handles UpdateInfo"
 	    :type  "aos.jack.ed.Event"
 	    :java
 		<BAPI_Java
@@ -67,7 +67,7 @@
 	(
 	    <BAPI_FileRef
 		:name  "RobotData"
-		:filename  "unitn/aose/warehousesim/agent/RobotData_-robotData.gnd"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
 		:label  "uses RobotData"
 		:type  "aos.jack.ed.NamedData"
 		:java
@@ -78,23 +78,7 @@
 		    >
 		:attrs  "ReadWriteableDBList.attrs"
 		:refType  "uses"
-		:refName  "robotData"
-		:dropHandlerName  "NamedData.drop"
-	    >
-	    <BAPI_FileRef
-		:name  "DataLog"
-		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
-		:label  "uses DataLog"
-		:type  "aos.jack.ed.NamedData"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "ReadWriteableDBList.attrs"
-		:refType  "uses"
-		:refName  "dataLog"
+		:refName  "myRobot"
 		:dropHandlerName  "NamedData.drop"
 	    >
 	)
@@ -104,21 +88,7 @@
 		:lab  "body"
 		:val  `body()
 {
-    dataLog.log("hello plan! " + robotData.getName());
-    
-    while(true){
-        robotData.stopHere();
-        @sleep(1);
-        robotData.moveBackward();
-        @sleep(5);
-        robotData.stopHere();
-        @sleep(1);
-        robotData.moveForkward();
-        @sleep(5);
-    }
-    
-    
-    
+    //@wait_for(rd.changed);
 }
 `
 	    >
