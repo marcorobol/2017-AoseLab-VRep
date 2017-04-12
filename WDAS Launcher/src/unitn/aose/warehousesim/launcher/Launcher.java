@@ -1,12 +1,16 @@
 package unitn.aose.warehousesim.launcher;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import coppelia.remoteApi;
 import unitn.aose.warehousesim.adapter.vrep.AdapterVRep;
 import unitn.aose.warehousesim.adapter.vrep.ConfiguratorVRep;
 import unitn.aose.warehousesim.agent.AgentGui;
+import unitn.aose.warehousesim.agent.IRobotAgent;
+import unitn.aose.warehousesim.agent.RobotAgentFactory;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.data.AreaRef;
@@ -20,6 +24,29 @@ import unitn.aose.warehousesim.simulator.Warehouse;
 import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 
 public class Launcher {
+	
+	/**
+	 * Using the RobotAgentFactory create an instance of IRobotAgent
+	 * using the environment variable "wdas.factory.agent.class"
+	 * for each robot currently available in the given environment.
+	 * @param env the current environment to get the robots from
+	 * @return a list with all the created agents 
+	 */
+	private static Collection<IRobotAgent> getAgents(IEnvironment env){
+		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
+		IRobotAgent ra;
+		RobotAgentFactory caFactory = new RobotAgentFactory("unitn.aose.warehousesim.agent.Agent_1"); //create a new RobotAgentFactory
+		for(CartRef c : env.getCarts()){ 
+			IRobot r = env.getRobot(c);
+			ra = caFactory.createAgent(r);
+			if(null == ra){
+				System.out.println("ERROR no agent created for robot "+r.getName());
+			}else{
+				raList.add(ra);
+			}
+		}
+		return raList;
+	}
 
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -44,6 +71,18 @@ public class Launcher {
 		confOne.initialize(warehouse);
 		
 		
+		List<IRobot> robotList = new ArrayList<IRobot>();
+		for(CartRef c : env.getCarts())
+			robotList.add(env.getRobot(c));
+		/*
+		 * Sezione per il caricamento degli agenti
+		 */
+		Collection<IRobotAgent> agentsList = getAgents(env);
+		
+		
+		List<IRobot> robotList = new ArrayList<IRobot>();
+		for(CartRef c : env.getCarts())
+			robotList.add(env.getRobot(c));
 		
 		/*
 		 * Agents

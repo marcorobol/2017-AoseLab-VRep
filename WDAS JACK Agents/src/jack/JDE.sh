@@ -1,0 +1,1 @@
+java -classpath /Applications/AOS/JACK-56c/lib/jack.jar:../../../WADS\ API/bin aos.main.Jack WDASJackAgents.prj

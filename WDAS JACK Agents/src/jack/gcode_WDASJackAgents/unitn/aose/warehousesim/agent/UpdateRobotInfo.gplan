@@ -1,0 +1,96 @@
+<BAPI_Plan
+    :version  52
+    :superclass  "Plan"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "UpdateRobotInfo"
+    :filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
+    :type  "aos.jack.ed.Plan"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :handled_event
+	<BAPI_FileRef
+	    :name  "UpdateInfo"
+	    :filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
+	    :label  "handles UpdateInfo"
+	    :type  "aos.jack.ed.Event"
+	    :java
+		<BAPI_Java
+		    :pkg
+			<BAPI_TextLine
+			>
+		>
+	    :refType  "handles"
+	    :refName  "ev"
+	    :dropHandlerName  "NamedEvent.drop"
+	    :allowsReplace  :true
+	>
+    :relevant
+	<BAPI_Text
+	    :lab  "Relevance"
+	    :val  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :init  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :context
+	<BAPI_Text
+	    :lab  "Context"
+	    :val  `context()
+{
+    true;
+}
+`
+	    :init  `context()
+{
+    true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "RobotData"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
+		:label  "uses RobotData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "myRobot"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+    :reasoning_methods
+	(
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "body"
+		:val  `body()
+{
+    //@wait_for(rd.changed);
+}
+`
+	    >
+	)
+>
