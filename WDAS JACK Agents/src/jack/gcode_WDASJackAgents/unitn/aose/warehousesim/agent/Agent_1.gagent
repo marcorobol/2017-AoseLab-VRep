@@ -28,13 +28,13 @@ test
 	    :imports
 		(
 		    <BAPI_TextLine
+			:val  "aos.jack.jak.util.timer.SimClock"
+		    >
+		    <BAPI_TextLine
 			:val  "java.util.*"
 		    >
 		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
-		    >
-		    <BAPI_TextLine
-			:val  "aos.jack.jak.util.timer.SimClock"
 		    >
 		)
 	    :code
@@ -42,7 +42,7 @@ test
 		    <BAPI_Text
 			:lab  "void updateTime"
 			:val  `public void updateTime(long time){
-    dataLog.log("agent "+this.getName()+" time is "+time);
+    //dataLog.log("agent "+this.getName()+" time is "+time);
     timer.setTime(time);
     myRobot.update();
 }

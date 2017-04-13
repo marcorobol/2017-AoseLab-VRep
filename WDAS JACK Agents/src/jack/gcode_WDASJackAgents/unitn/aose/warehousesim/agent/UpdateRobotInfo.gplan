@@ -126,12 +126,17 @@
 		:lab  "body"
 		:val  `body()
 {
-    //da fare!!
     for(;true;){
-        @wait_for(new Change(myRobot, false)); //change?
+        @wait_for(new Change(myRobot, false));
         
-        //robotInfo.add((int)myRobot.getPosition().get(),...);
-        dataLog.log("updating "+myRobot.getName()+"'s agent beliefset at "+agent.timer.getTime());
+        robotInfo.add(
+            myRobot.getPosition(), 
+            myRobot.getMovement(),
+            myRobot.getLoadUnload(),
+            myRobot.getAreaOnLeft(),
+            myRobot.getAreaOnRight());
+        
+        //dataLog.log("updating "+myRobot.getName()+"'s agent beliefset at "+agent.timer.getTime());
     }
    
 }

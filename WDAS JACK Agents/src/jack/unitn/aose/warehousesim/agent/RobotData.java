@@ -17,14 +17,16 @@ public class RobotData extends Observable {
 	
     private IRobot robot;
     private int pos;
-    private MovementState movementState;
-    private LoadUnloadState loadUnloadState;
-    private AreaRef areaRefRight, areaRefLeft;
+    private int movementState;
+    private int loadUnloadState;
+    private String areaRight, areaLeft;
     private ICross iCrossHaed, iCrossBehind, iCrossHere;
     private Float velocity;
     private BoxRef loadedBox;
     private String name;
     private BoxRef boxOnRight, boxOnLeft;
+    public static final int MS_STOP=0, MS_RUNNINGFORWARD=1, MS_RUNNINGBACKWARD=2, MS_STOPPING=3;
+    public static final int LUS_UNLOADED=0, LUS_LOADED=1, LUS_LOADINGLEFT=2, LUS_LOADINGRIGHT=3, LUS_UNLOADINGLEFT=4, LUS_UNLOADINGRIGHT=5;
     
     public RobotData(){}
     
@@ -40,10 +42,10 @@ public class RobotData extends Observable {
     	name=robot.getName();
     	try{
 	    	pos=(int)robot.getPosition().get();
-	    	movementState=(MovementState)robot.getMovement().get();
-	    	loadUnloadState=(LoadUnloadState)robot.getLoadUnload().get();
-	    	areaRefLeft=(AreaRef)robot.getAreaOnLeft().get();
-	    	areaRefRight=(AreaRef)robot.getAreaOnRight().get();
+	    	movementState=((MovementState)robot.getMovement().get()).ordinal();
+	    	loadUnloadState=((LoadUnloadState)robot.getLoadUnload().get()).ordinal();
+	    	areaLeft=((AreaRef)robot.getAreaOnLeft().get()).getName();
+	    	areaRight=((AreaRef)robot.getAreaOnRight().get()).getName();
 	    	iCrossHaed=(ICross)robot.getCrossHaed().get();
 	    	iCrossBehind=(ICross)robot.getCrossBehind().get();
 	    	iCrossHere=(ICross)robot.getCrossHere().get();
@@ -93,20 +95,20 @@ public class RobotData extends Observable {
 	
 	// getters ------>
 	
-	public MovementState getMovement() {
+	public int getMovement() {
 		return movementState;
 	}
 	
-	public LoadUnloadState getLoadUnload() {
+	public int getLoadUnload() {
 		return loadUnloadState;
 	}
 	
-	public AreaRef getAreaOnLeft() {
-		return areaRefLeft;
+	public String getAreaOnLeft() {
+		return areaLeft;
 	}
 	
-	public AreaRef getAreaOnRight() {
-		return areaRefRight;
+	public String getAreaOnRight() {
+		return areaRight;
 	}
 	
 	public BoxRef getBoxOnLeft() {

@@ -130,7 +130,17 @@
         myRobot.stopHere();
         @sleep(1);
         myRobot.moveForward();
-        @sleep(5); 
+        @sleep(5);
+        /*logical int $ms;
+        robotInfo.getMovement($ms);
+        
+        dataLog.log("movement is "+$ms.as_int());*/
+        
+        logical String $aol;
+        robotInfo.getAreaOnLeft($aol);
+        dataLog.log("--------AREA LEFT "+ $aol);
+        
+        
     }
   
  
