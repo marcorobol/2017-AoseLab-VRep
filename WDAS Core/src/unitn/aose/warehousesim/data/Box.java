@@ -25,11 +25,11 @@ public class Box extends BoxRef {
 		this.area = area;
 	}
 
-	public Cart getRobot() {
+	public Cart getCart() {
 		return robot;
 	}
 
-	public void setRobot(Cart robot) {
+	public void setCart(Cart robot) {
 		this.robot = robot;
 	}
 

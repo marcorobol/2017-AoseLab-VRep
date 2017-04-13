@@ -65,22 +65,18 @@
 		:type  "Object"
 	    >
 	    <BAPI_DBField =10
-		:name  "velocity"
-		:type  "Object"
-	    >
-	    <BAPI_DBField =11
 		:name  "loadedBox"
 		:type  "Object"
 	    >
-	    <BAPI_DBField =12
+	    <BAPI_DBField =11
 		:name  "name"
 		:type  "Object"
 	    >
-	    <BAPI_DBField =13
+	    <BAPI_DBField =12
 		:name  "boxOnRight"
 		:type  "Object"
 	    >
-	    <BAPI_DBField =14
+	    <BAPI_DBField =13
 		:name  "boxOnLeft"
 		:type  "Object"
 	    >
@@ -147,10 +143,6 @@
 			    :ref
 				<&13 >
 			>
-			<BAPI_InternalRef
-			    :ref
-				<&14 >
-			>
 		    )
 	    >
 	)
@@ -162,9 +154,9 @@
 		    <BAPI_Text
 			:lab  "getPosition"
 			:val  `getPosition (logical Object position) {
-    logical Object mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( position, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( position, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -176,9 +168,9 @@
 		    <BAPI_Text
 			:lab  "getMovement"
 			:val  `getMovement (logical Object movement) {
-    logical Object p, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object p, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, movement, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( p, movement, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -190,9 +182,9 @@
 		    <BAPI_Text
 			:lab  "getLoadUnLoad"
 			:val  `getLoadUnLoad (logical Object loadUnload) {
-    logical Object p, mS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object p, mS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, mS, loadUnload, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( p, mS, loadUnload, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -204,9 +196,9 @@
 		    <BAPI_Text
 			:lab  "getAreaOnLeft"
 			:val  `getAreaOnLeft (logical Object areaLeft) {
-    logical Object p, mS, lUS, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object p, mS, lUS, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, areaLeft, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( p, mS, lUS, areaLeft, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -218,9 +210,9 @@
 		    <BAPI_Text
 			:lab  "getAreaOnRight"
 			:val  `getAreaOnRight (logical Object areaRight) {
-    logical Object p, mS, lUS, aOL, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object p, mS, lUS, aOL, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, areaRight, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, areaRight, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -232,9 +224,9 @@
 		    <BAPI_Text
 			:lab  "getAreaState"
 			:val  `getAreaState (logical Object arState) {
-    logical Object p, mS, lUS, aOL, aOR, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object p, mS, lUS, aOL, aOR, cHS, cBS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, arState, cHS, cBS, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, arState, cHS, cBS, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -246,9 +238,9 @@
 		    <BAPI_Text
 			:lab  "getCrossHaed"
 			:val  `getCrossHaed (logical Object crossHaed) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cBS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object p, mS, lUS, aOL, aOR, aS, cBS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, crossHaed, cBS, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, aS, crossHaed, cBS, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -260,9 +252,9 @@
 		    <BAPI_Text
 			:lab  "getCrossBehind"
 			:val  `getCrossBehind (logical Object crossBehind) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cHeS, cA, v, lB, n, bOR, bOL;
+    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cHeS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, crossBehind, cHeS, cA, v, lB, n, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, crossBehind, cHeS, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -274,9 +266,9 @@
 		    <BAPI_Text
 			:lab  "getCrossHere"
 			:val  `getCrossHere (logical Object crossHere) {
-   logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cA, v, lB, n, bOR, bOL;
+   logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cA, lB, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, crossHere, cA, v, lB, n, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, crossHere, cA, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -288,23 +280,9 @@
 		    <BAPI_Text
 			:lab  "getCartPerception"
 			:val  `getCartPerception (logical Object cartAr) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, v, lB, n, bOR, bOL;
+    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, lB, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cartAr, v, lB, n, bOR, bOL);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getVelocity"
-		:definition
-		    <BAPI_Text
-			:lab  "getVelocity"
-			:val  `getVelocity (logical Object vel) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bOL;
-    
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, vel, lB, n, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cartAr, lB, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -316,9 +294,9 @@
 		    <BAPI_Text
 			:lab  "getVel"
 			:val  `getVel (logical Object lBox) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, n, bOR, bOL;
+    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, n, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lBox, n, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lBox, n, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -330,9 +308,9 @@
 		    <BAPI_Text
 			:lab  "getName"
 			:val  `getName (logical Object name) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, bOR, bOL;
+    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, bOR, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, name, bOR, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, name, bOR, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -344,9 +322,9 @@
 		    <BAPI_Text
 			:lab  "getBoxOnRight"
 			:val  `getBoxOnRight (logical Object bRight) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOL;
+    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOL;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bRight, bOL);
+    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bRight, bOL);
 }
 `
 			:isLabelEditable  :false
@@ -358,9 +336,9 @@
 		    <BAPI_Text
 			:lab  "getBoxOnLeft"
 			:val  `getBoxOnLeft (logical Object bLeft) {
-    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR;
+    logical Object p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR;
     
-    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, v, lB, n, bOR, bLeft);
+    return getState ( p, mS, lUS, aOL, aOR, aS, cHS, cBS, cHeS, cA, lB, n, bOR, bLeft);
 }
 `
 			:isLabelEditable  :false

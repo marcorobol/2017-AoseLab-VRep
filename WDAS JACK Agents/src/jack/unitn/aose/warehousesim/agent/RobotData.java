@@ -1,13 +1,10 @@
 package unitn.aose.warehousesim.agent;
 
+import java.util.Observable;
+
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ICartPerception;
 import unitn.aose.warehousesim.api.ICross;
-import unitn.aose.warehousesim.api.IListener;
-
-import java.util.Observable;
-import java.util.Observer;
-import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
@@ -42,7 +39,7 @@ public class RobotData extends Observable {
     	iCrossHaed=(ICross)robot.getCrossHaed().get();
     	iCrossBehind=(ICross)robot.getCrossBehind().get();
     	iCrossHere=(ICross)robot.getCrossHere().get();
-    	velocity=(Float)robot.getVelocity();
+    	//velocity=(Float)robot.getVelocity();
     	loadedBox=(BoxRef)robot.getLoadedBox();
     	name=(String)robot.getName();
     	
@@ -147,6 +144,11 @@ public class RobotData extends Observable {
 		return pos;
 	}
 	
+	/**
+	 * 
+	 * @deprecated velocity is no updated
+	 * @return
+	 */
 	public Float getVelocity() {
 		return velocity;
 	}

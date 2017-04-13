@@ -1,20 +1,30 @@
 package unitn.aose.warehousesim.adapter.vrep;
 
-import unitn.aose.warehousesim.data.Box;
 import coppelia.IntW;
 import coppelia.remoteApi;
+import unitn.aose.warehousesim.data.Box;
 
-public class BoxVRep extends Box {
+public class BoxVRep {
 
-	private remoteApi vrep;
-	private int clientID;
+	private final remoteApi vrep;
+	private final int clientID;
+	private final Box box;
 	
 	private IntW handle;
+	private boolean deleted = false;
 	
-	public BoxVRep(remoteApi vrep, int clientID, String name) {
-		super(name);
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public BoxVRep(remoteApi vrep, int clientID, Box box) {
 		this.vrep = vrep;
 		this.clientID = clientID;
+		this.box = box;
 		init();
 	}
 	
@@ -23,9 +33,9 @@ public class BoxVRep extends Box {
 		 * Retrive handle
 		 */
 		handle = new IntW(0);
-        int r = vrep.simxGetObjectHandle(clientID, getName(), handle, remoteApi.simx_opmode_blocking);
+        int r = vrep.simxGetObjectHandle(clientID, box.getName(), handle, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of "+getName()+", error : "+r);
+        	System.out.println("ERROR Retriving handle of "+box.getName()+", error : "+r);
         }
 	}
 	

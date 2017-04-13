@@ -5,19 +5,20 @@ import coppelia.IntW;
 import coppelia.remoteApi;
 import unitn.aose.warehousesim.data.Area;
 
-public class AreaVRep extends Area {
+public class AreaVRep {
 	
-	private remoteApi vrep;
-	private int clientID;
+	private final remoteApi vrep;
+	private final int clientID;
+	private final Area area;
 	
 	private IntW areaH;
 	private FloatWA position = new FloatWA(3);
 	
 	
-	public AreaVRep(remoteApi vrep, int clientID, String name, EnvironmentVRep environmentVRep) {
-		super(name, environmentVRep);
+	public AreaVRep(remoteApi vrep, int clientID, Area area, AdapterVRep environmentVRep) {
 		this.vrep = vrep;
 		this.clientID = clientID;
+		this.area = area;
 		init();
 	}
 	
@@ -26,9 +27,9 @@ public class AreaVRep extends Area {
 		 * Retrieve handle
 		 */
 		areaH = new IntW(0);
-        int r = vrep.simxGetObjectHandle(clientID, getName(), areaH, remoteApi.simx_opmode_blocking);
+        int r = vrep.simxGetObjectHandle(clientID, area.getName(), areaH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of "+getName()+", error : "+r);
+        	System.out.println("ERROR Retriving handle of "+area.getName()+", error : "+r);
         }
         
         /*
@@ -36,7 +37,7 @@ public class AreaVRep extends Area {
          */
 		r = vrep.simxGetObjectPosition(clientID, areaH.getValue(), -1, position, remoteApi.simx_opmode_streaming);
         if(r!=remoteApi.simx_return_ok && r!=remoteApi.simx_return_novalue_flag) {
-        	System.out.println("ERROR Retriving area position "+getName()+", error : "+r);
+        	System.out.println("ERROR Retriving area position "+area.getName()+", error : "+r);
         }
 	}
 	

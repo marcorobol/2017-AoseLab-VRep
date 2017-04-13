@@ -1,23 +1,23 @@
 package unitn.aose.warehousesim.data;
 
-import unitn.aose.warehousesim.IEnvironment;
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.observable.ObservableAreaState;
+import unitn.aose.warehousesim.simulator.IAdapter;
 
 
 public class Area extends AreaRef implements ITellerMachine {
 
-	private IEnvironment environment;
+	private IAdapter adapter;
 	private ObservableAreaState areaState;
 	private BoxRef requestedBox;
 	private Box box;
 	
-	public Area(String name, IEnvironment environment) {
+	public Area(String name, IAdapter adapter) {
 		super(name);
-		this.environment = environment;
+		this.adapter = adapter;
 		this.areaState = new ObservableAreaState();
 	}
 
@@ -58,20 +58,33 @@ public class Area extends AreaRef implements ITellerMachine {
 		}
 		return areaState.get();
 	}
-
+	
+	
+	
 	@Override
-	public BoxRef drop() {
+	public BoxRef createBox() {
 		if(getState().get().equals(AreaState.free)) {
+			
+			Box box = adapter.createBoxIn(this);
+			
+			setBox(box);
+			box.setArea(this);
 			getState().set(AreaState.boxAvailable);
-			return environment.createBoxIn(this);
 		}
 		return null;
 	}
-
+	
+	
+	
 	@Override
-	public void collect() {
+	public void removeBox() {
 		if(getState().get().equals(AreaState.boxAvailable)) {
-			environment.deleteBoxIn(this);
+			
+			adapter.deleteBox(getBox());
+
+			box.setArea(null);
+			setBox(null);
+			getState().set(AreaState.free);
 		}
 	}
 	

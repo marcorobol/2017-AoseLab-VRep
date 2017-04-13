@@ -1,18 +1,20 @@
 package unitn.aose.warehousesim.tellerMachine;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Button;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import unitn.aose.warehousesim.api.AreaState;
-import unitn.aose.warehousesim.api.ICross;
 import unitn.aose.warehousesim.api.IListener;
-import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
-import unitn.aose.warehousesim.api.LoadUnloadState;
-import unitn.aose.warehousesim.api.MovementState;
-import unitn.aose.warehousesim.api.data.AreaRef;
-import unitn.aose.warehousesim.api.data.BoxRef;
 
 public class TellerMachineGui {
 
@@ -69,14 +71,14 @@ public class TellerMachineGui {
 	   Button drop = new Button("drop");
 	   drop.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-			   m.drop();
+			   m.createBox();
 		   }
 	   });
 	   
 	   Button collect = new Button("collect");
 	   collect.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-        	 m.collect();
+        	 m.removeBox();
 		   }
 	   });
 	   
