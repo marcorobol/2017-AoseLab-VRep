@@ -119,25 +119,13 @@
 		:val  `body()
 {
     dataLog.log("hello plan! " + myRobot.getName());
-    Object onLeft=null;
-    while(onLeft == null){
-        try{ 
-            //Object pos = myRobot.getPosition().get(); //position of the robot
-            /* Object movement = myRobot.getMovement().get(); //what the robot is doing
-            onLeft = myRobot.getAreaOnLeft().get();
-            Object loadUnloadState = myRobot.getLoadUnload().get(); //load or unload state
-            agentInfo.add(myRobot.getName(), pos.toString(), movement.toString(), loadUnloadState.toString());*/
-            //dataLog.log("ROBOT NAME = " + myRobot.getName()); // + " POSITION = " + pos + " MOVEMENT = " + movement + " LEFT " + onLeft+ " STATE= " + loadUnloadState);
-            
-        }
-        catch(Exception e){
-            dataLog.log("Error beliefset: "+e);
-        }
-        
+    //Object onLeft=null;
+    @sleep(5);
+    while(true){
         myRobot.stopHere();
         @sleep(1);
         myRobot.moveBackward();
-        
+        dataLog.log("moving backward "+myRobot.getName());
         @sleep(5);
         myRobot.stopHere();
         @sleep(1);
@@ -145,10 +133,7 @@
         @sleep(5); 
     }
   
-    if(onLeft != null){
-        myRobot.stopHere();
-        //myRobot.loadLeft();
-    }
+ 
     
     
 }

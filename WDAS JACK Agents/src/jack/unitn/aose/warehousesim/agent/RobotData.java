@@ -24,6 +24,7 @@ public class RobotData extends Observable {
     private Float velocity;
     private BoxRef loadedBox;
     private String name;
+    private BoxRef boxOnRight, boxOnLeft;
     
     public RobotData(){}
     
@@ -31,17 +32,24 @@ public class RobotData extends Observable {
      * Method to update the fields and notify when they changed
      */
     public void update(){
-    	pos=(int)robot.getPosition().get();
-    	movementState=(MovementState)robot.getMovement().get();
-    	loadUnloadState=(LoadUnloadState)robot.getLoadUnload().get();
-    	areaRefLeft=(AreaRef)robot.getAreaOnLeft().get();
-    	areaRefRight=(AreaRef)robot.getAreaOnRight().get();
-    	iCrossHaed=(ICross)robot.getCrossHaed().get();
-    	iCrossBehind=(ICross)robot.getCrossBehind().get();
-    	iCrossHere=(ICross)robot.getCrossHere().get();
+    	if(null==robot) return;
+    	boxOnLeft=robot.getBoxOnLeft();
+    	boxOnRight=robot.getBoxOnRight();
     	//velocity=(Float)robot.getVelocity();
-    	loadedBox=(BoxRef)robot.getLoadedBox();
-    	name=(String)robot.getName();
+    	loadedBox=robot.getLoadedBox();
+    	name=robot.getName();
+    	try{
+	    	pos=(int)robot.getPosition().get();
+	    	movementState=(MovementState)robot.getMovement().get();
+	    	loadUnloadState=(LoadUnloadState)robot.getLoadUnload().get();
+	    	areaRefLeft=(AreaRef)robot.getAreaOnLeft().get();
+	    	areaRefRight=(AreaRef)robot.getAreaOnRight().get();
+	    	iCrossHaed=(ICross)robot.getCrossHaed().get();
+	    	iCrossBehind=(ICross)robot.getCrossBehind().get();
+	    	iCrossHere=(ICross)robot.getCrossHere().get();
+    	}catch(NullPointerException e){
+    		System.err.println("ERROR: cannot update robot data "+robot+": "+e.getMessage());
+    	}
     	
     	this.setChanged();
     	this.notifyObservers();
@@ -50,6 +58,7 @@ public class RobotData extends Observable {
       
     public void setRobot(IRobot r){
         robot = r;
+        update();
     }
     
     // actuators ----->
@@ -101,11 +110,11 @@ public class RobotData extends Observable {
 	}
 	
 	public BoxRef getBoxOnLeft() {
-		return robot.getBoxOnLeft();
+		return boxOnLeft;
 	}
 	
 	public BoxRef getBoxOnRight() {
-		return robot.getBoxOnRight();
+		return boxOnRight;
 	}
 	
 	public AreaState getAreaState(AreaRef area) {

@@ -15,6 +15,12 @@
 		<BAPI_TextLine
 		    :val  "unitn.aose.warehousesim.agent"
 		>
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "aos.jack.util.cursor.Change"
+		    >
+		)
 	>
     :handled_event
 	<BAPI_FileRef
@@ -66,6 +72,38 @@
     :databases
 	(
 	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "dataLog"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "RobotInfo"
+		:filename  "unitn/aose/warehousesim/agent/RobotInfo_-robotInfo.gnd"
+		:label  "uses RobotInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "robotInfo"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "RobotData"
 		:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
 		:label  "uses RobotData"
@@ -89,7 +127,13 @@
 		:val  `body()
 {
     //da fare!!
-    //@wait_for(myRobot.hasChanged);
+    for(;true;){
+        @wait_for(new Change(myRobot, false)); //change?
+        
+        //robotInfo.add((int)myRobot.getPosition().get(),...);
+        dataLog.log("updating "+myRobot.getName()+"'s agent beliefset at "+agent.timer.getTime());
+    }
+   
 }
 `
 	    >

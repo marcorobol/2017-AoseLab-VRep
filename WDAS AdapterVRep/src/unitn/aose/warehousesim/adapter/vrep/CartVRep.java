@@ -90,8 +90,9 @@ public class CartVRep implements IAdapterCart {
 	@Override
 	public void moveTo(Integer index) {
 //		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0, remoteApi.simx_opmode_streaming);
-		vrep.simxSetJointTargetPosition(clientID, jointH.getValue(), adapter.getRail(rail).getStepLenght()*index, remoteApi.simx_opmode_oneshot);
-		System.out.println("DEBUG: "+cartName+" stopHere() current: "+positionJointVRep.getValue()+", target: "+adapter.getRail(rail).getStepLenght()*index);
+		float apos = adapter.getRail(rail).getStepLenght()*index.intValue();
+		vrep.simxSetJointTargetPosition(clientID, jointH.getValue(), apos, remoteApi.simx_opmode_oneshot);
+		System.out.println("DEBUG: "+cartName+" stopHere() current: "+positionJointVRep.getValue()+", target: "+apos);
 	}
 	
 	@Override

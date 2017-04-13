@@ -309,8 +309,12 @@ public class Cart extends CartRef implements IRobot {
 	@Override
 	public void stopHere() {
 		Integer index = getPosition().get();
-		adapter.getAdapterCart(this).moveTo(index);
-		getMovement().set(MovementState.stopping);
+		if(null != index){
+			adapter.getAdapterCart(this).moveTo(index);
+			getMovement().set(MovementState.stopping);
+		}else{
+			//current position not set, cannpt stop (yet)
+		}
 	}
 
 	@Override

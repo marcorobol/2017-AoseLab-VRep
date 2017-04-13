@@ -242,6 +242,12 @@
     :packages
 	(
 	    <AString
+		:val  "aos.jack.jak.util.timer"
+	    >
+	    <AString
+		:val  "aos.jack.util.cursor"
+	    >
+	    <AString
 		:val  "java.text"
 	    >
 	    <AString
