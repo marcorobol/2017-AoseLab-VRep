@@ -88,7 +88,8 @@
 		:lab  "body"
 		:val  `body()
 {
-    //@wait_for(rd.changed);
+    //da fare!!
+    //@wait_for(myRobot.hasChanged);
 }
 `
 	    >

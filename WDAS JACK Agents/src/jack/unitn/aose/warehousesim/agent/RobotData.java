@@ -23,9 +23,10 @@ public class RobotData extends Observable {
     private MovementState movementState;
     private LoadUnloadState loadUnloadState;
     private AreaRef areaRefRight, areaRefLeft;
-    private AreaState areaState;
     private ICross iCrossHaed, iCrossBehind, iCrossHere;
-    private CartRef cartAround;
+    private Float velocity;
+    private BoxRef loadedBox;
+    private String name;
     
     public RobotData(){}
     
@@ -38,20 +39,18 @@ public class RobotData extends Observable {
     	loadUnloadState=(LoadUnloadState)robot.getLoadUnload().get();
     	areaRefLeft=(AreaRef)robot.getAreaOnLeft().get();
     	areaRefRight=(AreaRef)robot.getAreaOnRight().get();
-    	//areaState=robot.getAreaState(area).toString;
     	iCrossHaed=(ICross)robot.getCrossHaed().get();
     	iCrossBehind=(ICross)robot.getCrossBehind().get();
     	iCrossHere=(ICross)robot.getCrossHere().get();
-    	//cartAround=robot.getCartAround(pos).toString;
+    	velocity=(Float)robot.getVelocity();
+    	loadedBox=(BoxRef)robot.getLoadedBox();
+    	name=(String)robot.getName();
+    	
     	this.setChanged();
     	this.notifyObservers();
     }
     
-    
-    /*
-     * -----
-     */
-    
+      
     public void setRobot(IRobot r){
         robot = r;
     }
@@ -113,7 +112,7 @@ public class RobotData extends Observable {
 	}
 	
 	public AreaState getAreaState(AreaRef area) {
-		return areaState;
+		return (AreaState)robot.getAreaState(area).get();
 	}
 	
 	public ICross getCrossHaed() {
@@ -137,11 +136,11 @@ public class RobotData extends Observable {
 	}
 	
 	public String getName() {
-		return robot.getName();
+		return name;
 	}
 	
 	public BoxRef getLoadedBox() {
-		return robot.getLoadedBox();
+		return loadedBox;
 	}
 	
 	public int getPosition() {
@@ -149,7 +148,7 @@ public class RobotData extends Observable {
 	}
 	
 	public Float getVelocity() {
-		return robot.getVelocity();
+		return velocity;
 	}
     
 }
