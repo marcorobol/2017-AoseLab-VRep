@@ -134,9 +134,16 @@
             myRobot.getMovement(),
             myRobot.getLoadUnload(),
             myRobot.getAreaOnLeft(),
-            myRobot.getAreaOnRight());
+            myRobot.getAreaOnRight(),
+            myRobot.getBoxOnLeft(),
+            myRobot.getBoxOnRight(),
+            myRobot.getCrossHaed(),
+            myRobot.getCrossBehind(),
+            myRobot.getCrossHere(),
+            myRobot.getLoadedBox());
+            
+        dataLog.log("Beliefset updated");
         
-        //dataLog.log("updating "+myRobot.getName()+"'s agent beliefset at "+agent.timer.getTime());
     }
    
 }

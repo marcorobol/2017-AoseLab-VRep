@@ -119,33 +119,21 @@
 		:val  `body()
 {
     dataLog.log("hello plan! " + myRobot.getName());
-    //Object onLeft=null;
+    /*
+     * Example of how to move the robot
+     */
     @sleep(5);
     while(true){
         myRobot.stopHere();
         @sleep(1);
         myRobot.moveBackward();
-        dataLog.log("moving backward "+myRobot.getName());
-        @sleep(5);
-        myRobot.stopHere();
         @sleep(1);
-        myRobot.moveForward();
+        myRobot.stopHere();
         @sleep(5);
-        /*logical int $ms;
-        robotInfo.getMovement($ms);
-        
-        dataLog.log("movement is "+$ms.as_int());*/
-        
-        logical String $aol;
-        robotInfo.getAreaOnLeft($aol);
-        dataLog.log("--------AREA LEFT "+ $aol);
-        
-        
+        myRobot.moveForward();
+        @sleep(5);          
+                    
     }
-  
- 
-    
-    
 }
 `
 	    >

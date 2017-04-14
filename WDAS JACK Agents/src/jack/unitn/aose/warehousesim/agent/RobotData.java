@@ -16,41 +16,46 @@ import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
 public class RobotData extends Observable {
 	
     private IRobot robot;
-    private int pos;
-    private int movementState;
-    private int loadUnloadState;
-    private String areaRight, areaLeft;
-    private ICross iCrossHaed, iCrossBehind, iCrossHere;
-    private Float velocity;
-    private BoxRef loadedBox;
-    private String name;
-    private BoxRef boxOnRight, boxOnLeft;
+    private String name; 					//name of the robot
+    private int pos; 						//position of the robot
+    private int movementState; 				//actual movement of the robot
+    private int loadUnloadState; 			//whether the robot is loaded or not, or it's loading
+    private String areaRight, areaLeft; 	//name of the area (left/right)
+    private String boxOnRight, boxOnLeft; 	//name of the box (left/right)
+    private String iCrossHaed, iCrossBehind, iCrossHere;
+    private Float velocity;					//velocity of the robot
+    private String loadedBox;				//name of the loaded box on the robot
+    
+    
+    /*
+     * Transform the enum in int
+     */
     public static final int MS_STOP=0, MS_RUNNINGFORWARD=1, MS_RUNNINGBACKWARD=2, MS_STOPPING=3;
     public static final int LUS_UNLOADED=0, LUS_LOADED=1, LUS_LOADINGLEFT=2, LUS_LOADINGRIGHT=3, LUS_UNLOADINGLEFT=4, LUS_UNLOADINGRIGHT=5;
     
     public RobotData(){}
     
     /*
-     * Method to update the fields and notify when they changed
+     * Method to update the fields and notify when they change
      */
     public void update(){
     	if(null==robot) return;
-    	boxOnLeft=robot.getBoxOnLeft();
-    	boxOnRight=robot.getBoxOnRight();
-    	//velocity=(Float)robot.getVelocity();
-    	loadedBox=robot.getLoadedBox();
-    	name=robot.getName();
+    	name=robot.getName(); //name never change
+    	
     	try{
-	    	pos=(int)robot.getPosition().get();
-	    	movementState=((MovementState)robot.getMovement().get()).ordinal();
-	    	loadUnloadState=((LoadUnloadState)robot.getLoadUnload().get()).ordinal();
+    		pos=(int)robot.getPosition().get(); 
+	    	movementState=((MovementState)robot.getMovement().get()).ordinal(); 
+    		boxOnLeft=((BoxRef)robot.getBoxOnLeft()).getName(); 
+    		boxOnRight=((BoxRef)robot.getBoxOnRight()).getName();
+	    	loadUnloadState=((LoadUnloadState)robot.getLoadUnload().get()).ordinal(); 
 	    	areaLeft=((AreaRef)robot.getAreaOnLeft().get()).getName();
 	    	areaRight=((AreaRef)robot.getAreaOnRight().get()).getName();
-	    	iCrossHaed=(ICross)robot.getCrossHaed().get();
-	    	iCrossBehind=(ICross)robot.getCrossBehind().get();
-	    	iCrossHere=(ICross)robot.getCrossHere().get();
+	    	iCrossHaed=(String)((ICross)robot.getCrossHaed().get()).getRail().getName();
+	    	iCrossBehind=(String)((ICross)robot.getCrossBehind().get()).getRail().getName();
+	    	iCrossHere=(String)((ICross)robot.getCrossHere().get()).getRail().getName();
+	    	loadedBox=((BoxRef)robot.getLoadedBox()).getName();
     	}catch(NullPointerException e){
-    		System.err.println("ERROR: cannot update robot data "+robot+": "+e.getMessage());
+    		System.err.println("ERROR: cannot update robot data "+robot+": "+e.getMessage()); //previous fields null
     	}
     	
     	this.setChanged();
@@ -103,7 +108,7 @@ public class RobotData extends Observable {
 		return loadUnloadState;
 	}
 	
-	public String getAreaOnLeft() {
+	public String getAreaOnLeft() { //AreaRef -> getName()-> String
 		return areaLeft;
 	}
 	
@@ -111,11 +116,11 @@ public class RobotData extends Observable {
 		return areaRight;
 	}
 	
-	public BoxRef getBoxOnLeft() {
+	public String getBoxOnLeft() { //BoxRef -> String
 		return boxOnLeft;
 	}
 	
-	public BoxRef getBoxOnRight() {
+	public String getBoxOnRight() {
 		return boxOnRight;
 	}
 	
@@ -123,31 +128,23 @@ public class RobotData extends Observable {
 		return (AreaState)robot.getAreaState(area).get();
 	}
 	
-	public ICross getCrossHaed() {
+	public String getCrossHaed() {
 		return iCrossHaed;
 	}
 	
-	public ICross getCrossBehind() {
+	public String getCrossBehind() {
 		return iCrossBehind;
 	}
 	
-	public ICross getCrossHere() {
+	public String getCrossHere() {
 		return iCrossHere;
 	}
-	
-	public CartRef getCartAround(PositionWithRespectToMe pos) {
-		return (CartRef)robot.getCartAround(pos).get();
-	}
-	
-	public ICartPerception getCartPerception(CartRef cart) {
-		return robot.getCartPerception(cart);
-	}
-	
+		
 	public String getName() {
 		return name;
 	}
 	
-	public BoxRef getLoadedBox() {
+	public String getLoadedBox() {
 		return loadedBox;
 	}
 	
@@ -156,12 +153,23 @@ public class RobotData extends Observable {
 	}
 	
 	/**
-	 * 
+	 * Velocity no longer exists
 	 * @deprecated velocity is no updated
 	 * @return
 	 */
 	public Float getVelocity() {
 		return velocity;
+	}
+	
+	/*
+	 * Methods that cannot be updated in update()
+	 */
+	public CartRef getCartAround(PositionWithRespectToMe pos) { 
+		return (CartRef)robot.getCartAround(pos).get();
+	}
+	
+	public ICartPerception getCartPerception(CartRef cart) {
+		return robot.getCartPerception(cart);
 	}
     
 }
