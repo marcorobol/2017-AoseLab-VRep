@@ -124,12 +124,9 @@
      */
     @sleep(5);
     while(true){
-        //dataLog.log("---------------------------------------- " + myRobot.getPosition() +" -----------------------------------");
         if(myRobot.getPosition()==3) { 
-            //dataLog.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            myRobot.stopHere();
+           myRobot.stopHere();
             myRobot.loadLeft();
-            
         }
         else{
             myRobot.stopHere();

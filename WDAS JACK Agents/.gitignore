@@ -6,3 +6,4 @@ src/java
 *.bel
 *.bak
 *.old
+/target/
