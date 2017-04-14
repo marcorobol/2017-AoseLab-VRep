@@ -124,16 +124,27 @@
      */
     @sleep(5);
     while(true){
-        myRobot.stopHere();
-        @sleep(1);
-        myRobot.moveBackward();
-        @sleep(1);
-        myRobot.stopHere();
-        @sleep(5);
-        myRobot.moveForward();
-        @sleep(5);          
-                    
+        //dataLog.log("---------------------------------------- " + myRobot.getPosition() +" -----------------------------------");
+        if(myRobot.getPosition()==3) { 
+            //dataLog.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            myRobot.stopHere();
+            myRobot.loadLeft();
+            
+        }
+        else{
+            myRobot.stopHere();
+            @sleep(1);
+            myRobot.moveBackward();
+            @sleep(1);
+            myRobot.stopHere();
+            @sleep(5);
+            myRobot.moveForward();
+            @sleep(5);          
+        }
     }
+    
+         
+    //if(myRobot.getPosition()==3) myRobot.stopHere();
 }
 `
 	    >

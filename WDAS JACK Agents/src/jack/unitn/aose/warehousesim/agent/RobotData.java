@@ -40,6 +40,7 @@ public class RobotData extends Observable {
      */
     public void update(){
     	if(null==robot) return;
+    	
     	name=robot.getName(); //name never change
     	
     	try{
@@ -55,7 +56,7 @@ public class RobotData extends Observable {
 	    	iCrossHere=(String)((ICross)robot.getCrossHere().get()).getRail().getName();
 	    	loadedBox=((BoxRef)robot.getLoadedBox()).getName();
     	}catch(NullPointerException e){
-    		System.err.println("ERROR: cannot update robot data "+robot+": "+e.getMessage()); //previous fields null
+    		//System.err.println("ERROR: cannot update robot data "+robot.getName()+": "+e.getMessage()); //previous fields null
     	}
     	
     	this.setChanged();

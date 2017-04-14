@@ -142,7 +142,9 @@
             myRobot.getCrossHere(),
             myRobot.getLoadedBox());
             
-        dataLog.log("Beliefset updated");
+        //dataLog.log("Beliefset updated");
+        logical int $p;
+        robotInfo.getPosition($p);
         
     }
    
