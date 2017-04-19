@@ -123,8 +123,8 @@
      * Example of how to move the robot
      */
     @sleep(5);
-    while(true){
-        if(myRobot.getPosition()==3) { 
+    /*while(true){
+        if(myRobot.getPosition()==4) { 
            myRobot.stopHere();
             myRobot.loadLeft();
         }
@@ -139,7 +139,8 @@
             @sleep(5);          
         }
     }
-    
+    */
+   myRobot.moveBackward();
          
     //if(myRobot.getPosition()==3) myRobot.stopHere();
 }

@@ -1,5 +1,6 @@
 package unitn.aose.warehousesim.agent;
 
+import java.util.Date;
 import java.util.Observable;
 
 import unitn.aose.warehousesim.api.AreaState;
@@ -11,7 +12,9 @@ import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
+import unitn.aose.warehousesim.api.data.MovementWithRespectToMe;
 import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
+import unitn.aose.warehousesim.api.data.RailRef;
 
 public class RobotData extends Observable {
 	
@@ -26,12 +29,18 @@ public class RobotData extends Observable {
     private Float velocity;					//velocity of the robot
     private String loadedBox;				//name of the loaded box on the robot
     
+    private ICartPerception cartP;
+    private Date lastUpdate;				
+    private String cart;					//name of the cart around me
+    private String rail;					//name of the rail
+    private int movementWithRes;			//
     
     /*
      * Transform the enum in int
      */
     public static final int MS_STOP=0, MS_RUNNINGFORWARD=1, MS_RUNNINGBACKWARD=2, MS_STOPPING=3;
     public static final int LUS_UNLOADED=0, LUS_LOADED=1, LUS_LOADINGLEFT=2, LUS_LOADINGRIGHT=3, LUS_UNLOADINGLEFT=4, LUS_UNLOADINGRIGHT=5;
+    public static final int MWR_gettingCloser =0, MWR_goingAway=1, MWR_steady=2, MWR_unknown=3;
     
     public RobotData(){}
     
@@ -39,24 +48,39 @@ public class RobotData extends Observable {
      * Method to update the fields and notify when they change
      */
     public void update(){
+    	
     	if(null==robot) return;
+    	CartRef cr = (CartRef)robot.getCartAround(PositionWithRespectToMe.behind).get();
+    	if(cr!=null){
+    		cartP = robot.getCartPerception(cr);
+    		System.out.println("------------ BEHIND = " + cr.getName());
+    	}
+    	else {
+    		System.out.println("------------ CR NULL --------- ");
+    	}
     	
     	name=robot.getName(); //name never change
     	
     	try{
-    		pos=(int)robot.getPosition().get(); 
-	    	movementState=((MovementState)robot.getMovement().get()).ordinal(); 
-    		boxOnLeft=((BoxRef)robot.getBoxOnLeft()).getName(); 
-    		boxOnRight=((BoxRef)robot.getBoxOnRight()).getName();
+    		/*pos=(int)robot.getPosition().get(); 									
+	    	movementState=((MovementState)robot.getMovement().get()).ordinal(); 	
+    		boxOnLeft=((BoxRef)robot.getBoxOnLeft()).getName(); 					
+    		boxOnRight=((BoxRef)robot.getBoxOnRight()).getName();					
 	    	loadUnloadState=((LoadUnloadState)robot.getLoadUnload().get()).ordinal(); 
-	    	areaLeft=((AreaRef)robot.getAreaOnLeft().get()).getName();
-	    	areaRight=((AreaRef)robot.getAreaOnRight().get()).getName();
+	    	areaLeft=((AreaRef)robot.getAreaOnLeft().get()).getName();				
+	    	areaRight=((AreaRef)robot.getAreaOnRight().get()).getName();			
 	    	iCrossHaed=(String)((ICross)robot.getCrossHaed().get()).getRail().getName();
 	    	iCrossBehind=(String)((ICross)robot.getCrossBehind().get()).getRail().getName();
 	    	iCrossHere=(String)((ICross)robot.getCrossHere().get()).getRail().getName();
-	    	loadedBox=((BoxRef)robot.getLoadedBox()).getName();
+	    	loadedBox=((BoxRef)robot.getLoadedBox()).getName();	*/
+	    	
+	    	/*lastUpdate=cartP.getLastUpdate();
+	    	cart=((CartRef)cartP.getCart()).getName();
+	    	rail=((RailRef)cartP.getRail()).getName();
+	    	*/
+	    	
     	}catch(NullPointerException e){
-    		//System.err.println("ERROR: cannot update robot data "+robot.getName()+": "+e.getMessage()); //previous fields null
+    		System.err.println("ERROR: cannot update robot data "+robot.getName()+": "+e.getMessage()); //previous fields null
     	}
     	
     	this.setChanged();
@@ -68,6 +92,27 @@ public class RobotData extends Observable {
         robot = r;
         update();
     }
+    
+    
+    /*
+     * NEW METHODS
+     */
+    
+    public Date getLastUpdate(){
+    	return lastUpdate;
+    }
+    
+    public String getCart(){
+    	return cart;    	
+    }
+    
+    public String getRail(){
+    	return rail;
+    }
+    
+    /*
+     * END
+     */
     
     // actuators ----->
 	

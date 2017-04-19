@@ -143,8 +143,9 @@
             myRobot.getLoadedBox());
             
         //dataLog.log("Beliefset updated");
-        logical int $p;
-        robotInfo.getPosition($p);
+        //logical int $p;
+        //robotInfo.getPosition($p);
+        //dataLog.log("----- RAIL AROUND ME = " + myRobot.getRail());
         
     }
    
