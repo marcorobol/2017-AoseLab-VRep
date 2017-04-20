@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "Plan_1"
     :filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
@@ -111,6 +114,22 @@
 		:refType  "uses"
 		:refName  "robotInfo"
 	    >
+	    <BAPI_FileRef
+		:name  "PerceptionInfo"
+		:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-otherRobots.gnd"
+		:label  "uses PerceptionInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "otherRobots"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	)
     :reasoning_methods
 	(
@@ -123,7 +142,7 @@
      * Example of how to move the robot
      */
     @sleep(5);
-    /*while(true){
+    while(true){
         if(myRobot.getPosition()==4) { 
            myRobot.stopHere();
             myRobot.loadLeft();
@@ -139,8 +158,6 @@
             @sleep(5);          
         }
     }
-    */
-   myRobot.moveBackward();
          
     //if(myRobot.getPosition()==3) myRobot.stopHere();
 }

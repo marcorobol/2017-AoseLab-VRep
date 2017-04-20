@@ -118,6 +118,22 @@ test
 		:refType  "private"
 		:refName  "robotInfo"
 	    >
+	    <BAPI_FileRef
+		:name  "PerceptionInfo"
+		:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-otherRobots.gnd"
+		:label  "private PerceptionInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "otherRobots"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	)
     :events
 	(

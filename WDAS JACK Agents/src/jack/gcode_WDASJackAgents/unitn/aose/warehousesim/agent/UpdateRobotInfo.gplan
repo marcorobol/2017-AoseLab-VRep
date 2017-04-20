@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "UpdateRobotInfo"
     :filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
@@ -19,6 +22,12 @@
 		(
 		    <BAPI_TextLine
 			:val  "aos.jack.util.cursor.Change"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.ICartPerception"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.MovementWithRespectToMe"
 		    >
 		)
 	>
@@ -119,6 +128,22 @@
 		:refName  "myRobot"
 		:dropHandlerName  "NamedData.drop"
 	    >
+	    <BAPI_FileRef
+		:name  "PerceptionInfo"
+		:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-otherRobots.gnd"
+		:label  "uses PerceptionInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "otherRobots"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	)
     :reasoning_methods
 	(
@@ -142,11 +167,17 @@
             myRobot.getCrossHere(),
             myRobot.getLoadedBox());
             
-        //dataLog.log("Beliefset updated");
-        //logical int $p;
-        //robotInfo.getPosition($p);
-        //dataLog.log("----- RAIL AROUND ME = " + myRobot.getRail());
-        
+        for(int pwr=0; pwr<8; ++pwr){
+            ICartPerception p = myRobot.getCartPerception(pwr);
+            if(null != p){
+                MovementWithRespectToMe mwr = (MovementWithRespectToMe)p.getMovementWithRespectToMe().get();
+                String name = p.getCart().getName();
+                otherRobots.add(pwr, name, RobotData.getMovementWithRespectToMe(mwr));
+                dataLog.log("cart perception at "+pwr+" "+name+" "+mwr);
+            }else{
+                otherRobots.remove(pwr);
+            }
+        }
     }
    
 }

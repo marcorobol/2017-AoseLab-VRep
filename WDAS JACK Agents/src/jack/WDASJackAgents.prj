@@ -129,6 +129,19 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:name  "otherRobots"
+					:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-otherRobots.gnd"
+					:label  "PerceptionInfo"
+					:type  "aos.jack.ed.NamedData"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:name  "dataLog"
 					:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
 					:label  "DataLog"
@@ -182,6 +195,18 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/PerceptionInfo.gdb"
+					:label  "PerceptionInfo"
+					:type  "aos.jack.ed.Database"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/RobotInfo.gdb"
 					:label  "RobotInfo"
 					:type  "aos.jack.ed.Database"
@@ -220,9 +245,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn/aose/warehousesim/agent/RobotData.java"
+			    :name  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
 			    :filename  "unitn/aose/warehousesim/agent/RobotData.java"
-			    :label  "unitn/aose/warehousesim/agent/RobotData.java"
+			    :label  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 			<BAPI_OtherFile
@@ -231,9 +256,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn/aose/warehousesim/agent/DataLog.java"
+			    :name  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
 			    :filename  "unitn/aose/warehousesim/agent/DataLog.java"
-			    :label  "unitn/aose/warehousesim/agent/DataLog.java"
+			    :label  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 		    )
@@ -264,6 +289,9 @@
 	    >
 	    <AString
 		:val  "unitn.aose.warehousesim.api"
+	    >
+	    <AString
+		:val  "unitn.aose.warehousesim.api.data"
 	    >
 	)
 >
