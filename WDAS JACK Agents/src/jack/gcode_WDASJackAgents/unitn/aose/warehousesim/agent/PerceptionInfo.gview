@@ -1,0 +1,53 @@
+<BAPI_View
+    :version  52
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "PerceptionInfo"
+    :filename  "unitn/aose/warehousesim/agent/PerceptionInfo.gview"
+    :type  "aos.jack.ed.View"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "RobotPerception"
+		:filename  "unitn/aose/warehousesim/agent/RobotPerception_-otherRobots.gnd"
+		:label  "uses RobotPerception"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ViewDataList.attrs"
+		:refType  "uses"
+		:refName  "otherRobots"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "BoxesPerception"
+		:filename  "unitn/aose/warehousesim/agent/BoxesPerception_-boxes.gnd"
+		:label  "uses BoxesPerception"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ViewDataList.attrs"
+		:refType  "uses"
+		:refName  "boxes"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+>

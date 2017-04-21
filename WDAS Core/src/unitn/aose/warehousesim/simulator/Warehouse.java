@@ -62,7 +62,7 @@ public class Warehouse implements IWarehouse {
 
 	public Cart defineCart(String name, RailRef rail) {
 		Cart c = new Cart(name, rails.get(rail), adapter, this);
-		rails.get(c);
+		rails.get(rail).addCart(c);
 		carts.put(c, c);
 		return c;
 	}

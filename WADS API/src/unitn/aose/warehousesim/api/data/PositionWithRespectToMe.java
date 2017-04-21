@@ -48,17 +48,24 @@ public class PositionWithRespectToMe {
 		return lateral;
 	}
 	
-	public boolean equals(PositionWithRespectToMe o) {
-		if(forward==o.getForward() && lateral==o.getLateral())
-			return true;
-		return false;
+	@Override
+	public int hashCode() {
+		if(null == forward || null == lateral) return -1;
+		return (forward+1)|(lateral+1)<<2;
+	};
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof PositionWithRespectToMe){
+			PositionWithRespectToMe p = (PositionWithRespectToMe)o;
+			return (forward==p.forward && lateral==p.lateral);	
+		}else{
+			return false;
+		}
 	}
 	
-//	static PositionWithRespectToMe get(int i, int j) {
-//		if(i==1&&j==0)
-//			return haed;
-//		return unknown;
-//	}
-	
-	
+	@Override
+	public String toString(){
+		return this.getClass().getSimpleName()+"[f:"+forward+";l:"+lateral+"]";
+	}
 }

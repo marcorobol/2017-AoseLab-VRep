@@ -129,9 +129,22 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:name  "boxes"
+					:filename  "unitn/aose/warehousesim/agent/BoxesPerception_-boxes.gnd"
+					:label  "BoxesPerception"
+					:type  "aos.jack.ed.NamedData"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:name  "otherRobots"
-					:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-otherRobots.gnd"
-					:label  "PerceptionInfo"
+					:filename  "unitn/aose/warehousesim/agent/RobotPerception_-otherRobots.gnd"
+					:label  "RobotPerception"
 					:type  "aos.jack.ed.NamedData"
 					:java
 					    <BAPI_Java
@@ -195,8 +208,20 @@
 			    :list
 				(
 				    <BAPI_Filename
-					:filename  "unitn/aose/warehousesim/agent/PerceptionInfo.gdb"
-					:label  "PerceptionInfo"
+					:filename  "unitn/aose/warehousesim/agent/BoxesPerception.gdb"
+					:label  "BoxesPerception"
+					:type  "aos.jack.ed.Database"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/RobotPerception.gdb"
+					:label  "RobotPerception"
 					:type  "aos.jack.ed.Database"
 					:java
 					    <BAPI_Java
@@ -223,6 +248,21 @@
 			<TaggedList
 			    :label  "View Types"
 			    :tag  "ContainerDesc.views"
+			    :list
+				(
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/PerceptionInfo.gview"
+					:label  "PerceptionInfo"
+					:type  "aos.jack.ed.View"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				)
 			>
 			<TaggedList
 			    :label  "TeamData Types"

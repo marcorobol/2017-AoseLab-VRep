@@ -9,8 +9,8 @@
  * 
  */`
 	>
-    :name  "PerceptionInfo"
-    :filename  "unitn/aose/warehousesim/agent/PerceptionInfo.gdb"
+    :name  "RobotPerception"
+    :filename  "unitn/aose/warehousesim/agent/RobotPerception.gdb"
     :type  "aos.jack.ed.Database"
     :java
 	<BAPI_Java

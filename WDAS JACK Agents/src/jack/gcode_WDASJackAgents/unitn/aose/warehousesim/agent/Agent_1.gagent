@@ -119,9 +119,9 @@ test
 		:refName  "robotInfo"
 	    >
 	    <BAPI_FileRef
-		:name  "PerceptionInfo"
-		:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-otherRobots.gnd"
-		:label  "private PerceptionInfo"
+		:name  "RobotPerception"
+		:filename  "unitn/aose/warehousesim/agent/RobotPerception_-otherRobots.gnd"
+		:label  "private RobotPerception"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java

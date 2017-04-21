@@ -66,4 +66,15 @@ public class CartPerception implements ICartPerception {
 		return positionWithRespectToMe;
 	}
 	
+	public int hashCode(){
+		return cart.getName().hashCode();
+	}
+	
+	public boolean equals(Object o){
+		if(!(o instanceof CartPerception)) return false;
+		CartPerception cp = (CartPerception)o;
+		return cart.getName().equals(cp.cart.getName()) &&
+				movementWithRespectToMe.get() == cp.movementWithRespectToMe.get() &&
+				positionWithRespectToMe.get().equals(cp.positionWithRespectToMe.get());
+	}
 }

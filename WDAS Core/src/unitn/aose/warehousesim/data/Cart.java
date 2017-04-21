@@ -59,8 +59,9 @@ public class Cart extends CartRef implements IRobot {
 		this.loadedBox = null;
 		this.cartPerceptions = new HashMap<CartRef, CartPerception>();
 		this.cartAround = new HashMap<PositionWithRespectToMe, ObservableCart>();
-		for(PositionWithRespectToMe p : PositionWithRespectToMe.values())
+		for(PositionWithRespectToMe p : PositionWithRespectToMe.values()){
 			cartAround.put(p, new ObservableCart());
+		}
 		
 		/*
 		 * Monitor changes of position and update other
@@ -88,6 +89,10 @@ public class Cart extends CartRef implements IRobot {
 		
 	}
 	
+	public String toString(){
+		return this.getClass().getSimpleName()+"["+this.getName()+"]";
+	}
+	
 	private void updateOthersPerceptionOfMe() {
 		for(Cart c : rail.getCarts())
 			if(c!=this)
@@ -110,15 +115,23 @@ public class Cart extends CartRef implements IRobot {
 		/*
 		 * Compute distance and movement with respect to me
 		 */
-		PositionWithRespectToMe pos = computeDistanceWithRespectToMe(c);
-		MovementWithRespectToMe mov = computeMovementWithRespectToMe(c);
-		
+		final PositionWithRespectToMe pos = computeDistanceWithRespectToMe(c);
+		final MovementWithRespectToMe mov = computeMovementWithRespectToMe(c);
+
 		/*
 		 * Update cart_around map
 		 */
-		if(cartAround.containsKey(pos))
+		if(!pos.equals(PositionWithRespectToMe.unknown) && cartAround.containsKey(pos)){
 			cartAround.get(pos).set(c);
-		
+		}else{
+			//look for cart in the cartAround map and remove it
+			for(ObservableCart oc : cartAround.values()){
+				if(c.equals(oc.get())){
+					oc.set(null);
+				}
+			}
+		}
+
 		/*
 		 * Update cart_perceptions map
 		 */
@@ -127,7 +140,7 @@ public class Cart extends CartRef implements IRobot {
 			p = new CartPerception(c, c.getRail());
 			cartPerceptions.put(c, p);
 		}
-		
+
 		// If it is farer than 1,1 hide it
 		if(pos==PositionWithRespectToMe.unknown || pos.getForward()>1 || pos.getLateral()>1) {
 			p.getInFieldOfView().set(false);
@@ -142,40 +155,63 @@ public class Cart extends CartRef implements IRobot {
 	}
 	
 	public MovementWithRespectToMe computeMovementWithRespectToMe(Cart cart) {
-		int myPosition = getPosition().get();
+		if(null == position || null == position.get() || null == cart.getPosition() || null == cart.getPosition().get()) return MovementWithRespectToMe.unknown;
+		int myPosition = position.get();
 		int hisPosition = cart.getPosition().get();
+		MovementState cartMovement = cart.getMovement().get();
+		// if not moving...
+		if(cartMovement == MovementState.stop || cartMovement == MovementState.stopping){
+			return MovementWithRespectToMe.steady;
+		}
 		// If on the same rail
-		if(cart.getRail()==getRail())
-			if(myPosition>hisPosition == cart.getMovement().equals(MovementState.runningForward))
+		if(cart.getRail()==getRail()){
+			if((myPosition>hisPosition && cartMovement == MovementState.runningForward) ||
+				(hisPosition>myPosition && cartMovement == MovementState.runningBackward)){
 				return MovementWithRespectToMe.gettingCloser;
-			else
+			} else if((myPosition>hisPosition && cartMovement == MovementState.runningBackward) ||
+					(hisPosition>myPosition && cartMovement == MovementState.runningForward)){
 				return MovementWithRespectToMe.goingAway;
+			}
+		}
 		// If on another rail, look for the cross intersecting that rail
 		for(Integer localIndex : getRail().getCrosses().keySet()) {
 			Cross cross = getRail().getCrosses().get(localIndex);
-			for(Cart c : cross.getRail().getCarts())
-				if(c==cart)
-					if(cross.getRailIndex()>hisPosition == cart.getMovement().equals(MovementState.runningForward))
+			for(Cart c : cross.getRail().getCarts()){
+				if(c==cart){
+					if((cross.getRailIndex()>hisPosition && cartMovement == MovementState.runningForward) ||
+						(cross.getRailIndex()<hisPosition && cartMovement == MovementState.runningBackward)){
 						return MovementWithRespectToMe.gettingCloser;
-					else
+					}else if((cross.getRailIndex()>hisPosition && cartMovement == MovementState.runningBackward) ||
+						(cross.getRailIndex()<hisPosition && cartMovement == MovementState.runningForward)){
 						return MovementWithRespectToMe.goingAway;
+					}
+				}
+			}
 		}
 		return MovementWithRespectToMe.unknown;
 	}
 	
 	public PositionWithRespectToMe computeDistanceWithRespectToMe(Cart cart) {
-		int myPosition = getPosition().get();
+		if(null == position || null == position.get() || null == cart.getPosition() || null == cart.getPosition().get()) return PositionWithRespectToMe.unknown;
+		int myPosition = position.get();
 		int otherPosition = cart.getPosition().get();
 		// If on the same rail
-		if(cart.getRail()==getRail())
-			return new PositionWithRespectToMe(otherPosition-myPosition, 0);
+		if(cart.getRail()==getRail()){
+			PositionWithRespectToMe p = new PositionWithRespectToMe(otherPosition-myPosition, 0);
+			System.out.println("DEBUG "+cart+" "+this+" position with respect to me "+p);
+			return p;
+		}
 		// If on another rail, look for the cross intersecting that rail
-		for(Integer localIndex : getRail().getCrosses().keySet()) {
-			Cross cross = getRail().getCrosses().get(localIndex);
+		for(Integer localIndex : rail.getCrosses().keySet()) {
+			Cross cross = rail.getCrosses().get(localIndex);
 			Integer dir = (cross.isRightTrueOrLeftFalse()?1:-1);
-			for(Cart c : cross.getRail().getCarts())
-				if(c==cart)
-					return new PositionWithRespectToMe(localIndex-myPosition, (otherPosition-cross.getRailIndex())*dir);
+			for(Cart c : cross.getRail().getCarts()){
+				if(c==cart){
+					PositionWithRespectToMe p = new PositionWithRespectToMe(localIndex-myPosition, (otherPosition-cross.getRailIndex())*dir);
+					System.out.println("DEBUG "+cart+" "+this+" position with respect to me "+p);
+					return p;
+				}
+			}
 		}
 		return PositionWithRespectToMe.unknown;
 	}
