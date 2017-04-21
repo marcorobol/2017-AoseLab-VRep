@@ -4,6 +4,14 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * Contains both data from robots and boxes.
+ * Allows to retrieve the data from both the beliefsets based on the position.
+ * The position is an integer (PositionWithRespectToMe) as represented by the DataRobot.PWR_* constants.
+ * The robotmovement (accessible only when a robot is available at the given position) is repsented by the DataRobot.MWR_* constants.
+ * An unbound boxname or robotname means no box or robot is available at the given position.
+ * Additional tip: boxes are only available at PWR_LEFT and PWR_RIGHT.
+ */`
 	>
     :name  "PerceptionInfo"
     :filename  "unitn/aose/warehousesim/agent/PerceptionInfo.gview"
@@ -48,6 +56,21 @@
 		:refType  "uses"
 		:refName  "boxes"
 		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+    :vqueries
+	(
+	    <BAPI_ViewQuery
+		:name  "get"
+		:definition
+		    <BAPI_Text
+			:lab  "get"
+			:val  `get(int position, logical String $boxname, logical String $robotname, logical int $robotmovement){
+    return boxes.get(position, $boxname) && otherRobots.get(position, $robotname, $robotmovement);
+}
+`
+			:isLabelEditable  :false
+		    >
 	    >
 	)
 >

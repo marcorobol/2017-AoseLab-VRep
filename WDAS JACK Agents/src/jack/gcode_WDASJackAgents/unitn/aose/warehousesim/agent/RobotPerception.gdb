@@ -6,7 +6,12 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
- * 
+ * Contains perception data of other robots, specifically:
+ * the relative position of the robot (PositionWithRespectToMe),
+ * the name of the robot and it's relative movement (MovementWithRespectedToMe).
+ * The relative position and movement are mapped as integers in RobotData respectively as
+ * RobotData.PWR_* and RobotData.MWR_*.
+ * No robot is present at a given position if no variable is bound for that position.
  */`
 	>
     :name  "RobotPerception"
@@ -21,15 +26,15 @@
 	>
     :dbfields
 	(
-	    <BAPI_DBField
+	    <BAPI_DBField =0
 		:name  "position"
 		:isKey  :true
 		:type  "int"
 	    >
-	    <BAPI_DBField =0
+	    <BAPI_DBField =1
 		:name  "name"
 	    >
-	    <BAPI_DBField =1
+	    <BAPI_DBField =2
 		:name  "movement"
 		:type  "int"
 	    >
@@ -42,11 +47,29 @@
 		    (
 			<BAPI_InternalRef
 			    :ref
+				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
+		    )
+	    >
+	    <BAPI_DBQuery
+		:name  "get"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
 				<&0 >
 			>
 			<BAPI_InternalRef
 			    :ref
 				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
 			>
 		    )
 	    >

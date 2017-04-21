@@ -5,6 +5,13 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * Contains current robot data, specifically:
+ * the position as a progressive integer along the rail
+ * the movementstate (see RobotData.MS_*)
+ * the load/unload state (see RobotData.LUS_*)
+ * and the name of the loaded box, if any.
+ */`
 	>
     :name  "RobotInfo"
     :filename  "unitn/aose/warehousesim/agent/RobotInfo.gdb"
@@ -37,27 +44,6 @@
 		:type  "int"
 	    >
 	    <BAPI_DBField =3
-		:name  "aol"
-	    >
-	    <BAPI_DBField =4
-		:name  "aor"
-	    >
-	    <BAPI_DBField =5
-		:name  "bol"
-	    >
-	    <BAPI_DBField =6
-		:name  "bor"
-	    >
-	    <BAPI_DBField =7
-		:name  "ch"
-	    >
-	    <BAPI_DBField =8
-		:name  "cb"
-	    >
-	    <BAPI_DBField =9
-		:name  "ce"
-	    >
-	    <BAPI_DBField =10
 		:name  "lb"
 	    >
 	)
@@ -83,34 +69,6 @@
 			    :ref
 				<&3 >
 			>
-			<BAPI_InternalRef
-			    :ref
-				<&4 >
-			>
-			<BAPI_InternalRef
-			    :ref
-				<&5 >
-			>
-			<BAPI_InternalRef
-			    :ref
-				<&6 >
-			>
-			<BAPI_InternalRef
-			    :ref
-				<&7 >
-			>
-			<BAPI_InternalRef
-			    :ref
-				<&8 >
-			>
-			<BAPI_InternalRef
-			    :ref
-				<&9 >
-			>
-			<BAPI_InternalRef
-			    :ref
-				<&10 >
-			>
 		    )
 	    >
 	)
@@ -123,8 +81,8 @@
 			:lab  "getPosition"
 			:val  `getPosition (logical int p) {
     logical int ms, lus;
-    logical String aol, aor, bol, bor, ch, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
+    logical String lb;
+    return getState (p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false
@@ -137,8 +95,8 @@
 			:lab  "getMovement"
 			:val  `getMovement (logical int ms) {
     logical int p, lus;
-    logical String aol, aor, bol, bor, ch, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
+    logical String lb;
+    return getState (p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false
@@ -151,106 +109,8 @@
 			:lab  "getLoadUnload"
 			:val  `getLoadUnload(logical int lus) {
     logical int p, ms;
-    logical String aol, aor, bol, bor, ch, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getAreaOnLeft"
-		:definition
-		    <BAPI_Text
-			:lab  "getAreaOnLeft"
-			:val  `getAreaOnLeft(logical String aol) {
-    logical int p, ms, lus;
-    logical String aor, bol, bor, ch, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getAreaOnRight"
-		:definition
-		    <BAPI_Text
-			:lab  "getAreaOnRight"
-			:val  `getAreaOnRight(logical String aor) {
-    logical int p, ms, lus; 
-    logical String aol, bol, bor, ch, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getBoxOnLeft"
-		:definition
-		    <BAPI_Text
-			:lab  "getBoxOnLeft"
-			:val  `getBoxOnLeft(logical String bol) {
-    logical int p, ms, lus; 
-    logical String aol, aor, bor, ch, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getBoxOnRight"
-		:definition
-		    <BAPI_Text
-			:lab  "getBoxOnRight"
-			:val  `getBoxOnRight(logical String bor) {
-    logical int p, ms, lus; 
-    logical String aol,aor, bol, ch, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getCrossHaed"
-		:definition
-		    <BAPI_Text
-			:lab  "getCrossHaed"
-			:val  `getCrossHaed(logical String ch) {
-    logical int p, ms, lus; 
-    logical String aol,aor, bol, bor, cb, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getCrossBehind"
-		:definition
-		    <BAPI_Text
-			:lab  "getCrossBehind"
-			:val  `getCrossBehind(logical String cb) {
-    logical int p, ms, lus; 
-    logical String aol,aor, bol, bor, ch, ce, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
-}
-`
-			:isLabelEditable  :false
-		    >
-	    >
-	    <BAPI_ViewQuery
-		:name  "getCrossHere"
-		:definition
-		    <BAPI_Text
-			:lab  "getCrossHere"
-			:val  `getCrossHere(logical String ce) {
-    logical int p, ms, lus; 
-    logical String aol,aor, bol, bor, ch, cb, lb;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
+    logical String lb;
+    return getState (p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false
@@ -262,9 +122,8 @@
 		    <BAPI_Text
 			:lab  "getLoadedBox"
 			:val  `getLoadedBox(logical String lb) {
-    logical int p, ms, lus; 
-    logical String aol,aor, bol, bor, ch, cb, ce;
-    return getState (p, ms, lus, aol, aor, bol, bor, ch, cb, ce, lb);
+    logical int p, ms, lus;
+    return getState (p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false

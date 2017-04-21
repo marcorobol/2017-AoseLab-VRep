@@ -144,6 +144,22 @@
 		:refName  "otherRobots"
 		:dropHandlerName  "NamedData.drop"
 	    >
+	    <BAPI_FileRef
+		:name  "BoxesPerception"
+		:filename  "unitn/aose/warehousesim/agent/BoxesPerception_-boxes.gnd"
+		:label  "uses BoxesPerception"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "boxes"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	)
     :reasoning_methods
 	(
@@ -154,19 +170,14 @@
     for(;true;){
         @wait_for(new Change(myRobot, false));
         
+        //update self
         robotInfo.add(
             myRobot.getPosition(), 
             myRobot.getMovement(),
             myRobot.getLoadUnload(),
-            myRobot.getAreaOnLeft(),
-            myRobot.getAreaOnRight(),
-            myRobot.getBoxOnLeft(),
-            myRobot.getBoxOnRight(),
-            myRobot.getCrossHaed(),
-            myRobot.getCrossBehind(),
-            myRobot.getCrossHere(),
             myRobot.getLoadedBox());
             
+        //check other robots
         for(int pwr=0; pwr<8; ++pwr){
             ICartPerception p = myRobot.getCartPerception(pwr);
             if(null != p){
@@ -178,8 +189,21 @@
                 otherRobots.remove(pwr);
             }
         }
+        
+        //check boxes
+        String b = myRobot.getBoxOnLeft();
+        if(null == b){
+            boxes.remove(RobotData.PWR_LEFT);
+        }else{
+            boxes.add(RobotData.PWR_LEFT, b);
+        }
+        b = myRobot.getBoxOnRight();
+        if(null == b){
+            boxes.remove(RobotData.PWR_RIGHT);
+        }else{
+            boxes.add(RobotData.PWR_RIGHT, b);
+        }
     }
-   
 }
 `
 	    >

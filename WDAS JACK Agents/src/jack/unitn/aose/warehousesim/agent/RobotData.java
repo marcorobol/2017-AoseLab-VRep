@@ -200,7 +200,6 @@ public class RobotData extends Observable {
     	}
 	}
 
-
 	/**
 	 * The wrapped robot object, this is set as soon as possible using setRobot(IRobot) method
 	 */
@@ -249,11 +248,13 @@ public class RobotData extends Observable {
     	}
     }
     
-    /*
-     * Method to update the fields and notify when they change
+    /**
+     * This method must be called as often as possible by the main loop (main thread), for example by the updateTime of an IRobotAgent
+     * If a robot is set, all the currently available robot data are collected and saved internally (snapshot),
+     * including the perception of other robots; the getters will retrieve such data, not the realtime data.
+     * If an actual change in the internal data is applied, the listeners (observers) will be notified.
      */
     public void update(){
-    	
     	if(null==robot) return;
     	int changed = 0;
     	//collect perception data
@@ -382,7 +383,7 @@ public class RobotData extends Observable {
 		return areaRight;
 	}
 	
-	public String getBoxOnLeft() { //BoxRef -> String
+	public String getBoxOnLeft() {
 		return boxOnLeft;
 	}
 	

@@ -129,6 +129,19 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:name  "perception"
+					:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-perception.gnd"
+					:label  "PerceptionInfo"
+					:type  "aos.jack.ed.NamedData"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:name  "boxes"
 					:filename  "unitn/aose/warehousesim/agent/BoxesPerception_-boxes.gnd"
 					:label  "BoxesPerception"

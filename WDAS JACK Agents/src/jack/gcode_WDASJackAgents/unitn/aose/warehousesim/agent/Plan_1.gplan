@@ -69,6 +69,22 @@
     :databases
 	(
 	    <BAPI_FileRef
+		:name  "PerceptionInfo"
+		:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-perception.gnd"
+		:label  "uses PerceptionInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "perception"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "DataLog"
 		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
 		:label  "uses DataLog"
@@ -128,6 +144,22 @@
 		:attrs  "ReadWriteableDBList.attrs"
 		:refType  "uses"
 		:refName  "otherRobots"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "BoxesPerception"
+		:filename  "unitn/aose/warehousesim/agent/BoxesPerception_-boxes.gnd"
+		:label  "uses BoxesPerception"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "boxes"
 		:dropHandlerName  "NamedData.drop"
 	    >
 	)

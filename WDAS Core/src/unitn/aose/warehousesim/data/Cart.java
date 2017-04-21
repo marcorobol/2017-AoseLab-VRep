@@ -181,9 +181,12 @@ public class Cart extends CartRef implements IRobot {
 					if((cross.getRailIndex()>hisPosition && cartMovement == MovementState.runningForward) ||
 						(cross.getRailIndex()<hisPosition && cartMovement == MovementState.runningBackward)){
 						return MovementWithRespectToMe.gettingCloser;
-					}else if((cross.getRailIndex()>hisPosition && cartMovement == MovementState.runningBackward) ||
+					} else if((cross.getRailIndex()>hisPosition && cartMovement == MovementState.runningBackward) ||
 						(cross.getRailIndex()<hisPosition && cartMovement == MovementState.runningForward)){
 						return MovementWithRespectToMe.goingAway;
+					} else if(cross.getRailIndex()==hisPosition){
+						//special case whenever the other robot is at the cross
+						return MovementWithRespectToMe.steady;
 					}
 				}
 			}
@@ -198,7 +201,6 @@ public class Cart extends CartRef implements IRobot {
 		// If on the same rail
 		if(cart.getRail()==getRail()){
 			PositionWithRespectToMe p = new PositionWithRespectToMe(otherPosition-myPosition, 0);
-			System.out.println("DEBUG "+cart+" "+this+" position with respect to me "+p);
 			return p;
 		}
 		// If on another rail, look for the cross intersecting that rail
@@ -208,7 +210,6 @@ public class Cart extends CartRef implements IRobot {
 			for(Cart c : cross.getRail().getCarts()){
 				if(c==cart){
 					PositionWithRespectToMe p = new PositionWithRespectToMe(localIndex-myPosition, (otherPosition-cross.getRailIndex())*dir);
-					System.out.println("DEBUG "+cart+" "+this+" position with respect to me "+p);
 					return p;
 				}
 			}

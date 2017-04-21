@@ -15,6 +15,10 @@ import coppelia.IntW;
 import coppelia.remoteApi;
 
 public class CartVRep implements IAdapterCart {
+
+	/// used to format numbers appropriately ///
+    private static final DecimalFormat intFormat = new DecimalFormat("00");
+    private static final DecimalFormat floatFormat = new DecimalFormat("00.00");
 	
 	/*
 	 * VRep
@@ -175,14 +179,10 @@ public class CartVRep implements IAdapterCart {
         	System.out.println("ERROR Retriving joint position "+cart.getName()+", error : "+r);
         }
         
-        
-        
-        DecimalFormat i = new DecimalFormat("00");
-        DecimalFormat f = new DecimalFormat("00.00");
     	System.out.println("DEBUG Robot "+cart.getName()+
-    			" pos: "+i.format(cart.getPosition().get())+
-    			", vel: "+f.format(velocity)+
-    			", force: "+f.format(forceJointVRep.getValue())+
+    			" pos: "+intFormat.format(cart.getPosition().get())+
+    			", vel: "+floatFormat.format(velocity)+
+    			", force: "+floatFormat.format(forceJointVRep.getValue())+
     			", state: "+cart.getMovement().get()
     			);
     	
