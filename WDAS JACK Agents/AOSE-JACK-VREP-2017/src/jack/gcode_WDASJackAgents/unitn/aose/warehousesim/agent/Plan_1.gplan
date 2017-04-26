@@ -1,0 +1,205 @@
+<BAPI_Plan
+    :version  52
+    :superclass  "Plan"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
+	>
+    :name  "Plan_1"
+    :filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
+    :type  "aos.jack.ed.Plan"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :handled_event
+	<BAPI_FileRef
+	    :name  "Event_1"
+	    :filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+	    :label  "handles Event_1"
+	    :type  "aos.jack.ed.Event"
+	    :java
+		<BAPI_Java
+		    :pkg
+			<BAPI_TextLine
+			>
+		>
+	    :refType  "handles"
+	    :refName  "ev"
+	    :dropHandlerName  "NamedEvent.drop"
+	    :allowsReplace  :true
+	>
+    :relevant
+	<BAPI_Text
+	    :lab  "Relevance"
+	    :val  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :init  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :context
+	<BAPI_Text
+	    :lab  "Context"
+	    :val  `context()
+{
+    true;
+}
+`
+	    :init  `context()
+{
+    true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "PerceptionInfo"
+		:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-perception.gnd"
+		:label  "uses PerceptionInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "perception"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "dataLog"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "RobotData"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
+		:label  "uses RobotData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "myRobot"
+	    >
+	    <BAPI_FileRef
+		:name  "RobotInfo"
+		:filename  "unitn/aose/warehousesim/agent/RobotInfo_-robotInfo.gnd"
+		:label  "uses RobotInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "robotInfo"
+	    >
+	    <BAPI_FileRef
+		:name  "RobotPerception"
+		:filename  "unitn/aose/warehousesim/agent/RobotPerception_-otherRobots.gnd"
+		:label  "uses RobotPerception"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "otherRobots"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "BoxesPerception"
+		:filename  "unitn/aose/warehousesim/agent/BoxesPerception_-boxes.gnd"
+		:label  "uses BoxesPerception"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "boxes"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+    :reasoning_methods
+	(
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "body"
+		:val  `body()
+{
+    dataLog.log("hello plan! " + myRobot.getName());
+    /*
+     * Example of how to move the robot
+     */
+    @sleep(5);
+    while(true){
+        /*
+        if(myRobot.getPosition()==4) { 
+           myRobot.stopHere();
+            myRobot.loadLeft();
+        }
+        else{
+            myRobot.stopHere();
+            @sleep(1);
+            myRobot.moveBackward();
+            @sleep(1);
+            myRobot.stopHere();
+            @sleep(5);
+            myRobot.moveForward();
+            @sleep(5);          
+        }
+        */
+       myRobot.moveForward();
+       @sleep(200);
+       myRobot.moveBackward();
+       @sleep(200);
+    }
+         
+    //if(myRobot.getPosition()==3) myRobot.stopHere();
+}
+`
+	    >
+	)
+>

@@ -11,6 +11,7 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=WDAS Launcher/src&lt;unitn.aose.warehousesim.launcher{Launcher.java"/>
+        <folder path="/WDAS Launcher/lib"/>
+        <javaElement handleIdentifier="=WDAS Launcher/src&lt;unitn.aose.warehousesim.launcher"/>
     </selectedElements>
 </jardesc>
