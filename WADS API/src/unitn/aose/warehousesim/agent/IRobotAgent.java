@@ -21,4 +21,10 @@ public interface IRobotAgent {
 	 * @return the associated robot or null if no robot has been associated with this agent
 	 */
 	IRobot getRobot();
+	
+	/**
+	 * The agent full name.
+	 * @return
+	 */
+	String name();
 }

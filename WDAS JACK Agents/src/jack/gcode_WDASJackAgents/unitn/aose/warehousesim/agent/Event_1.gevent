@@ -1,6 +1,6 @@
 <BAPI_Event
     :version  52
-    :superclass  "Event"
+    :superclass  "MessageEvent"
     :doc
 	<BAPI_Text
 	    :hard_lab  "Doc:"

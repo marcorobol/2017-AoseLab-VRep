@@ -28,6 +28,9 @@ import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 
 public class Launcher {
 	
+	public static final String CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.Agent_1",
+			CLASS_WAREHOUSEAGENT = "unitn.aos.warehousesim.agent.RobotCoordinator";
+	
 	/**
 	 * Using the RobotAgentFactory create an instance of IRobotAgent
 	 * using the environment variable "wdas.factory.agent.class"
@@ -37,7 +40,7 @@ public class Launcher {
 	 */
 	private static Collection<IRobotAgent> getAgents(IWarehouse warehouse){
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
-		RobotAgentFactory caFactory = new RobotAgentFactory("unitn.aose.warehousesim.agent.Agent_1"); //create a new RobotAgentFactory
+		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
 		for(CartRef c : warehouse.getCarts()){ 
 			IRobot r = warehouse.getRobot(c);
 			IRobotAgent ra;
@@ -53,6 +56,8 @@ public class Launcher {
 				});
 			}
 		}
+		caFactory.createAgent(warehouse);
+		//TODO: return the agent and send out the first goal
 		return raList;
 	}
 

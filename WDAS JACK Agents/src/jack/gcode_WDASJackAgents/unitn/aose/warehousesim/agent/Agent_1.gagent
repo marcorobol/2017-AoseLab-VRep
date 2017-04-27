@@ -31,9 +31,6 @@ test
 			:val  "aos.jack.jak.util.timer.SimClock"
 		    >
 		    <BAPI_TextLine
-			:val  "java.util.*"
-		    >
-		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
 		    >
 		)
@@ -67,7 +64,7 @@ test
     myRobot.setRobot(robot);
     dataLog.log("agent "+this.getName()+" for "+robot.getName()+" created");
     
-    postEvent(ev1.start());
+    //postEvent(ev1.start());
     postEvent(ev2.update());
 }
 `

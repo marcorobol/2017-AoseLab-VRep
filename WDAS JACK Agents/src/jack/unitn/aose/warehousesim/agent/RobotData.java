@@ -1,14 +1,9 @@
 package unitn.aose.warehousesim.agent;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Observable;
 
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ICartPerception;
-import unitn.aose.warehousesim.api.ICross;
-import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
@@ -17,7 +12,6 @@ import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.MovementWithRespectToMe;
 import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
-import unitn.aose.warehousesim.api.data.RailRef;
 
 public class RobotData extends Observable {
 
