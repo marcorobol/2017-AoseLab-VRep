@@ -331,6 +331,15 @@ public class RobotData extends Observable {
         update();
     }
     
+    /**
+     * The robot associated with this wrapper
+     * @see setRobot(IRobot r)
+     * @return the robot instance associated with this wrapper or null if no robot has been set yet
+     */
+    public IRobot getRobot(){
+    	return robot;
+    }
+    
     /*
      * END
      */

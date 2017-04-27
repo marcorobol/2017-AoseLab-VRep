@@ -40,6 +40,13 @@ test
 	    :code
 		(
 		    <BAPI_Text
+			:lab  "IRobot getRobot"
+			:val  `public IRobot getRobot(){
+    return myRobot.getRobot();
+}
+`
+		    >
+		    <BAPI_Text
 			:lab  "void updateTime"
 			:val  `public void updateTime(long time){
     //dataLog.log("agent "+this.getName()+" time is "+time);
