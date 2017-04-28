@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/WDAS Core"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WDAS JACK Agents Examples"/>
+	<classpathentry kind="lib" path="lib/bsh-2.0b6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

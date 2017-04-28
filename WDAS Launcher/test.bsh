@@ -1,0 +1,9 @@
+
+RobotMotorA1.prova();
+RobotMotorA2.prova();
+RobotMotorB2.prova();
+RobotMotorB1.prova();
+RobotMotorC1.prova();
+RobotMotorD2.prova();
+RobotMotorC2.prova();
+RobotMotorD1.prova();

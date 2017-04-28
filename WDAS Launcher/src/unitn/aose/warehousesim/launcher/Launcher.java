@@ -25,6 +25,7 @@ import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
 import unitn.aose.warehousesim.simulator.SimulationGui;
 import unitn.aose.warehousesim.simulator.Warehouse;
 import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
+import bsh.Interpreter;
 
 public class Launcher {
 	
@@ -109,13 +110,27 @@ public class Launcher {
 		/*
 		 * Agents
 		 */
-		List<IRobot> robotList = new ArrayList<IRobot>();
+		List<IRobot> robotList = new ArrayList<IRobot>(); 
 		for(CartRef c : warehouse.getCarts())
 			robotList.add(warehouse.getRobot(c));
 //		new Thread(new AgentJava(robotList)).start();
 		new AgentGui(robotList);
 		
 		
+		/*
+		 * Beanshell
+		 */
+		Interpreter i = new Interpreter();
+		try {
+			for(IRobotAgent robot : agentsList){ //foreach robot
+				i.set(robot.getRobot().getName(), robot); 
+			}
+			
+			i.source("test.bsh");
+		}
+		catch (Exception e){
+			System.out.println("ERROR: " + e);
+		}
 		
 		/*
 		 * TellerMachines

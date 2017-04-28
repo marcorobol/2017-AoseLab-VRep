@@ -55,6 +55,13 @@ test
 }
 `
 		    >
+		    <BAPI_Text
+			:lab  "void prova"
+			:val  `public void prova(){
+    dataLog.log("Questa è una prova!");
+}
+`
+		    >
 		)
 	>
     :constructor

@@ -9,6 +9,7 @@
   	<copy todir="${build}/lib" file="../WDAS AdapterVRep/wdas_adaptervrep.jar"/>
   	<copy todir="${build}/lib" file="../WDAS Core/wdas_core.jar"/>
   	<copy todir="${build}/lib" file="../WDAS Launcher/wdas_launcher.jar"/>
+  	<copy todir="${build}/lib" file="../WDAS Launcher/lib/bsh-2.0b6.jar"/>
 
   	<mkdir dir="${build}/src/jack"/>
   	<copy todir="${build}/src/jack">
