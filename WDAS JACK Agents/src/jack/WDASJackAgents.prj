@@ -334,9 +334,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
+			    :name  "unitn/aose/warehousesim/agent/RobotData.java"
 			    :filename  "unitn/aose/warehousesim/agent/RobotData.java"
-			    :label  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
+			    :label  "unitn/aose/warehousesim/agent/RobotData.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 			<BAPI_OtherFile
@@ -345,9 +345,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
+			    :name  "unitn/aose/warehousesim/agent/DataLog.java"
 			    :filename  "unitn/aose/warehousesim/agent/DataLog.java"
-			    :label  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
+			    :label  "unitn/aose/warehousesim/agent/DataLog.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 		    )

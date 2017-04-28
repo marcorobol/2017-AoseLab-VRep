@@ -5,9 +5,6 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
-	    :val  `/**
- * 
- */`
 	>
     :name  "CoordinationPlan"
     :filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
@@ -94,15 +91,36 @@
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	)
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "dataLog"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
     :reasoning_methods
 	(
 	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
 		:lab  "body"
 		:val  `body()
 {
+    dataLog.log("Coordinating " + ev.robotAgents.size() + " robots");
     Iterator it = ev.robotAgents.iterator();
     while(it.hasNext()){
         IRobotAgent a = (IRobotAgent)it.next();
+        dataLog.log("Sending " + ev1 + " to " + a.name());
         agent.send(a.name(), ev1.start());
     }
 }

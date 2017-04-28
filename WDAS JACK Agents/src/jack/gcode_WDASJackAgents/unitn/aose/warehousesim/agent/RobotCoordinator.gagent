@@ -5,9 +5,6 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
-	    :val  `/**
- * 
- */`
 	>
     :name  "RobotCoordinator"
     :filename  "unitn/aose/warehousesim/agent/RobotCoordinator.gagent"
@@ -51,7 +48,8 @@
 		    <BAPI_Text
 			:lab  "void coordinate"
 			:val  `public void coordinate(Collection robotAgents){
-    coordination.start(robotAgents);    
+    dataLog.log("starting coordination " + robotAgents.size() + " robots");
+    postEvent(coordination.start(robotAgents));    
 }
 `
 		    >
@@ -73,8 +71,42 @@
 `
 	    :isLabelEditable  :false
 	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "private DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "dataLog(this)"
+	    >
+	)
     :events
 	(
+	    <BAPI_FileRef
+		:name  "Event_1"
+		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+		:label  "sends Event_1"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "sends"
+		:refName  "ev"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "CoordinateEvent"
 		:filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"

@@ -30,7 +30,7 @@ public class Launcher {
 	
 	public static final String 
 		CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
-		CLASS_WAREHOUSEAGENT = "unitn.aos.warehousesim.agent.RobotCoordinator";
+		CLASS_WAREHOUSEAGENT = "unitn.aose.warehousesim.agent.RobotCoordinator";
 	
 	/**
 	 * Using the RobotAgentFactory create an instance of IRobotAgent
