@@ -51,7 +51,7 @@
 		    <BAPI_Text
 			:lab  "void coordinate"
 			:val  `public void coordinate(Collection robotAgents){
-    coordination.start(robotAgents);    
+    postEvent(coordination.start(robotAgents));
 }
 `
 		    >
