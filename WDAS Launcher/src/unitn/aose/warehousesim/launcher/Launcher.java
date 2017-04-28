@@ -22,15 +22,15 @@ import unitn.aose.warehousesim.configuration.ConfigurationOne;
 import unitn.aose.warehousesim.configuration.IConfigurator;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
 import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
-import unitn.aose.warehousesim.simulator.IAdapter;
 import unitn.aose.warehousesim.simulator.SimulationGui;
 import unitn.aose.warehousesim.simulator.Warehouse;
 import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 
 public class Launcher {
 	
-	public static final String CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.Agent_1",
-			CLASS_WAREHOUSEAGENT = "unitn.aos.warehousesim.agent.RobotCoordinator";
+	public static final String 
+		CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
+		CLASS_WAREHOUSEAGENT = "unitn.aos.warehousesim.agent.RobotCoordinator";
 	
 	/**
 	 * Using the RobotAgentFactory create an instance of IRobotAgent

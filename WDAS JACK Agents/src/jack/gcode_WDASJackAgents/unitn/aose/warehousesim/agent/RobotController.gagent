@@ -9,8 +9,8 @@
 test
 */`
 	>
-    :name  "Agent_1"
-    :filename  "unitn/aose/warehousesim/agent/Agent_1.gagent"
+    :name  "RobotController"
+    :filename  "unitn/aose/warehousesim/agent/RobotController.gagent"
     :type  "aos.jack.ed.Agent"
     :java
 	<BAPI_Java
@@ -31,24 +31,27 @@ test
 			:val  "aos.jack.jak.util.timer.SimClock"
 		    >
 		    <BAPI_TextLine
+			:val  "java.util.*"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
 		    >
 		)
 	    :code
 		(
 		    <BAPI_Text
-			:lab  "IRobot getRobot"
-			:val  `public IRobot getRobot(){
-    return myRobot.getRobot();
-}
-`
-		    >
-		    <BAPI_Text
 			:lab  "void updateTime"
 			:val  `public void updateTime(long time){
     //dataLog.log("agent "+this.getName()+" time is "+time);
     timer.setTime(time);
     myRobot.update();
+}
+`
+		    >
+		    <BAPI_Text
+			:lab  "IRobot getRobot"
+			:val  `public IRobot getRobot(){
+    return myRobot.getRobot();
 }
 `
 		    >

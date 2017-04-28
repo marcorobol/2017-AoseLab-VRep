@@ -1,6 +1,6 @@
 <project name="MyProject" default="pack" basedir=".">
   <property name="src" location="src"/>
-  <property name="build" location="AOSE-JACK-VREP-2017"/>
+  <property name="build" location="target"/>
 
   <target name="pack" depends="clean">
     <mkdir dir="${build}"/>
@@ -35,6 +35,10 @@
   			<include name="*.sh"/>
   		</fileset>
   	</chmod>
+  	
+  	<!-- V-REP FILES -->
+  	<mkdir dir="${build}/vrepFiles"/>
+  	<copy todir="${build}/vrepFiles" file="../warehouseStatic.ttt"/>
   	
   	<!-- LIB-->
   	<mkdir dir="${build}/lib/lib"/>
