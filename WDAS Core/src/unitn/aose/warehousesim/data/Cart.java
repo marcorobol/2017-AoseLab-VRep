@@ -12,11 +12,9 @@ import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.SimulationState;
 import unitn.aose.warehousesim.api.data.AreaRef;
-import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.MovementWithRespectToMe;
 import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
-import unitn.aose.warehousesim.observable.Observable;
 import unitn.aose.warehousesim.observable.ObservableArea;
 import unitn.aose.warehousesim.observable.ObservableCart;
 import unitn.aose.warehousesim.observable.ObservableCross;
@@ -26,8 +24,9 @@ import unitn.aose.warehousesim.observable.ObservableMovementState;
 import unitn.aose.warehousesim.simulator.IAdapter;
 
 
-public class Cart extends CartRef implements IRobot {
+public class Cart implements CartRef, IRobot {
 
+	private final String name;
 	private final IAdapter adapter;
 	private final IWarehouse warehouse;
 	private final Rail rail;
@@ -44,7 +43,7 @@ public class Cart extends CartRef implements IRobot {
 	private final Map<PositionWithRespectToMe, ObservableCart> cartAround;
 	
 	public Cart(String name, Rail rail, IAdapter adapter, IWarehouse warehouse) {
-		super(name);
+		this.name= name;
 		this.adapter = adapter;
 		this.warehouse = warehouse;
 		this.rail = rail;
@@ -87,6 +86,10 @@ public class Cart extends CartRef implements IRobot {
 			}
 		});
 		
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public String toString(){
@@ -253,12 +256,12 @@ public class Cart extends CartRef implements IRobot {
 	}
 
 	@Override
-	public Observable<Area, AreaRef> getAreaOnLeft() {
+	public ObservableArea getAreaOnLeft() {
 		return areaOnLeft;
 	}
 
 	@Override
-	public Observable<Area, AreaRef> getAreaOnRight() {
+	public ObservableArea getAreaOnRight() {
 		return areaOnRight;
 	}
 
@@ -283,7 +286,10 @@ public class Cart extends CartRef implements IRobot {
 				return a.getState();
 		return null;
 	}
-	
+
+	public boolean isAStorageArea(AreaRef area) {
+		return area instanceof StorageArea;
+	}
 	
 	
 	/*

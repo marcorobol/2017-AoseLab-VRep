@@ -5,25 +5,39 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.RailRef;
 
-public class Rail extends RailRef {
-	
-	protected Map<Integer, Area> leftAreas;
-	protected Map<Integer, Area> rightAreas;
-	protected Map<Integer, Cross> crosses;
-	protected Collection<Cart> carts;
+public class Rail implements RailRef {
+
+	private String name;
+	private int steps;
+	private Map<Integer, Area> leftAreas;
+	private Map<Integer, Area> rightAreas;
+	private Map<Integer, Cross> crosses;
+	private Collection<Cart> carts;
 	
 	
 	
 	public Rail(String name, int steps) {
-		super(name, steps);
+		this.name = name;
+		this.steps = steps;
 		this.leftAreas = new HashMap<Integer, Area>();
 		this.rightAreas = new HashMap<Integer, Area>();
 		this.crosses = new HashMap<Integer, Cross>();
 		this.carts = new HashSet<Cart>();
 	}
-
+	
+	
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getSteps() {
+		return steps;
+	}
+	
 	
 	
 	public void addCart(Cart c) {
@@ -40,6 +54,28 @@ public class Rail extends RailRef {
 				return c;
 		return null;
 	};
+	
+	
+	
+	@Override
+	public Integer[] getLeftAreaPositions() {
+		return (Integer[]) leftAreas.keySet().toArray();
+	}
+
+	@Override
+	public Integer[] getRightAreaPositions() {
+		return (Integer[]) rightAreas.keySet().toArray();
+	}
+
+	@Override
+	public AreaRef getLeftAreaIn(int position) {
+		return leftAreas.get(position);
+	}
+
+	@Override
+	public AreaRef getRightAreaIn(int position) {
+		return rightAreas.get(position);
+	}
 	
 	
 	

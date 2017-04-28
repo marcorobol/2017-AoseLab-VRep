@@ -43,6 +43,13 @@ public class ConfiguratorVRep implements IConfigurator {
 	}
 
 	@Override
+	public Area defineDepositWithdrawArea(String name) {
+		Area area = warehouse.defineDepositWithdrawArea(name);
+		AreaVRep a = adapter.defineArea(area);
+		return area;
+	}
+
+	@Override
 	public Box defineBox(String name) {
 		Box box = warehouse.defineBox(name);
 		BoxVRep b = adapter.defineBox(box);

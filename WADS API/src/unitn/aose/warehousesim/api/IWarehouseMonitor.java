@@ -9,8 +9,8 @@ import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.api.data.RailRef;
 import unitn.aose.warehousesim.api.data.StorageAreaRef;
 
-public interface IWarehouse extends IWarehouseMonitor {
-	
+public interface IWarehouseMonitor {
+
 	Set<CartRef> getCarts();
 	
 	Set<StorageAreaRef> getStorageAreas();
@@ -23,26 +23,17 @@ public interface IWarehouse extends IWarehouseMonitor {
 	
 	
 	
-	IRobot getRobot(CartRef cart);
-	
-	ITellerMachine getTellerMachine(DepositWithdrawAreaRef area);
+	boolean isAStorageArea(AreaRef area);
 	
 	
 	
-	BoxRef createBox(AreaRef area);
+	IRobotMonitor getRobot(CartRef cart);
 	
-	void deleteBox(BoxRef box);
+	ITellerMachineMonitor getTellerMachine(DepositWithdrawAreaRef area);
 	
 	
 	
 	IObservable<SimulationState> getSimulationState();
 
 	IObservable<Long> getSimulationTime();
-	
-	void play();
-	
-	void pause();
-	
-	void stop();
-	
 }
