@@ -1,34 +1,22 @@
 package unitn.aose.warehousesim.api.data;
 
 
-public class RailRef {
+public interface RailRef {
 
-	/*
-	 * Variabili
-	 */
-
-	private String name;
-	private int steps;
+	String getName();
 	
-	/*
-	 * Costruttore
-	 */
+	int getSteps();
 	
-	public RailRef(String name, int steps) {
-		this.name = name;
-		this.steps = steps;
-	}
 	
-	/*
-	 * Metodi
-	 */
-
-	public String getName() {
-		return name;
-	}
 	
-	public int getSteps() {
-		return steps;
-	}
+	Integer[] getLeftAreaPositions();
+	
+	Integer[] getRightAreaPositions();
+	
+//	int getPositionOf(AreaRef areaRef);
+	
+	AreaRef getLeftAreaIn(int position);
+	
+	AreaRef getRightAreaIn(int position);
 	
 }

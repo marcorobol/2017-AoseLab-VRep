@@ -16,6 +16,8 @@ public interface IConfigurator {
 	public Cart defineCart(String name, Rail rail);
 	
 	public Area defineArea(String name);
+
+	public Area defineDepositWithdrawArea(String name);
 	
 	public Box defineBox(String name);
 	

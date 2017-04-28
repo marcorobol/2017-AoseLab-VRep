@@ -1,16 +1,8 @@
 package unitn.aose.warehousesim.api.data;
 
 
-public class CartRef {
+public interface CartRef {
 
-	private String name;
-
-	public CartRef(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
+	String getName();
 	
 }

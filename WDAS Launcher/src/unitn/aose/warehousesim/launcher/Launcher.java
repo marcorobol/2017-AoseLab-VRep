@@ -16,8 +16,8 @@ import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.IWarehouse;
-import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.CartRef;
+import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationOne;
 import unitn.aose.warehousesim.configuration.IConfigurator;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
@@ -121,7 +121,7 @@ public class Launcher {
 		 * TellerMachines
 		 */
 		List<ITellerMachine> machineList = new ArrayList<ITellerMachine>();
-		for(AreaRef a : warehouse.getAreas())
+		for(DepositWithdrawAreaRef a : warehouse.getDepositWithdrawAreas())
 			machineList.add(warehouse.getTellerMachine(a));
 		new TellerMachineGui(machineList);
         

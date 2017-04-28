@@ -8,15 +8,20 @@ import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.IWarehouse;
+import unitn.aose.warehousesim.api.IWarehouseMonitor;
 import unitn.aose.warehousesim.api.SimulationState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
+import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.api.data.RailRef;
+import unitn.aose.warehousesim.api.data.StorageAreaRef;
 import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.data.Box;
 import unitn.aose.warehousesim.data.Cart;
+import unitn.aose.warehousesim.data.DepositWithdrawArea;
 import unitn.aose.warehousesim.data.Rail;
+import unitn.aose.warehousesim.data.StorageArea;
 import unitn.aose.warehousesim.observable.ObservableLong;
 import unitn.aose.warehousesim.observable.ObservableSimulationState;
 
@@ -28,7 +33,8 @@ public class Warehouse implements IWarehouse {
 	private final ObservableLong simulationTime;
 	
     private final Map<RailRef, Rail> rails = new HashMap<RailRef, Rail>();
-	private final Map<AreaRef, Area> areas = new HashMap<AreaRef, Area>();
+	private final Map<StorageAreaRef, Area> storageAreas = new HashMap<StorageAreaRef, Area>();
+	private final Map<DepositWithdrawAreaRef, Area> depositWithdrawAreas = new HashMap<DepositWithdrawAreaRef, Area>();
     private final Map<BoxRef, Box> boxes = new HashMap<BoxRef, Box>();
 	private final Map<CartRef, Cart> carts = new HashMap<CartRef, Cart>();
 	
@@ -68,8 +74,14 @@ public class Warehouse implements IWarehouse {
 	}
 
 	public Area defineArea(String name) {
-		Area a = new Area(name, adapter);
-		areas.put(a, a);
+		StorageArea a = new StorageArea(name, adapter);
+		storageAreas.put(a, a);
+		return a;
+	}
+
+	public Area defineDepositWithdrawArea(String name) {
+		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter);
+		depositWithdrawAreas.put(a, a);
 		return a;
 	}
 
@@ -101,14 +113,20 @@ public class Warehouse implements IWarehouse {
 //		return rails.get(ref);
 //	}
 	
+	
+	
 	@Override
 	public IRobot getRobot(CartRef ref) {
 		return carts.get(ref);
 	}
 	
 	@Override
-	public ITellerMachine getTellerMachine(AreaRef area) {
-		return areas.get(area);
+	public ITellerMachine getTellerMachine(DepositWithdrawAreaRef area) {
+		Area a = depositWithdrawAreas.get(area);
+		if(a instanceof DepositWithdrawArea)
+			return (DepositWithdrawArea) a;
+		else
+			return null;
 	}
 	
 	
@@ -124,8 +142,13 @@ public class Warehouse implements IWarehouse {
 	}
 	
 	@Override
-	public Set<AreaRef> getAreas() {
-		return areas.keySet();
+	public Set<StorageAreaRef> getStorageAreas() {
+		return storageAreas.keySet();
+	}
+	
+	@Override
+	public Set<DepositWithdrawAreaRef> getDepositWithdrawAreas() {
+		return depositWithdrawAreas.keySet();
 	}
 	
 	@Override
@@ -139,10 +162,27 @@ public class Warehouse implements IWarehouse {
 	}
 	
 	
+
+	@Override
+	public boolean isAStorageArea(AreaRef area) {
+		return area instanceof StorageArea;
+	}
+	
+	
 	
 	/*
 	 * Create and delete boxes
 	 */
+
+	@Override
+	public BoxRef createBox(AreaRef areaRef) {
+		Area a = storageAreas.get(areaRef);
+		if(a==null)
+			a = depositWithdrawAreas.get(areaRef);
+		if(a!=null)
+			return a.createBox();
+		return null;
+	}
 
 	@Override
 	public void deleteBox(BoxRef boxRef) {

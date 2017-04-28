@@ -3,8 +3,10 @@ package unitn.aose.warehousesim.data;
 import unitn.aose.warehousesim.api.data.BoxRef;
 
 
-public class Box extends BoxRef {
+public class Box implements BoxRef {
 
+	private final String name;
+	
 	private Area area;
 
 	private Cart robot;
@@ -12,7 +14,13 @@ public class Box extends BoxRef {
 	
 	
 	public Box(String name) {
-		super(name);
+		this.name = name;
+	}
+	
+	
+	
+	public String getName() {
+		return name;
 	}
 	
 	

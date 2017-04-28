@@ -66,10 +66,10 @@ public class ConfigurationOne {
          * Areas
          */
     	
-    	area_a = conf.defineArea("PickAreaA");
-    	area_b = conf.defineArea("PickAreaB");
-    	area_c = conf.defineArea("PickAreaC");
-    	area_d = conf.defineArea("PickAreaD");
+    	area_a = conf.defineDepositWithdrawArea("PickAreaA");
+    	area_b = conf.defineDepositWithdrawArea("PickAreaB");
+    	area_c = conf.defineDepositWithdrawArea("PickAreaC");
+    	area_d = conf.defineDepositWithdrawArea("PickAreaD");
 
     	area_ac = conf.defineArea("ShareAreaAC");
     	area_bc = conf.defineArea("ShareAreaBC");
@@ -181,8 +181,8 @@ public class ConfigurationOne {
 			warehouse.deleteBox(boxRef);
 		}
 		
-		warehouse.getTellerMachine(area_ac).createBox();
-		warehouse.getTellerMachine(area_bd).createBox();
+		warehouse.createBox(area_ac);
+		warehouse.createBox(area_bd);
 	}
 
 }

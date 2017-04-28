@@ -1,6 +1,6 @@
 package unitn.aose.warehousesim.api.data;
 
-public interface AreaRef {
+public interface StorageAreaRef {
 
 	String getName();
 	

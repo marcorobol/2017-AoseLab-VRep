@@ -2,7 +2,7 @@ package unitn.aose.warehousesim.api;
 
 import unitn.aose.warehousesim.api.data.BoxRef;
 
-public interface ITellerMachine {
+public interface ITellerMachine extends ITellerMachineMonitor {
 	
 	String getName();
 	
