@@ -1,0 +1,160 @@
+<BAPI_Agent
+    :version  52
+    :superclass  "Agent"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "RobotCoordinator"
+    :filename  "unitn/aose/warehousesim/agent/RobotCoordinator.gagent"
+    :type  "aos.jack.ed.Agent"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	    :interfaces
+		(
+		    <BAPI_TextLine
+			:lab  ""
+			:val  "IWarehouseAgent"
+		    >
+		)
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "java.util.Collection"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.IWarehouse"
+		    >
+		)
+	    :code
+		(
+		    <BAPI_Text
+			:lab  "IWarehouse warehouse"
+			:val  `private IWarehouse warehouse;
+`
+		    >
+		    <BAPI_Text
+			:lab  "IWarehouse getWarehouse"
+			:val  `public IWarehouse getWarehouse(){
+    return warehouse;
+}
+`
+		    >
+		    <BAPI_Text
+			:lab  "void coordinate"
+			:val  `public void coordinate(Collection robotAgents){
+    dataLog.log("starting coordination " + robotAgents.size() + " robots");
+    postEvent(coordination.start(robotAgents));    
+}
+`
+		    >
+		)
+	>
+    :constructor
+	<BAPI_Text
+	    :lab  "Constructor"
+	    :val  `public <<Type>>(IWarehouse warehouse)
+{
+    super("coordinator");
+    this.warehouse = warehouse;
+}
+`
+	    :init  `public <<Type>>(String name)
+{
+    super(name);
+}
+`
+	    :isLabelEditable  :false
+	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "private DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "dataLog(this)"
+	    >
+	)
+    :events
+	(
+	    <BAPI_FileRef
+		:name  "Event_1"
+		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+		:label  "sends Event_1"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "sends"
+		:refName  "ev"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "CoordinateEvent"
+		:filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
+		:label  "posts CoordinateEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "posts"
+		:refName  "coordination"
+	    >
+	    <BAPI_FileRef
+		:name  "CoordinateEvent"
+		:filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
+		:label  "handles"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "handles"
+		:hasName  :false
+	    >
+	)
+    :plans
+	(
+	    <BAPI_FileRef
+		:name  "CoordinationPlan"
+		:filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
+		:label  "uses"
+		:type  "aos.jack.ed.Plan"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanList.attrs"
+		:refType  "uses"
+		:hasName  :false
+		:dropHandlerName  "Plan.drop"
+	    >
+	)
+>

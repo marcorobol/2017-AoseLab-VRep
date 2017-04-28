@@ -4,6 +4,7 @@ src/java
 *.event
 *.plan
 *.bel
+*.view
 *.bak
 *.old
 /target/

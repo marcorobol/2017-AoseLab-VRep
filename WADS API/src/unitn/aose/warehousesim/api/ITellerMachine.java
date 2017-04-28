@@ -8,15 +8,20 @@ public interface ITellerMachine extends ITellerMachineMonitor {
 	
 	IObservable<AreaState> getState();
 	
-	
-	
+	/**
+	 * Take the box and bring it inside the warehouse
+	 * @return
+	 */
 	AreaState requestDeposit();
 	
+	/**
+	 * Bring the given box in this area
+	 * @param box
+	 * @return
+	 */
 	AreaState requestWithdraw(BoxRef box);
 	
 	BoxRef getRequestedBox();
-	
-	
 	
 	BoxRef createBox();
 	

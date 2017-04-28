@@ -1,0 +1,130 @@
+<BAPI_Plan
+    :version  52
+    :superclass  "Plan"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "CoordinationPlan"
+    :filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
+    :type  "aos.jack.ed.Plan"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "java.util.Collection"
+		    >
+		    <BAPI_TextLine
+			:val  "java.util.Iterator"
+		    >
+		)
+	>
+    :handled_event
+	<BAPI_FileRef
+	    :name  "CoordinateEvent"
+	    :filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
+	    :label  "handles CoordinateEvent"
+	    :type  "aos.jack.ed.Event"
+	    :java
+		<BAPI_Java
+		    :pkg
+			<BAPI_TextLine
+			>
+		>
+	    :refType  "handles"
+	    :refName  "ev"
+	    :dropHandlerName  "NamedEvent.drop"
+	    :allowsReplace  :true
+	>
+    :relevant
+	<BAPI_Text
+	    :lab  "Relevance"
+	    :val  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :init  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :context
+	<BAPI_Text
+	    :lab  "Context"
+	    :val  `context()
+{
+    true;
+}
+`
+	    :init  `context()
+{
+    true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :posted_events
+	(
+	    <BAPI_FileRef
+		:name  "Event_1"
+		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+		:label  "sends Event_1"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "sends"
+		:refName  "ev1"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	)
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "dataLog"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+    :reasoning_methods
+	(
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "body"
+		:val  `body()
+{
+    dataLog.log("Coordinating " + ev.robotAgents.size() + " robots");
+    Iterator it = ev.robotAgents.iterator();
+    while(it.hasNext()){
+        IRobotAgent a = (IRobotAgent)it.next();
+        dataLog.log("Sending " + ev1 + " to " + a.name());
+        agent.send(a.name(), ev1.start());
+    }
+}
+`
+	    >
+	)
+>

@@ -28,8 +28,20 @@
 			    :list
 				(
 				    <BAPI_Filename
-					:filename  "unitn/aose/warehousesim/agent/Agent_1.gagent"
-					:label  "Agent_1"
+					:filename  "unitn/aose/warehousesim/agent/RobotCoordinator.gagent"
+					:label  "RobotCoordinator"
+					:type  "aos.jack.ed.Agent"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/RobotController.gagent"
+					:label  "RobotController"
 					:type  "aos.jack.ed.Agent"
 					:java
 					    <BAPI_Java
@@ -50,6 +62,18 @@
 			    :tag  "ContainerDesc.plans"
 			    :list
 				(
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
+					:label  "CoordinationPlan"
+					:type  "aos.jack.ed.Plan"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
 				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
 					:label  "UpdateRobotInfo"
@@ -81,6 +105,18 @@
 			    :tag  "ContainerDesc.events"
 			    :list
 				(
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
+					:label  "CoordinateEvent"
+					:type  "aos.jack.ed.Event"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
 				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
 					:label  "UpdateInfo"

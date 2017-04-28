@@ -10,6 +10,7 @@ import unitn.aose.warehousesim.adapter.vrep.AdapterVRep;
 import unitn.aose.warehousesim.adapter.vrep.ConfiguratorVRep;
 import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.agent.IRobotAgent;
+import unitn.aose.warehousesim.agent.IWarehouseAgent;
 import unitn.aose.warehousesim.agent.RobotAgentFactory;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
@@ -27,6 +28,10 @@ import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 
 public class Launcher {
 	
+	public static final String 
+		CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
+		CLASS_WAREHOUSEAGENT = "unitn.aose.warehousesim.agent.RobotCoordinator";
+	
 	/**
 	 * Using the RobotAgentFactory create an instance of IRobotAgent
 	 * using the environment variable "wdas.factory.agent.class"
@@ -34,13 +39,11 @@ public class Launcher {
 	 * @param warehouse the current environment to get the robots from
 	 * @return a list with all the created agents 
 	 */
-	private static Collection<IRobotAgent> getAgents(IWarehouse warehouse){
+	private static Collection<IRobotAgent> getRobotAgents(RobotAgentFactory factory, IWarehouse warehouse){
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
-		RobotAgentFactory caFactory = new RobotAgentFactory("unitn.aose.warehousesim.agent.Agent_1"); //create a new RobotAgentFactory
 		for(CartRef c : warehouse.getCarts()){ 
 			IRobot r = warehouse.getRobot(c);
-			IRobotAgent ra;
-			ra = caFactory.createAgent(r);
+			IRobotAgent ra = factory.createAgent(r);
 			if(null == ra){
 				System.out.println("ERROR no agent created for robot "+r.getName());
 			}else{
@@ -52,7 +55,18 @@ public class Launcher {
 				});
 			}
 		}
+		//TODO: return the agent and send out the first goal
 		return raList;
+	}
+	
+	private static IWarehouseAgent getCoordinatorAgent(RobotAgentFactory factory, IWarehouse warehouse){
+		IWarehouseAgent wa = factory.createAgent(warehouse);
+		if(null == wa){
+			System.out.println("ERROR no agent created for warehouse "+warehouse);
+		}else{
+			//XXX: initialize?
+		}
+		return wa;
 	}
 
 	public static void main(String[] args) throws InterruptedException {
@@ -86,8 +100,10 @@ public class Launcher {
 		/*
 		 * Sezione per il caricamento degli agenti
 		 */
-		Collection<IRobotAgent> agentsList = getAgents(warehouse);
-		
+		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
+		Collection<IRobotAgent> agentsList = getRobotAgents(caFactory, warehouse);
+		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse);
+		coordinator.coordinate(agentsList);
 		
 		
 		/*
