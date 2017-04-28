@@ -9,8 +9,8 @@
 test
 */`
 	>
-    :name  "Agent_1"
-    :filename  "unitn/aose/warehousesim/agent/Agent_1.gagent"
+    :name  "RobotController"
+    :filename  "unitn/aose/warehousesim/agent/RobotController.gagent"
     :type  "aos.jack.ed.Agent"
     :java
 	<BAPI_Java

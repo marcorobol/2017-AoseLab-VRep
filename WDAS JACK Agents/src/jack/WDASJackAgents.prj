@@ -28,8 +28,8 @@
 			    :list
 				(
 				    <BAPI_Filename
-					:filename  "unitn/aose/warehousesim/agent/Agent_1.gagent"
-					:label  "Agent_1"
+					:filename  "unitn/aose/warehousesim/agent/RobotController.gagent"
+					:label  "RobotController"
 					:type  "aos.jack.ed.Agent"
 					:java
 					    <BAPI_Java

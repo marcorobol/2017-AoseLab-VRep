@@ -37,7 +37,7 @@ public class Launcher {
 	 */
 	private static Collection<IRobotAgent> getAgents(IWarehouse warehouse){
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
-		RobotAgentFactory caFactory = new RobotAgentFactory("unitn.aose.warehousesim.agent.Agent_1"); //create a new RobotAgentFactory
+		RobotAgentFactory caFactory = new RobotAgentFactory("unitn.aose.warehousesim.agent.RobotController"); //create a new RobotAgentFactory
 		for(CartRef c : warehouse.getCarts()){ 
 			IRobot r = warehouse.getRobot(c);
 			IRobotAgent ra;
