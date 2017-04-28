@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "CoordinationPlan"
     :filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
@@ -116,11 +119,9 @@
 		:lab  "body"
 		:val  `body()
 {
-    dataLog.log("Coordinating " + ev.robotAgents.size() + " robots");
     Iterator it = ev.robotAgents.iterator();
     while(it.hasNext()){
         IRobotAgent a = (IRobotAgent)it.next();
-        dataLog.log("Sending " + ev1 + " to " + a.name());
         agent.send(a.name(), ev1.start());
     }
 }

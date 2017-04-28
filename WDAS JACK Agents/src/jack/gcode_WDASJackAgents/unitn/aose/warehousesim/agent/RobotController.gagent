@@ -81,6 +81,22 @@ test
     :databases
 	(
 	    <BAPI_FileRef
+		:name  "RailInfo"
+		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rail.gnd"
+		:label  "private RailInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "rail"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "DataLog"
 		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
 		:label  "private DataLog"

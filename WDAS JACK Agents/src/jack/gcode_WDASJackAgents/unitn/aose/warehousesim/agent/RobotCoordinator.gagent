@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "RobotCoordinator"
     :filename  "unitn/aose/warehousesim/agent/RobotCoordinator.gagent"
@@ -48,8 +51,7 @@
 		    <BAPI_Text
 			:lab  "void coordinate"
 			:val  `public void coordinate(Collection robotAgents){
-    dataLog.log("starting coordination " + robotAgents.size() + " robots");
-    postEvent(coordination.start(robotAgents));    
+    coordination.start(robotAgents);    
 }
 `
 		    >
@@ -74,6 +76,21 @@
     :databases
 	(
 	    <BAPI_FileRef
+		:name  "RailInfo"
+		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
+		:label  "private RailInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "rails"
+	    >
+	    <BAPI_FileRef
 		:name  "DataLog"
 		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
 		:label  "private DataLog"
@@ -87,6 +104,21 @@
 		:attrs  "AccessibleDBList.attrs"
 		:refType  "private"
 		:refName  "dataLog(this)"
+	    >
+	    <BAPI_FileRef
+		:name  "CrossInfo"
+		:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
+		:label  "private CrossInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "crosses"
 	    >
 	)
     :events
@@ -104,7 +136,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "sends"
-		:refName  "ev"
+		:refName  "ev1"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef

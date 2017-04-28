@@ -7,4 +7,5 @@ src/java
 *.view
 *.bak
 *.old
+*.jts
 /target/

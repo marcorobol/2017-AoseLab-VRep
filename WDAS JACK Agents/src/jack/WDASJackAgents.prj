@@ -165,6 +165,45 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:name  "rails"
+					:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
+					:label  "RailInfo"
+					:type  "aos.jack.ed.NamedData"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
+					:name  "rail"
+					:filename  "unitn/aose/warehousesim/agent/RailInfo_-rail.gnd"
+					:label  "RailInfo"
+					:type  "aos.jack.ed.NamedData"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
+					:name  "crosses"
+					:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
+					:label  "CrossInfo"
+					:type  "aos.jack.ed.NamedData"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:name  "perception"
 					:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-perception.gnd"
 					:label  "PerceptionInfo"
@@ -257,6 +296,30 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/CrossInfo.gdb"
+					:label  "CrossInfo"
+					:type  "aos.jack.ed.Database"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/RailInfo.gdb"
+					:label  "RailInfo"
+					:type  "aos.jack.ed.Database"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/BoxesPerception.gdb"
 					:label  "BoxesPerception"
 					:type  "aos.jack.ed.Database"
@@ -334,9 +397,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn/aose/warehousesim/agent/RobotData.java"
+			    :name  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
 			    :filename  "unitn/aose/warehousesim/agent/RobotData.java"
-			    :label  "unitn/aose/warehousesim/agent/RobotData.java"
+			    :label  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 			<BAPI_OtherFile
@@ -345,9 +408,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn/aose/warehousesim/agent/DataLog.java"
+			    :name  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
 			    :filename  "unitn/aose/warehousesim/agent/DataLog.java"
-			    :label  "unitn/aose/warehousesim/agent/DataLog.java"
+			    :label  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 		    )
