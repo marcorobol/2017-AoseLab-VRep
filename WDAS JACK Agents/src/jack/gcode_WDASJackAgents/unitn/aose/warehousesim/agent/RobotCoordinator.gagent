@@ -28,6 +28,9 @@
 	    :imports
 		(
 		    <BAPI_TextLine
+			:val  "java.util.Collection"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IWarehouse"
 		    >
 		)
@@ -42,6 +45,13 @@
 			:lab  "IWarehouse getWarehouse"
 			:val  `public IWarehouse getWarehouse(){
     return warehouse;
+}
+`
+		    >
+		    <BAPI_Text
+			:lab  "void coordinate"
+			:val  `public void coordinate(Collection robotAgents){
+    coordination.start(robotAgents);    
 }
 `
 		    >
@@ -68,6 +78,21 @@
 	    <BAPI_FileRef
 		:name  "CoordinateEvent"
 		:filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
+		:label  "posts CoordinateEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "posts"
+		:refName  "coordination"
+	    >
+	    <BAPI_FileRef
+		:name  "CoordinateEvent"
+		:filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
 		:label  "handles"
 		:type  "aos.jack.ed.Event"
 		:java
@@ -79,8 +104,6 @@
 		:attrs  "NamedEventList.attrs"
 		:refType  "handles"
 		:hasName  :false
-		:refName  "ev"
-		:dropHandlerName  "NamedEvent.drop"
 	    >
 	)
     :plans

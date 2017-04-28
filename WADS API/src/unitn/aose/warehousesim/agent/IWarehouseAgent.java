@@ -1,5 +1,7 @@
 package unitn.aose.warehousesim.agent;
 
+import java.util.Collection;
+
 import unitn.aose.warehousesim.api.IWarehouse;
 
 /**
@@ -15,4 +17,10 @@ public interface IWarehouseAgent {
 	 * @return
 	 */
 	IWarehouse getWarehouse();
+	
+	/**
+	 * Acquire 
+	 * @param agents
+	 */
+	void coordinate(Collection<IRobotAgent> agents);
 }

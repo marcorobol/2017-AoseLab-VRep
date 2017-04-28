@@ -10,6 +10,7 @@ import unitn.aose.warehousesim.adapter.vrep.AdapterVRep;
 import unitn.aose.warehousesim.adapter.vrep.ConfiguratorVRep;
 import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.agent.IRobotAgent;
+import unitn.aose.warehousesim.agent.IWarehouseAgent;
 import unitn.aose.warehousesim.agent.RobotAgentFactory;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
@@ -38,13 +39,11 @@ public class Launcher {
 	 * @param warehouse the current environment to get the robots from
 	 * @return a list with all the created agents 
 	 */
-	private static Collection<IRobotAgent> getAgents(IWarehouse warehouse){
+	private static Collection<IRobotAgent> getRobotAgents(RobotAgentFactory factory, IWarehouse warehouse){
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
-		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
 		for(CartRef c : warehouse.getCarts()){ 
 			IRobot r = warehouse.getRobot(c);
-			IRobotAgent ra;
-			ra = caFactory.createAgent(r);
+			IRobotAgent ra = factory.createAgent(r);
 			if(null == ra){
 				System.out.println("ERROR no agent created for robot "+r.getName());
 			}else{
@@ -56,9 +55,18 @@ public class Launcher {
 				});
 			}
 		}
-		caFactory.createAgent(warehouse);
 		//TODO: return the agent and send out the first goal
 		return raList;
+	}
+	
+	private static IWarehouseAgent getCoordinatorAgent(RobotAgentFactory factory, IWarehouse warehouse){
+		IWarehouseAgent wa = factory.createAgent(warehouse);
+		if(null == wa){
+			System.out.println("ERROR no agent created for warehouse "+warehouse);
+		}else{
+			//XXX: initialize?
+		}
+		return wa;
 	}
 
 	public static void main(String[] args) throws InterruptedException {
@@ -92,8 +100,10 @@ public class Launcher {
 		/*
 		 * Sezione per il caricamento degli agenti
 		 */
-		Collection<IRobotAgent> agentsList = getAgents(warehouse);
-		
+		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
+		Collection<IRobotAgent> agentsList = getRobotAgents(caFactory, warehouse);
+		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse);
+		coordinator.coordinate(agentsList);
 		
 		
 		/*
