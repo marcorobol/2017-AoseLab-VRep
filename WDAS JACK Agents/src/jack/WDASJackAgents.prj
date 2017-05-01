@@ -87,8 +87,8 @@
 					    >
 				    >
 				    <BAPI_Filename
-					:filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
-					:label  "Plan_1"
+					:filename  "unitn/aose/warehousesim/agent/MoveRobotsPlan.gplan"
+					:label  "MoveRobotsPlan"
 					:type  "aos.jack.ed.Plan"
 					:java
 					    <BAPI_Java
@@ -130,8 +130,8 @@
 					    >
 				    >
 				    <BAPI_Filename
-					:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
-					:label  "Event_1"
+					:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
+					:label  "StartRobotsEvent"
 					:type  "aos.jack.ed.Event"
 					:java
 					    <BAPI_Java

@@ -78,9 +78,9 @@
     :posted_events
 	(
 	    <BAPI_FileRef
-		:name  "Event_1"
-		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
-		:label  "sends Event_1"
+		:name  "StartRobotsEvent"
+		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
+		:label  "sends StartRobotsEvent"
 		:type  "aos.jack.ed.Event"
 		:java
 		    <BAPI_Java

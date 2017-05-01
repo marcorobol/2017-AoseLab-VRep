@@ -5,12 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
-	    :val  `/**
- * 
- */`
 	>
-    :name  "Plan_1"
-    :filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
+    :name  "MoveRobotsPlan"
+    :filename  "unitn/aose/warehousesim/agent/MoveRobotsPlan.gplan"
     :type  "aos.jack.ed.Plan"
     :java
 	<BAPI_Java
@@ -21,9 +18,9 @@
 	>
     :handled_event
 	<BAPI_FileRef
-	    :name  "Event_1"
-	    :filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
-	    :label  "handles Event_1"
+	    :name  "StartRobotsEvent"
+	    :filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
+	    :label  "handles StartRobotsEvent"
 	    :type  "aos.jack.ed.Event"
 	    :java
 		<BAPI_Java
@@ -175,29 +172,13 @@
      */
     @sleep(5);
     while(true){
-        /*
-        if(myRobot.getPosition()==4) { 
-           myRobot.stopHere();
-            myRobot.loadLeft();
-        }
-        else{
-            myRobot.stopHere();
-            @sleep(1);
-            myRobot.moveBackward();
-            @sleep(1);
-            myRobot.stopHere();
-            @sleep(5);
-            myRobot.moveForward();
-            @sleep(5);          
-        }
-        */
        myRobot.moveForward();
-       @sleep(200);
+       @sleep(20);
+       myRobot.stopHere();
+       @sleep(1);
        myRobot.moveBackward();
-       @sleep(200);
+       @sleep(20);
     }
-         
-    //if(myRobot.getPosition()==3) myRobot.stopHere();
 }
 `
 	    >

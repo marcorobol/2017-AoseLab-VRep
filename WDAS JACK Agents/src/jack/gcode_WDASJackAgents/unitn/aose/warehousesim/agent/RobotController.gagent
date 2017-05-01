@@ -197,9 +197,9 @@ test
     :events
 	(
 	    <BAPI_FileRef
-		:name  "Event_1"
-		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
-		:label  "posts Event_1"
+		:name  "StartRobotsEvent"
+		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
+		:label  "posts StartRobotsEvent"
 		:type  "aos.jack.ed.Event"
 		:java
 		    <BAPI_Java
@@ -212,8 +212,8 @@ test
 		:refName  "ev1"
 	    >
 	    <BAPI_FileRef
-		:name  "Event_1"
-		:filename  "unitn/aose/warehousesim/agent/Event_1.gevent"
+		:name  "StartRobotsEvent"
+		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
 		:label  "handles"
 		:type  "aos.jack.ed.Event"
 		:java
@@ -260,8 +260,8 @@ test
     :plans
 	(
 	    <BAPI_FileRef
-		:name  "Plan_1"
-		:filename  "unitn/aose/warehousesim/agent/Plan_1.gplan"
+		:name  "MoveRobotsPlan"
+		:filename  "unitn/aose/warehousesim/agent/MoveRobotsPlan.gplan"
 		:label  "uses"
 		:type  "aos.jack.ed.Plan"
 		:java
