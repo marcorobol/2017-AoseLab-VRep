@@ -5,9 +5,6 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
-	    :val  `/**
- * 
- */`
 	>
     :name  "CoordinationPlan"
     :filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"

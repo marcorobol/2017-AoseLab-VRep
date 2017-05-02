@@ -42,7 +42,6 @@ test
 		    <BAPI_Text
 			:lab  "void updateTime"
 			:val  `public void updateTime(long time){
-    //dataLog.log("agent "+this.getName()+" time is "+time);
     timer.setTime(time);
     myRobot.update();
 }
@@ -56,9 +55,10 @@ test
 `
 		    >
 		    <BAPI_Text
-			:lab  "void prova"
-			:val  `public void prova(){
-    dataLog.log("Questa è una prova!");
+			:lab  "void test"
+			:val  `public void test(){
+    dataLog.log("This is a test");
+    
 }
 `
 		    >

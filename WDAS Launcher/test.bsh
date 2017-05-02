@@ -1,9 +1,8 @@
-
-RobotMotorA1.prova();
-RobotMotorA2.prova();
-RobotMotorB2.prova();
-RobotMotorB1.prova();
-RobotMotorC1.prova();
-RobotMotorD2.prova();
-RobotMotorC2.prova();
-RobotMotorD1.prova();
+RobotMotorA1.test();
+RobotMotorA2.test();
+RobotMotorB2.test();
+RobotMotorB1.test();
+RobotMotorC1.test();
+RobotMotorD2.test();
+RobotMotorC2.test();
+RobotMotorD1.test();
