@@ -1,0 +1,27 @@
+<BAPI_Event
+    :version  52
+    :superclass  "Event"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "GoToPositionEvent"
+    :filename  "unitn/aose/warehousesim/agent/GoToPositionEvent.gevent"
+    :type  "aos.jack.ed.Event"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :evconstr
+	(
+	    <BAPI_Text
+		:lab  "goToPosition"
+		:val  `goToPosition(int position){}
+`
+	    >
+	)
+>
