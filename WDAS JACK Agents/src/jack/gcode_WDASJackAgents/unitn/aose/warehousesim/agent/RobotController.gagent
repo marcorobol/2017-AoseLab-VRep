@@ -33,9 +33,6 @@ test
 		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
 		    >
-		    <BAPI_TextLine
-			:val  "java.lang.Thread"
-		    >
 		)
 	    :code
 		(
@@ -58,7 +55,6 @@ test
 			:lab  "void test"
 			:val  `public void test(){
     dataLog.log("This is a test");
-
 }
 `
 		    >
@@ -73,8 +69,7 @@ test
     timer = new SimClock();
     myRobot.setRobot(robot);
     dataLog.log("agent "+this.getName()+" for "+robot.getName()+" created");
-    
-    //postEvent(ev1.start());
+
     postEvent(ev2.update());
 }
 `

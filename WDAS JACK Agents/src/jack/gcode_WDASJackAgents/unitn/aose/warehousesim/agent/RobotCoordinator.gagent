@@ -37,14 +37,9 @@
 	    :code
 		(
 		    <BAPI_Text
-			:lab  "IWarehouse warehouse"
-			:val  `private IWarehouse warehouse;
-`
-		    >
-		    <BAPI_Text
 			:lab  "IWarehouse getWarehouse"
 			:val  `public IWarehouse getWarehouse(){
-    return warehouse;
+    return myWarehouse.getWarehouse();
 }
 `
 		    >
@@ -63,7 +58,7 @@
 	    :val  `public <<Type>>(IWarehouse warehouse)
 {
     super("coordinator");
-    this.warehouse = warehouse;
+    myWarehouse.setWarehouse(warehouse);
 }
 `
 	    :init  `public <<Type>>(String name)
@@ -75,6 +70,22 @@
 	>
     :databases
 	(
+	    <BAPI_FileRef
+		:name  "WarehouseData"
+		:filename  "unitn/aose/warehousesim/agent/WarehouseData_-myWarehouse.gnd"
+		:label  "private WarehouseData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "myWarehouse"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "RailInfo"
 		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
