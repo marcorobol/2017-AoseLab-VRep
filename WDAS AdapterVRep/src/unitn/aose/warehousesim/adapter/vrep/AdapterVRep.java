@@ -152,7 +152,7 @@ public class AdapterVRep implements IAdapter {
 		posBoxStart.getArray()[1] = 100f;
 		posBoxStart.getArray()[2] = 100f;
 		int r = vrep.simxSetObjectPosition(clientID, b.getHandle().getValue(),
-				remoteApi.sim_handle_parent, posBoxStart, remoteApi.simx_opmode_oneshot);
+				remoteApi.sim_handle_parent, posBoxStart, remoteApi.simx_opmode_oneshot_wait);
         if(r!=remoteApi.simx_return_ok) {
         	System.out.println("ERROR Setting position of box " + ref.getName() +". Error : "+r);
         }
@@ -179,7 +179,7 @@ public class AdapterVRep implements IAdapter {
 		bits[0] = Math.floor(i/1)%2 != 0;
 		bits[1] = Math.floor(i/2)%2 != 0;
 		bits[2] = Math.floor(i/4)%2 != 0;
-		System.out.println("" + bits[0] + bits[1] + bits[2] );
+		//System.out.println("" + bits[0] + bits[1] + bits[2] );
 		if(!bits[0])
 			warehouse.stop();
 		else if(bits[1])

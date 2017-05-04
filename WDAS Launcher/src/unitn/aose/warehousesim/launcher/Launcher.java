@@ -117,7 +117,17 @@ public class Launcher {
 		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
 		Collection<IRobotAgent> agentsList = getRobotAgents(caFactory, warehouse);
 		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse);
-		coordinator.coordinate(agentsList);
+		
+		//XXX: I just want to use a single agent at this time for testing
+		//FIXME: remove this code to restore normal beahviour
+		Collection<IRobotAgent> tempAgentsList = new LinkedList<IRobotAgent>();
+		for(IRobotAgent a:agentsList){
+			if(a.getRobot().getName().equals("RobotMotorA1")){
+				tempAgentsList.add(a);
+				break;
+			}
+		}
+		coordinator.coordinate(tempAgentsList);
 		
 		/*
 		 * Agents
@@ -127,7 +137,21 @@ public class Launcher {
 			robotList.add(warehouse.getRobot(c));
 //		new Thread(new AgentJava(robotList)).start();
 		new AgentGui(robotList);
-		
+
+		/*
+		 * Beanshell
+		 */
+		Interpreter i = new Interpreter();
+		try {
+			for(IRobotAgent robot : agentsList){ //foreach robot
+				i.set(robot.getRobot().getName(), robot); 
+			}
+			i.set(VAR_WAREHOUSE, warehouse);
+			i.source(SCRIPT_SOURCEFILE);
+		}
+		catch (Exception e){
+			System.out.println("ERROR: " + e);
+		}
 		
 		/*
 		 * TellerMachines
@@ -155,21 +179,6 @@ public class Launcher {
 		Thread astcThread = new Thread(new AdapterSyncronousTriggeringCycle(adapter, warehouse));
 		astcThread.setName("AdapterSyncronousTriggeringCycle");
 		astcThread.start();
-		
-		/*
-		 * Beanshell
-		 */
-		Interpreter i = new Interpreter();
-		try {
-			for(IRobotAgent robot : agentsList){ //foreach robot
-				i.set(robot.getRobot().getName(), robot); 
-			}
-			i.set(VAR_WAREHOUSE, warehouse);
-			i.source(SCRIPT_SOURCEFILE);
-		}
-		catch (Exception e){
-			System.out.println("ERROR: " + e);
-		}
 	}
 
 }

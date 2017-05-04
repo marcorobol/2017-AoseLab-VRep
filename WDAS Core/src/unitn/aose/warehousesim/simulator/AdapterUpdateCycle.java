@@ -22,7 +22,7 @@ public class AdapterUpdateCycle implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-        	System.out.println(System.currentTimeMillis()-ms+" ms");
+        	//System.out.println(System.currentTimeMillis()-ms+" ms");
         	ms = System.currentTimeMillis();
         	adapter.update(warehouse);
         }

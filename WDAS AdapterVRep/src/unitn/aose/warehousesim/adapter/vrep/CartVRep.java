@@ -101,7 +101,7 @@ public class CartVRep implements IAdapterCart {
 	
 	@Override
 	public void loadBox(BoxRef boxRef, Boolean rightSideOrLeftSide) {
-		System.out.println("loadBox");
+		System.out.println("DEBUG: "+cartName+" loading "+boxRef+" "+(rightSideOrLeftSide?"right":"left"));
 		BoxVRep box = adapter.getBox(boxRef);
 		/*
 		 * Set parent
@@ -109,7 +109,7 @@ public class CartVRep implements IAdapterCart {
 		int r = vrep.simxSetObjectParent(clientID, box.getHandle().getValue(),
 				connectorH.getValue(), false, remoteApi.simx_opmode_streaming);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Setting parent of box error : "+r);
+        	System.out.println("ERROR "+cartName+" loading "+boxRef+" setting box parent returned "+r+" (expected "+remoteApi.simx_return_ok+")");
         }
         /*
          * Move
@@ -117,11 +117,11 @@ public class CartVRep implements IAdapterCart {
 		FloatWA posBoxDest = new FloatWA(3);
 		posBoxDest.getArray()[0] = 0f;
 		posBoxDest.getArray()[1] = 0f;
-		posBoxDest.getArray()[2] = 0.3f;
+		posBoxDest.getArray()[2] = 0.1f;
 		r = vrep.simxSetObjectPosition(clientID, box.getHandle().getValue(),
-				remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_streaming);
+				remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_oneshot_wait);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Moving box error : "+r);
+        	System.out.println("ERROR "+cartName+" loading "+boxRef+" setting object position got "+r+" (expected "+remoteApi.simx_return_ok+")" );
         }
 	}
 	
@@ -178,13 +178,14 @@ public class CartVRep implements IAdapterCart {
         if(r!=remoteApi.simx_return_ok && r!=remoteApi.simx_return_novalue_flag) {
         	System.out.println("ERROR Retriving joint position "+cart.getName()+", error : "+r);
         }
-        
+        /*
     	System.out.println("DEBUG Robot "+cart.getName()+
     			" pos: "+intFormat.format(cart.getPosition().get())+
     			", vel: "+floatFormat.format(velocity)+
     			", force: "+floatFormat.format(forceJointVRep.getValue())+
     			", state: "+cart.getMovement().get()
     			);
+    			*/
     	
     	
     	
