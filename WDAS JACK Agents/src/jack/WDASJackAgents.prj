@@ -425,6 +425,9 @@
 		:val  "aos.jack.util.cursor"
 	    >
 	    <AString
+		:val  "java.lang"
+	    >
+	    <AString
 		:val  "java.text"
 	    >
 	    <AString

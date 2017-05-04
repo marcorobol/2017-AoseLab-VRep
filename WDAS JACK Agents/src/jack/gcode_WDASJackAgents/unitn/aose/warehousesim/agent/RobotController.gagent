@@ -36,6 +36,9 @@ test
 		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
 		    >
+		    <BAPI_TextLine
+			:val  "java.lang.Thread"
+		    >
 		)
 	    :code
 		(
@@ -58,7 +61,7 @@ test
 			:lab  "void test"
 			:val  `public void test(){
     dataLog.log("This is a test");
-    
+
 }
 `
 		    >
