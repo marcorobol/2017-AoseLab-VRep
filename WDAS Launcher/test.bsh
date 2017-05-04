@@ -1,3 +1,11 @@
+//WAREHOUSE TEST1
+
+//setup warehouse
+warehouse.createBox("ShareAreaAC");
+warehouse.createBox("ShareAreaBD");
+warehouse.createBox("PickAreaA");
+
+//start agents
 RobotMotorA1.test();
 RobotMotorA2.test();
 RobotMotorB2.test();

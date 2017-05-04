@@ -33,6 +33,7 @@ public class Warehouse implements IWarehouse {
 	private final ObservableLong simulationTime;
 	
     private final Map<RailRef, Rail> rails = new HashMap<RailRef, Rail>();
+    private final Map<String, AreaRef> areas;
 	private final Map<StorageAreaRef, Area> storageAreas = new HashMap<StorageAreaRef, Area>();
 	private final Map<DepositWithdrawAreaRef, Area> depositWithdrawAreas = new HashMap<DepositWithdrawAreaRef, Area>();
     private final Map<BoxRef, Box> boxes = new HashMap<BoxRef, Box>();
@@ -42,6 +43,7 @@ public class Warehouse implements IWarehouse {
 	
 	public Warehouse(IAdapter adapter) {
 		this.adapter = adapter;
+		areas = new HashMap<String, AreaRef>();
 		simulationTime = new ObservableLong();
 		simulationTime.set(0l);
 		simulationState = new ObservableSimulationState(simulationTime);
@@ -76,12 +78,14 @@ public class Warehouse implements IWarehouse {
 	public Area defineArea(String name) {
 		StorageArea a = new StorageArea(name, adapter);
 		storageAreas.put(a, a);
+		areas.put(name, a);
 		return a;
 	}
 
 	public Area defineDepositWithdrawArea(String name) {
 		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter);
 		depositWithdrawAreas.put(a, a);
+		areas.put(name, a);
 		return a;
 	}
 
@@ -173,6 +177,12 @@ public class Warehouse implements IWarehouse {
 	/*
 	 * Create and delete boxes
 	 */
+	
+	@Override
+	public BoxRef createBox(String areaName){
+		AreaRef ar = areas.get(areaName);
+		return null != ar ? createBox(ar) : null;
+	}
 
 	@Override
 	public BoxRef createBox(AreaRef areaRef) {

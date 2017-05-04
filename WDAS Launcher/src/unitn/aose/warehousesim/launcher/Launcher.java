@@ -29,6 +29,19 @@ import bsh.Interpreter;
 
 public class Launcher {
 	
+	/**
+	 * the beanshell script file that will be executed on startup
+	 */
+	public static final String
+		SCRIPT_SOURCEFILE = "test.bsh";
+	
+	/**
+	 * the beanshell variable used to map the warehouse
+	 */
+	public static final String
+		VAR_WAREHOUSE = "warehouse";
+		
+	
 	public static final String 
 		CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
 		CLASS_WAREHOUSEAGENT = "unitn.aose.warehousesim.agent.RobotCoordinator";
@@ -106,7 +119,6 @@ public class Launcher {
 		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse);
 		coordinator.coordinate(agentsList);
 		
-		
 		/*
 		 * Agents
 		 */
@@ -116,21 +128,6 @@ public class Launcher {
 //		new Thread(new AgentJava(robotList)).start();
 		new AgentGui(robotList);
 		
-		
-		/*
-		 * Beanshell
-		 */
-		Interpreter i = new Interpreter();
-		try {
-			for(IRobotAgent robot : agentsList){ //foreach robot
-				i.set(robot.getRobot().getName(), robot); 
-			}
-			
-			i.source("test.bsh");
-		}
-		catch (Exception e){
-			System.out.println("ERROR: " + e);
-		}
 		
 		/*
 		 * TellerMachines
@@ -151,10 +148,28 @@ public class Launcher {
          * Update and triggering cycles
          */
 		
-		new Thread(new AdapterUpdateCycle(adapter, warehouse)).start();
+		Thread aucThread = new Thread(new AdapterUpdateCycle(adapter, warehouse));
+		aucThread.setName("AdapterUpdateCycle");
+		aucThread.start();
 		
-		new Thread(new AdapterSyncronousTriggeringCycle(adapter, warehouse)).start();
+		Thread astcThread = new Thread(new AdapterSyncronousTriggeringCycle(adapter, warehouse));
+		astcThread.setName("AdapterSyncronousTriggeringCycle");
+		astcThread.start();
 		
+		/*
+		 * Beanshell
+		 */
+		Interpreter i = new Interpreter();
+		try {
+			for(IRobotAgent robot : agentsList){ //foreach robot
+				i.set(robot.getRobot().getName(), robot); 
+			}
+			i.set(VAR_WAREHOUSE, warehouse);
+			i.source(SCRIPT_SOURCEFILE);
+		}
+		catch (Exception e){
+			System.out.println("ERROR: " + e);
+		}
 	}
 
 }
