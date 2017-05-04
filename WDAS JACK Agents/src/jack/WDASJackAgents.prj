@@ -106,6 +106,18 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/GoToPositionEvent.gevent"
+					:label  "GoToPositionEvent"
+					:type  "aos.jack.ed.Event"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
 					:label  "CoordinateEvent"
 					:type  "aos.jack.ed.Event"

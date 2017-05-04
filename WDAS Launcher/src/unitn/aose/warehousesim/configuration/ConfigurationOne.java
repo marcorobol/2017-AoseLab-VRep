@@ -181,8 +181,9 @@ public class ConfigurationOne {
 			warehouse.deleteBox(boxRef);
 		}
 		
-		warehouse.createBox(area_ac);
-		warehouse.createBox(area_bd);
+		//warehouse.createBox("ShareAreaAC");
+		//warehouse.createBox(area_ac);
+		//warehouse.createBox(area_bd);
 	}
 
 }

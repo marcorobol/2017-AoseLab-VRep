@@ -31,6 +31,8 @@ public interface IWarehouse extends IWarehouseMonitor {
 	
 	BoxRef createBox(AreaRef area);
 	
+	BoxRef createBox(String areaName);
+	
 	void deleteBox(BoxRef box);
 	
 	

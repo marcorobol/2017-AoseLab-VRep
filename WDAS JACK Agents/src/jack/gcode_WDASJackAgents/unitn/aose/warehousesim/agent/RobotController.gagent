@@ -31,9 +31,6 @@ test
 			:val  "aos.jack.jak.util.timer.SimClock"
 		    >
 		    <BAPI_TextLine
-			:val  "java.util.*"
-		    >
-		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
 		    >
 		    <BAPI_TextLine
