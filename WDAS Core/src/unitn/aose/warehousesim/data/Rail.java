@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.RailRef;
@@ -17,8 +18,6 @@ public class Rail implements RailRef {
 	private Map<Integer, Cross> crosses;
 	private Collection<Cart> carts;
 	
-	
-	
 	public Rail(String name, int steps) {
 		this.name = name;
 		this.steps = steps;
@@ -28,8 +27,6 @@ public class Rail implements RailRef {
 		this.carts = new HashSet<Cart>();
 	}
 	
-	
-	
 	public String getName() {
 		return name;
 	}
@@ -37,8 +34,6 @@ public class Rail implements RailRef {
 	public int getSteps() {
 		return steps;
 	}
-	
-	
 	
 	public void addCart(Cart c) {
 		carts.add(c);
@@ -55,17 +50,23 @@ public class Rail implements RailRef {
 		return null;
 	};
 	
-	
-	
 	@Override
 	public Integer[] getLeftAreaPositions() {
-		return (Integer[]) leftAreas.keySet().toArray();
+		Integer[] array = new Integer[leftAreas.size()];
+		return leftAreas.keySet().toArray(array);
 	}
 
 	@Override
 	public Integer[] getRightAreaPositions() {
-		return (Integer[]) rightAreas.keySet().toArray();
+		Integer[] array = new Integer[rightAreas.size()];
+		return rightAreas.keySet().toArray(array);
 	}
+	
+	@Override
+	public Integer[] getCrossPositions() {
+		Integer[] array = new Integer[crosses.size()];
+		return crosses.keySet().toArray(array);
+	};
 
 	@Override
 	public AreaRef getLeftAreaIn(int position) {
@@ -77,7 +78,10 @@ public class Rail implements RailRef {
 		return rightAreas.get(position);
 	}
 	
-	
+	@Override
+	public RailRef getCrossedRailAt(int position){
+		return crosses.get(position).getRail();
+	}
 	
 	public Map<Integer, Area> getLeftAreas() {
 		return leftAreas;
@@ -94,8 +98,6 @@ public class Rail implements RailRef {
 	public void addRightArea(Integer i, Area l) {
 		rightAreas.put(i, l);
 	}
-	
-	
 	
 	public void addCross(Integer i, Rail r, int railIndex, boolean directionRightTrueOrLeftFalse) {
 		crosses.put(i, new Cross(r, railIndex, directionRightTrueOrLeftFalse));

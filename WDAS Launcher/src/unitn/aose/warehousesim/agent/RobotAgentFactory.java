@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import unitn.aose.warehousesim.api.IRobot;
-import unitn.aose.warehousesim.api.IWarehouse;
+import unitn.aose.warehousesim.api.IWarehouseMonitor;
 
 /**
  * 
@@ -58,12 +58,12 @@ public class RobotAgentFactory {
 		return ra;
 	}
 	
-	public IWarehouseAgent createAgent(IWarehouse warehouse){
+	public IWarehouseAgent createAgent(IWarehouseMonitor warehouse){
 		IWarehouseAgent ra=null;
 		System.out.println("DEBUG creating coordinator agent for "+warehouse);
 		try {
 			Class<?> raclass = Class.forName(coordinatorAgentClassName);
-			Constructor<?> rac = raclass.getConstructor(IWarehouse.class);
+			Constructor<?> rac = raclass.getConstructor(IWarehouseMonitor.class);
 			ra  = (IWarehouseAgent) rac.newInstance(warehouse);
 			
 		} catch (ClassNotFoundException e) {

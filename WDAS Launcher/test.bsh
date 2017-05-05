@@ -6,11 +6,4 @@ warehouse.createBox("ShareAreaBD");
 warehouse.createBox("PickAreaA");
 
 //start agents
-RobotMotorA1.test();
-RobotMotorA2.test();
-RobotMotorB2.test();
-RobotMotorB1.test();
-RobotMotorC1.test();
-RobotMotorD2.test();
-RobotMotorC2.test();
-RobotMotorD1.test();
+//TODO

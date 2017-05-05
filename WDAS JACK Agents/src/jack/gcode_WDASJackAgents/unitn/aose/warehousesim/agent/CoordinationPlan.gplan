@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "CoordinationPlan"
     :filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
@@ -17,9 +20,6 @@
 		>
 	    :imports
 		(
-		    <BAPI_TextLine
-			:val  "java.util.Collection"
-		    >
 		    <BAPI_TextLine
 			:val  "java.util.Iterator"
 		    >

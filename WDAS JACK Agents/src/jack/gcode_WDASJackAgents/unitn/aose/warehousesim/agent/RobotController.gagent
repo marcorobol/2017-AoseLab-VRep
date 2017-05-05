@@ -51,13 +51,6 @@ test
 }
 `
 		    >
-		    <BAPI_Text
-			:lab  "void test"
-			:val  `public void test(){
-    dataLog.log("This is a test");
-}
-`
-		    >
 		)
 	>
     :constructor

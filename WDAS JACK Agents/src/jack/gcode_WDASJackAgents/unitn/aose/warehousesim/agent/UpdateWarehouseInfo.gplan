@@ -1,0 +1,213 @@
+<BAPI_Plan
+    :version  52
+    :superclass  "Plan"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
+	>
+    :name  "UpdateWarehouseInfo"
+    :filename  "unitn/aose/warehousesim/agent/UpdateWarehouseInfo.gplan"
+    :type  "aos.jack.ed.Plan"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "java.util.Iterator"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.IWarehouseMonitor"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.RailRef"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.AreaRef"
+		    >
+		)
+	>
+    :handled_event
+	<BAPI_FileRef
+	    :name  "UpdateInfo"
+	    :filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
+	    :label  "handles UpdateInfo"
+	    :type  "aos.jack.ed.Event"
+	    :java
+		<BAPI_Java
+		    :pkg
+			<BAPI_TextLine
+			>
+		>
+	    :refType  "handles"
+	    :refName  "ev"
+	    :dropHandlerName  "NamedEvent.drop"
+	    :allowsReplace  :true
+	>
+    :relevant
+	<BAPI_Text
+	    :lab  "Relevance"
+	    :val  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :init  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :context
+	<BAPI_Text
+	    :lab  "Context"
+	    :val  `context()
+{
+    true;
+}
+`
+	    :init  `context()
+{
+    true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "WarehouseData"
+		:filename  "unitn/aose/warehousesim/agent/WarehouseData_-myWarehouse.gnd"
+		:label  "uses WarehouseData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "myWarehouse"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "RailInfo"
+		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
+		:label  "uses RailInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "rails"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "CrossInfo"
+		:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
+		:label  "uses CrossInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "crosses"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "dataLog"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+    :reasoning_methods
+	(
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "body"
+		:val  `body()
+{
+    IWarehouseMonitor w = myWarehouse.getWarehouse();
+    dataLog.log("updating warehouse info from "+w+"...");
+    
+    //loading areas of all the rails
+    Iterator it = w.getRails().iterator();
+    while(it.hasNext()){
+        RailRef r = (RailRef)it.next();
+        dataLog.log("loading rail: "+r.getName());
+        
+        //get cross positions for this rail
+        Integer[] crossePositions = r.getCrossPositions();
+        for(int i=0; i<crossePositions.length; ++i){
+            int p = crossePositions[i].intValue();
+            RailRef crossedRail = r.getCrossedRailAt(p);
+            dataLog.log("cross at "+p+": "+crossedRail.getName());
+            crosses.add(r.getName(), p, crossedRail.getName());
+        }
+        
+        //get area positions for this rail
+        Integer[] leftAreas = r.getLeftAreaPositions();
+        Integer[] rightAreas = r.getRightAreaPositions();
+        
+        //left areas
+        boolean isRight = false;
+        for(int i=0; i<leftAreas.length; ++i){
+            //add each area in the rails beliefset
+            int p = leftAreas[i].intValue();
+            AreaRef a = r.getLeftAreaIn(p);
+            dataLog.log("left area at "+p+": "+a.getName());
+            rails.add(r.getName(), p, isRight, w.isAStorageArea(a), a.getName());
+        }
+        //right areas
+        isRight = true;
+        for(int i=0; i<rightAreas.length; ++i){
+            //add each area in the rails beliefset
+            int p = rightAreas[i].intValue();
+            AreaRef a = r.getRightAreaIn(p);
+            dataLog.log("right area at "+p+": "+a.getName());
+            rails.add(r.getName(), p, isRight, w.isAStorageArea(a), a.getName());
+        }
+    }
+    
+    //XXX: check shared areas
+    logical String $rail;
+    logical String $otherRail;
+    logical String $area;
+    Cursor c = rails.getSharedAreas($rail, $otherRail, $area);
+    while(c.next()){
+        dataLog.log("shared area "+$area.as_string()+" between "+$rail.as_string()+" and "+$otherRail.as_string());    
+    }
+    
+    dataLog.log("warehouse info updated!");
+}
+`
+	    >
+	)
+>

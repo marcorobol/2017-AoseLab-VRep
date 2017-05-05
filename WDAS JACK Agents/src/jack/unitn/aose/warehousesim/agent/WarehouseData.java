@@ -2,7 +2,7 @@ package unitn.aose.warehousesim.agent;
 
 import java.util.Observable;
 
-import unitn.aose.warehousesim.api.IWarehouse;
+import unitn.aose.warehousesim.api.IWarehouseMonitor;
 
 /**
  * Wrapper for the Warehouse
@@ -11,17 +11,17 @@ import unitn.aose.warehousesim.api.IWarehouse;
  */
 public class WarehouseData extends Observable {
 
-	private IWarehouse warehouse;
+	private IWarehouseMonitor warehouse;
 	
 	public WarehouseData(){
 		
 	}
 	
-	public void setWarehouse(IWarehouse warehouse){
+	public void setWarehouse(IWarehouseMonitor warehouse){
 		this.warehouse = warehouse;
 	}
 	
-	public IWarehouse getWarehouse(){
+	public IWarehouseMonitor getWarehouse(){
 		return warehouse;
 	}
 }

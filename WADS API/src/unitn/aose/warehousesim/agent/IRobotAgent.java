@@ -7,13 +7,7 @@ import unitn.aose.warehousesim.api.IRobot;
  * @author Martina
  * 
  */
-public interface IRobotAgent {
-	
-	/**
-	 * Set the new time in the agent clock
-	 * @param simulation time in milliseconds
-	 */
-	void updateTime(long time);
+public interface IRobotAgent extends ISimulationAgent {
 	
 	/**
 	 * Retrieve the robot associated with this agent.

@@ -28,17 +28,27 @@
 	    :imports
 		(
 		    <BAPI_TextLine
+			:val  "aos.jack.jak.util.timer.SimClock"
+		    >
+		    <BAPI_TextLine
 			:val  "java.util.Collection"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.IWarehouse"
+			:val  "unitn.aose.warehousesim.api.IWarehouseMonitor"
 		    >
 		)
 	    :code
 		(
 		    <BAPI_Text
-			:lab  "IWarehouse getWarehouse"
-			:val  `public IWarehouse getWarehouse(){
+			:lab  "void updateTime"
+			:val  `public void updateTime(long time){
+    timer.setTime(time);
+}
+`
+		    >
+		    <BAPI_Text
+			:lab  "IWarehouseMonitor getWarehouse"
+			:val  `public IWarehouseMonitor getWarehouse(){
     return myWarehouse.getWarehouse();
 }
 `
@@ -55,10 +65,14 @@
     :constructor
 	<BAPI_Text
 	    :lab  "Constructor"
-	    :val  `public <<Type>>(IWarehouse warehouse)
+	    :val  `public <<Type>>(IWarehouseMonitor warehouse)
 {
     super("coordinator");
+    timer = new SimClock();
     myWarehouse.setWarehouse(warehouse);
+    dataLog.log("agent "+this.getName()+" for "+warehouse+" created");
+
+    postEvent(ev2.update());
 }
 `
 	    :init  `public <<Type>>(String name)
@@ -102,21 +116,6 @@
 		:refName  "rails"
 	    >
 	    <BAPI_FileRef
-		:name  "DataLog"
-		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
-		:label  "private DataLog"
-		:type  "aos.jack.ed.NamedData"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "AccessibleDBList.attrs"
-		:refType  "private"
-		:refName  "dataLog(this)"
-	    >
-	    <BAPI_FileRef
 		:name  "CrossInfo"
 		:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
 		:label  "private CrossInfo"
@@ -131,9 +130,57 @@
 		:refType  "private"
 		:refName  "crosses"
 	    >
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "private DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "dataLog(this)"
+	    >
 	)
     :events
 	(
+	    <BAPI_FileRef
+		:name  "UpdateInfo"
+		:filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
+		:label  "posts UpdateInfo"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "posts"
+		:refName  "ev2"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "UpdateInfo"
+		:filename  "unitn/aose/warehousesim/agent/UpdateInfo.gevent"
+		:label  "handles"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "handles"
+		:hasName  :false
+		:refName  "ev"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "StartRobotsEvent"
 		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
@@ -183,6 +230,22 @@
 	)
     :plans
 	(
+	    <BAPI_FileRef
+		:name  "UpdateWarehouseInfo"
+		:filename  "unitn/aose/warehousesim/agent/UpdateWarehouseInfo.gplan"
+		:label  "uses"
+		:type  "aos.jack.ed.Plan"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanList.attrs"
+		:refType  "uses"
+		:hasName  :false
+		:dropHandlerName  "Plan.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "CoordinationPlan"
 		:filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"

@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "CrossInfo"
     :filename  "unitn/aose/warehousesim/agent/CrossInfo.gdb"
