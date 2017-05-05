@@ -18,6 +18,23 @@
 		<BAPI_TextLine
 		    :val  "unitn.aose.warehousesim.agent"
 		>
+	    :code
+		(
+		    <BAPI_Text
+			:lab  "%TRAILING_CODE"
+			:val  `
+    
+    /**
+     * compute path from a rail/position to a destination rail/position
+     * The path is a set of rail/position coordinates that have to be reached
+     */
+    //TODO
+//<<END_BRACE>>
+
+
+`
+		    >
+		)
 	>
     :dbfields
 	(
@@ -48,16 +65,16 @@
 			    :ref
 				<&1 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
-		:name  "get"
+		:name  "getCrossedRails"
 		:logicals
 		    (
-			<BAPI_InternalRef
-			    :ref
-				<&0 >
-			>
 			<BAPI_InternalRef
 			    :ref
 				<&1 >
@@ -65,6 +82,16 @@
 			<BAPI_InternalRef
 			    :ref
 				<&2 >
+			>
+		    )
+	    >
+	    <BAPI_DBQuery
+		:name  "getCrossPosition"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&1 >
 			>
 		    )
 	    >

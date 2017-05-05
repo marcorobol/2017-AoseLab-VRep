@@ -32,18 +32,21 @@
     :dbfields
 	(
 	    <BAPI_DBField =0
+		:name  "rail"
+	    >
+	    <BAPI_DBField =1
 		:name  "p"
 		:type  "int"
 	    >
-	    <BAPI_DBField =1
+	    <BAPI_DBField =2
 		:name  "ms"
 		:type  "int"
 	    >
-	    <BAPI_DBField =2
+	    <BAPI_DBField =3
 		:name  "lus"
 		:type  "int"
 	    >
-	    <BAPI_DBField =3
+	    <BAPI_DBField =4
 		:name  "lb"
 	    >
 	)
@@ -69,20 +72,39 @@
 			    :ref
 				<&3 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&4 >
+			>
 		    )
 	    >
 	)
     :vqueries
 	(
 	    <BAPI_ViewQuery
+		:name  "getRail"
+		:definition
+		    <BAPI_Text
+			:lab  "getRail"
+			:val  `getRail(logical String rail){
+    logical int p, ms, lus;
+    logical String lb;
+    return getState (rail, p, ms, lus, lb);
+}
+`
+			:isLabelEditable  :false
+		    >
+	    >
+	    <BAPI_ViewQuery
 		:name  "getPosition"
 		:definition
 		    <BAPI_Text
 			:lab  "getPosition"
 			:val  `getPosition (logical int p) {
+    logical String rail;
     logical int ms, lus;
     logical String lb;
-    return getState (p, ms, lus, lb);
+    return getState (rail, p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false
@@ -94,9 +116,10 @@
 		    <BAPI_Text
 			:lab  "getMovement"
 			:val  `getMovement (logical int ms) {
+    logical String rail;
     logical int p, lus;
     logical String lb;
-    return getState (p, ms, lus, lb);
+    return getState (rail, p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false
@@ -108,9 +131,10 @@
 		    <BAPI_Text
 			:lab  "getLoadUnload"
 			:val  `getLoadUnload(logical int lus) {
+    logical String rail;
     logical int p, ms;
     logical String lb;
-    return getState (p, ms, lus, lb);
+    return getState (rail, p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false
@@ -122,8 +146,9 @@
 		    <BAPI_Text
 			:lab  "getLoadedBox"
 			:val  `getLoadedBox(logical String lb) {
+    logical String rail;
     logical int p, ms, lus;
-    return getState (p, ms, lus, lb);
+    return getState (rail, p, ms, lus, lb);
 }
 `
 			:isLabelEditable  :false

@@ -72,7 +72,7 @@
 		    )
 	    >
 	    <BAPI_DBQuery
-		:name  "get"
+		:name  "getRail"
 		:logicals
 		    (
 			<BAPI_InternalRef
@@ -94,7 +94,7 @@
 		    )
 	    >
 	    <BAPI_DBQuery
-		:name  "get"
+		:name  "getAreas"
 		:logicals
 		    (
 			<BAPI_InternalRef
@@ -124,15 +124,17 @@
 		    <BAPI_Text
 			:lab  "getSharedAreas"
 			:val  `getSharedAreas(logical String $rail, logical String $otherRail, logical String $area){
-    logical int $position;
-    logical boolean $right;
-    logical boolean $storage;
+    logical int _$position;
+    logical boolean _$right;
+    logical boolean _$storage;
     //get all the areas of the given rail...
-    logical int $otherPos;
-    logical boolean $otherRight;
-    logical boolean $otherStorage;
+    logical int _$otherPos;
+    logical boolean _$otherRight;
+    logical boolean _$otherStorage;
     //and all the rails with that has that area
-    return get($rail, $position, $right, $storage, $area) && get($otherRail, $otherPos, $otherRight, $otherStorage, $area.as_string()) && $otherRail.as_string()!=$rail.as_string();
+    return get($rail, _$position, _$right, _$storage, $area) && 
+        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string()) && 
+        $otherRail.as_string()!=$rail.as_string();
 }
 `
 			:isLabelEditable  :false
@@ -143,18 +145,39 @@
 		:definition
 		    <BAPI_Text
 			:lab  "getSharedAreas"
-			:val  `getSharedAreas(String rail, logical String otherRail, logical String area){
-    logical int $position;
-    logical boolean $right;
-    logical boolean $storage;
-    logical String $area;
+			:val  `getSharedAreas(String rail, logical String $otherRail, logical String $area){
+    logical int _$position;
+    logical boolean _$right;
+    logical boolean _$storage;
     //get all the areas of the given rail...
-    logical String $otherRail;
-    logical int $otherPos;
-    logical boolean $otherRight;
-    logical boolean $otherStorage;
+    logical int _$otherPos;
+    logical boolean _$otherRight;
+    logical boolean _$otherStorage;
     //and all the rails with that has that area
-    return get(rail, $position, $right, $storage, $area) && get($otherRail, $otherPos, $otherRight, $otherStorage, $area.as_string()) && $otherRail.as_string()!=rail;
+    return getAreas(rail, _$position, _$right, _$storage, $area) && 
+        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string()) && 
+        $otherRail.as_string()!=rail;
+}
+`
+			:isLabelEditable  :false
+		    >
+	    >
+	    <BAPI_ViewQuery
+		:name  "getSharedAreas"
+		:definition
+		    <BAPI_Text
+			:lab  "getSharedAreas"
+			:val  `getSharedAreas(String rail, String otherRail, logical String $area){
+    logical int _$position;
+    logical boolean _$right;
+    logical boolean _$storage;
+    //get all the areas of the given rail...
+    logical int _$otherPos;
+    logical boolean _$otherRight;
+    logical boolean _$otherStorage;
+    //and all the rails with that has that area
+    return getAreas(rail, _$position, _$right, _$storage, $area) && 
+        getAreas(otherRail, _$otherPos, _$otherRight, _$otherStorage, $area);        
 }
 `
 			:isLabelEditable  :false

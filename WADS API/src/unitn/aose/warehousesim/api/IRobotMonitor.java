@@ -4,6 +4,7 @@ import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
+import unitn.aose.warehousesim.api.data.RailRef;
 
 public interface IRobotMonitor {
 	
@@ -25,6 +26,7 @@ public interface IRobotMonitor {
 	ICartPerception getCartPerception(CartRef cart);
 	
 	String getName();
+	RailRef getRail();
 	BoxRef getLoadedBox();
 	IObservable<Integer> getPosition();
 	

@@ -10,8 +10,6 @@ public interface RailRef {
 	
 	Integer[] getRightAreaPositions();
 	
-//	int getPositionOf(AreaRef areaRef);
-	
 	AreaRef getLeftAreaIn(int position);
 	
 	AreaRef getRightAreaIn(int position);

@@ -1,6 +1,6 @@
 package unitn.aose.warehousesim.agent;
 
-import unitn.aose.warehousesim.api.IRobot;
+import unitn.aose.warehousesim.api.IRobotMonitor;
 
 /**
  * Provides interface methods to control an IRobot
@@ -14,7 +14,7 @@ public interface IRobotAgent extends ISimulationAgent {
 	 * Ideally the robot instance is passed to the robot at creation.
 	 * @return the associated robot or null if no robot has been associated with this agent
 	 */
-	IRobot getRobot();
+	IRobotMonitor getRobot();
 	
 	/**
 	 * The agent full name.

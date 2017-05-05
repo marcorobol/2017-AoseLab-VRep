@@ -81,6 +81,38 @@
     :databases
 	(
 	    <BAPI_FileRef
+		:name  "CrossInfo"
+		:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
+		:label  "uses CrossInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "crosses"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "RailInfo"
+		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rail.gnd"
+		:label  "uses RailInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "rail"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "DataLog"
 		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
 		:label  "uses DataLog"
@@ -172,6 +204,7 @@
         
         //update self
         robotInfo.add(
+            myRobot.getRail(),
             myRobot.getPosition(), 
             myRobot.getMovement(),
             myRobot.getLoadUnload(),
@@ -203,6 +236,76 @@
         }else{
             boxes.add(RobotData.PWR_RIGHT, b);
         }
+        
+        //check crosses
+        String ca = myRobot.getCrossAhead();
+        if(null != ca){
+            crosses.add(myRobot.getRail(), myRobot.getPosition()+1, ca);
+        }
+        String ch = myRobot.getCrossHere();
+        if(null != ch){
+            crosses.add(myRobot.getRail(), myRobot.getPosition(), ch);
+        }
+        String cb = myRobot.getCrossBehind();
+        if(null != cb){
+            crosses.add(myRobot.getRail(), myRobot.getPosition()-1, cb);
+        }
+        
+        //check areas
+        boolean isRight = false;
+        boolean isStorage = true;
+        String a = myRobot.getAreaOnLeft();
+        if(null != a){
+            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a);
+            //the area is shared if there is a cross ahead or behind
+            //... but we don't know anything about the other rail
+            if(null != ca){
+                rail.add(ca, -1, false, isStorage, a);
+            }else if (null != cb){
+                rail.add(cb, -1, false, isStorage, a);
+            }
+        }
+        isRight = true;
+        a = myRobot.getAreaOnRight();
+        if(null != a){
+            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a);
+            //the area is shared if there is a cross ahead or behind
+            //... but we don't know anything about the other rail
+            if(null != ca){
+                rail.add(ca, -1, false, isStorage, a);
+            }else if (null != cb){
+                rail.add(cb, -1, false, isStorage, a);
+            }
+        }
+        checkSharedAreas();
+        checkCrosses();
+    }
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "checkSharedAreas"
+		:val  `checkSharedAreas(){
+    logical String $rail;
+    logical String $otherRail;
+    logical String $area;
+    Cursor c = rail.getSharedAreas($rail, $otherRail, $area);
+    while(c.next()){
+        dataLog.log("shared area "+$area.as_string()+" between "+$rail.as_string()+" and "+$otherRail.as_string());    
+    }
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "checkCrosses"
+		:val  `checkCrosses(){
+    //XXX: check crosses
+    logical String $rail;
+    logical int $position;
+    logical String $crossedRail;
+    Cursor c = crosses.get($rail, $position, $crossedRail);
+    while(c.next()){
+        dataLog.log("cross at "+$rail.as_string()+"@"+$position.as_int()+" > "+$crossedRail.as_string());
     }
 }
 `

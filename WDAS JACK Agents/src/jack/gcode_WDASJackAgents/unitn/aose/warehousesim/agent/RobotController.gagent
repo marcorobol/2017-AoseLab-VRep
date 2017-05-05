@@ -33,6 +33,9 @@ test
 		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.IRobot"
 		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.IRobotMonitor"
+		    >
 		)
 	    :code
 		(
@@ -45,8 +48,8 @@ test
 `
 		    >
 		    <BAPI_Text
-			:lab  "IRobot getRobot"
-			:val  `public IRobot getRobot(){
+			:lab  "IRobotMonitor getRobot"
+			:val  `public IRobotMonitor getRobot(){
     return myRobot.getRobot();
 }
 `
@@ -75,6 +78,22 @@ test
 	>
     :databases
 	(
+	    <BAPI_FileRef
+		:name  "CrossInfo"
+		:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
+		:label  "private CrossInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "crosses"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "RailInfo"
 		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rail.gnd"

@@ -196,7 +196,16 @@
         }
     }
     
-    //XXX: check shared areas
+    checkSharedAreas();
+    checkCrosses();
+
+    dataLog.log("warehouse info updated!");
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "checkSharedAreas"
+		:val  `checkSharedAreas(){
     logical String $rail;
     logical String $otherRail;
     logical String $area;
@@ -204,8 +213,20 @@
     while(c.next()){
         dataLog.log("shared area "+$area.as_string()+" between "+$rail.as_string()+" and "+$otherRail.as_string());    
     }
-    
-    dataLog.log("warehouse info updated!");
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "checkCrosses"
+		:val  `checkCrosses(){
+    //XXX: check crosses
+    logical String $rail;
+    logical int $position;
+    logical String $crossedRail;
+    Cursor c = crosses.get($rail, $position, $crossedRail);
+    while(c.next()){
+        dataLog.log("cross at "+$rail.as_string()+"@"+$position.as_int()+" > "+$crossedRail.as_string());
+    }
 }
 `
 	    >

@@ -4,7 +4,9 @@ import java.util.Observable;
 
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ICartPerception;
+import unitn.aose.warehousesim.api.ICross;
 import unitn.aose.warehousesim.api.IRobot;
+import unitn.aose.warehousesim.api.IRobotMonitor;
 import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
@@ -303,6 +305,30 @@ public class RobotData extends Observable {
 			loadedBox = null;
 		}
 		
+		//areas
+		AreaRef a = robot.getAreaOnLeft().get();
+		if(null != a){
+			areaLeft = a.getName();
+		}
+		a = robot.getAreaOnRight().get();
+		if(null != a){
+			areaRight = a.getName();
+		}
+		
+		//crosses
+		ICross c = robot.getCrossHaed().get();
+		if(null != c){
+			this.iCrossHaed = c.getRail().getName();
+		}
+		c = robot.getCrossBehind().get();
+		if(null != c){
+			this.iCrossBehind = c.getRail().getName();
+		}
+		c = robot.getCrossHere().get();
+		if(null != c){
+			this.iCrossHere = c.getRail().getName();
+		}
+		
 		//load status
 		int l = getLoadUnloadState(((LoadUnloadState)robot.getLoadUnload().get()));
 		if(l != loadUnloadState){
@@ -330,7 +356,7 @@ public class RobotData extends Observable {
      * @see setRobot(IRobot r)
      * @return the robot instance associated with this wrapper or null if no robot has been set yet
      */
-    public IRobot getRobot(){
+    public IRobotMonitor getRobot(){
     	return robot;
     }
     
@@ -370,6 +396,10 @@ public class RobotData extends Observable {
 	
 	// getters ------>
 	
+	public String getRail(){
+		return robot.getRail().getName();
+	}
+	
 	public int getMovement() {
 		return movementState;
 	}
@@ -398,7 +428,7 @@ public class RobotData extends Observable {
 		return getAreaState((AreaState)robot.getAreaState(area).get());
 	}
 	
-	public String getCrossHaed() {
+	public String getCrossAhead() {
 		return iCrossHaed;
 	}
 	
