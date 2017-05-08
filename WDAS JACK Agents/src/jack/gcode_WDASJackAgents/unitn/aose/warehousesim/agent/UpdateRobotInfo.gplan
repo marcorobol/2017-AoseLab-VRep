@@ -5,9 +5,6 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
-	    :val  `/**
- * 
- */`
 	>
     :name  "UpdateRobotInfo"
     :filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
@@ -238,9 +235,11 @@
         }
         
         //check crosses
+        
         String ca = myRobot.getCrossAhead();
         if(null != ca){
             crosses.add(myRobot.getRail(), myRobot.getPosition()+1, ca);
+            //dataLog.log("---- RAIL: " + myRobot.getRail() + " POSITION: " + (int)(myRobot.getPosition()+1) + " CA:" + ca +" ----");
         }
         String ch = myRobot.getCrossHere();
         if(null != ch){

@@ -306,25 +306,25 @@ public class RobotData extends Observable {
 		}
 		
 		//areas
-		AreaRef a = robot.getAreaOnLeft().get();
+		AreaRef a = (AreaRef)robot.getAreaOnLeft().get();
 		if(null != a){
 			areaLeft = a.getName();
 		}
-		a = robot.getAreaOnRight().get();
+		a = (AreaRef)robot.getAreaOnRight().get();
 		if(null != a){
 			areaRight = a.getName();
 		}
 		
 		//crosses
-		ICross c = robot.getCrossHaed().get();
+		ICross c = (ICross)robot.getCrossHaed().get();
 		if(null != c){
 			this.iCrossHaed = c.getRail().getName();
 		}
-		c = robot.getCrossBehind().get();
+		c = (ICross)robot.getCrossBehind().get();
 		if(null != c){
 			this.iCrossBehind = c.getRail().getName();
 		}
-		c = robot.getCrossHere().get();
+		c = (ICross)robot.getCrossHere().get();
 		if(null != c){
 			this.iCrossHere = c.getRail().getName();
 		}

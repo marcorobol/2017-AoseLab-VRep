@@ -35,7 +35,7 @@ public class Cart implements CartRef, IRobot {
 	private final ObservableInteger position;
 	private final ObservableArea areaOnLeft;
 	private final ObservableArea areaOnRight;
-	private final ObservableCross crossHaed;
+	private final ObservableCross crossAhead;
 	private final ObservableCross crossBehind;
 	private final ObservableCross crossHere;
 	private Box loadedBox;
@@ -52,7 +52,7 @@ public class Cart implements CartRef, IRobot {
 		this.position = new ObservableInteger();
 		this.areaOnLeft = new ObservableArea();
 		this.areaOnRight = new ObservableArea();
-		this.crossHaed = new ObservableCross();
+		this.crossAhead = new ObservableCross();
 		this.crossBehind = new ObservableCross();
 		this.crossHere = new ObservableCross();
 		this.loadedBox = null;
@@ -75,9 +75,10 @@ public class Cart implements CartRef, IRobot {
 				/*
 				 * Check if there is a cross on the next and previous position
 				 */
-				crossHaed.set( getRail().getCrosses().get(pos+1) );
+				crossAhead.set( getRail().getCrosses().get(pos+1) );
 				crossBehind.set( getRail().getCrosses().get(pos-1) );
 				crossHere.set( getRail().getCrosses().get(pos) );
+				System.out.println(name + " @ " + pos + " : Ahead " + crossAhead.get() + " Behind: " + crossBehind.get() + " Here: " + crossHere.get());
 				/*
 				 * Update perceptions
 				 */
@@ -318,7 +319,7 @@ public class Cart implements CartRef, IRobot {
 
 	@Override
 	public ObservableCross getCrossHaed() {
-		return crossHaed;
+		return crossAhead;
 	}
 
 	@Override
