@@ -194,7 +194,7 @@ public class RobotData extends Observable {
 
 	/// single bit consts to track changed parameters
 	private static final int CH_CARTP = 1 << 0, CH_BOXL = 1 << 1, CH_BOXR = 1 << 2, CH_LOADEDBOX = 1 << 3,
-			CH_LUS = 1 << 4, CH_CROSS = 1 << 5, CH_AREA = 1 << 6, CH_AREAREF = 1 << 7;
+			CH_LUS = 1 << 4, CH_CROSS = 1 << 5, CH_AREAREF = 1 << 6;
 
 	/**
 	 * Internally used to safely check if 'a' is different from 'b' even if they
@@ -205,7 +205,7 @@ public class RobotData extends Observable {
 	 * @return
 	 */
 	private static boolean hasChanged(Object a, Object b) {
-		if (a == b){
+		if (a == b) {
 			return false;
 		} else if (a == null && b != null) {
 			return true;
@@ -285,38 +285,68 @@ public class RobotData extends Observable {
 
 		// areas
 		AreaRef a = (AreaRef) robot.getAreaOnLeft().get();
-		//if(hasChanged(areaLeft, a)){
-			if (null != a) {
+		if (null != a) {
+			String an = a.getName(); //an = name of the area
+			if(hasChanged(areaLeft, an)){
 				areaLeft = a.getName();
-			}
-			//changed |= CH_AREAREF;
-		//}
+				changed |= CH_AREAREF;
+			} 
+		}else if(areaLeft!=null){
+			areaLeft=null;
+			changed |= CH_AREAREF;
+		}
+		
 		a = (AreaRef) robot.getAreaOnRight().get();
-		//if(hasChanged(areaRight, a)){
-			if (null != a) {
-				areaRight = a.getName();
+		if (null != a) {
+			String an = a.getName();
+			if(hasChanged(areaRight, an)){
+				areaRight = an;
+				changed |= CH_AREAREF;
 			}
-			//changed |= CH_AREAREF;
-		//}
-		
-		
+		} else if(areaRight!=null){
+				areaRight=null;
+				changed |= CH_AREAREF;
+			
+		}
+
 		// crosses
 		ICross c = (ICross) robot.getCrossHaed().get();
-		if (hasChanged(iCrossHaed, c)) {
-			this.iCrossHaed = null != c ? c.getRail().getName() : null;
-			changed |= CH_CROSS;
+		if (null != c) {
+			String nc = c.getRail().getName(); //nc= name of the cross
+			if (hasChanged(iCrossHaed, nc)) { 
+				this.iCrossHaed = nc;	//if it's changed, iCrossHaed is nc
+				changed |= CH_CROSS;  //it's changed
+			}
+		} else if (iCrossHaed != null) {
+			this.iCrossHaed = null; //set iCrossAhed to null
+			changed |= CH_CROSS; //it's changed
 		}
+		
 		c = (ICross) robot.getCrossBehind().get();
-		if (hasChanged(iCrossBehind, c)) {
-			this.iCrossBehind = null != c ? c.getRail().getName() : null;
+		if (null != c) {
+			String nc = c.getRail().getName();
+			if (hasChanged(iCrossBehind, nc)) {
+				this.iCrossBehind = nc;
+				changed |= CH_CROSS;
+			}
+		} else if (iCrossBehind != null) {
+			this.iCrossBehind = null;
 			changed |= CH_CROSS;
 		}
+		
 		c = (ICross) robot.getCrossHere().get();
-		if (hasChanged(iCrossHere, c)) {
-			this.iCrossHere = null != c ? c.getRail().getName() : null;
+		if (null != c) {
+			String nc = c.getRail().getName();
+			if (hasChanged(iCrossHere, nc)) {
+				this.iCrossHere = nc;
+				changed |= CH_CROSS;
+			}
+		} else if (iCrossHere != null) {
+			this.iCrossHere = null;
 			changed |= CH_CROSS;
-
 		}
+
+		
 
 		// load status
 		int l = getLoadUnloadState(((LoadUnloadState) robot.getLoadUnload().get()));

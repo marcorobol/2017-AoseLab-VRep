@@ -16,11 +16,20 @@
 		    :val  "unitn.aose.warehousesim.agent"
 		>
 	>
+    :evfields
+	(
+	    <BAPI_EventField
+		:name  "position"
+		:type  "int"
+	    >
+	)
     :evconstr
 	(
 	    <BAPI_Text
 		:lab  "goToPosition"
-		:val  `goToPosition(int position){}
+		:val  `goToPosition(int position){
+    this.position=position;
+}
 `
 	    >
 	)
