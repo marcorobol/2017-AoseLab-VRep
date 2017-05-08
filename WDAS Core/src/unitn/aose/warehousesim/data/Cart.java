@@ -75,12 +75,9 @@ public class Cart implements CartRef, IRobot {
 				/*
 				 * Check if there is a cross on the next and previous position
 				 */
-<<<<<<< HEAD
+
 				crossAhead.set( getRail().getCrosses().get(pos+1) );
-=======
-				System.out.println(getRail()+" @ "+pos+": "+crossHaed.get()+" / "+crossHere.get()+" / "+crossBehind.get());
-				crossHaed.set( getRail().getCrosses().get(pos+1) );
->>>>>>> c45522fc6df4926e6d76a522bfe9887d9529103f
+
 				crossBehind.set( getRail().getCrosses().get(pos-1) );
 				crossHere.set( getRail().getCrosses().get(pos) );
 				System.out.println(name + " @ " + pos + " : Ahead " + crossAhead.get() + " Behind: " + crossBehind.get() + " Here: " + crossHere.get());

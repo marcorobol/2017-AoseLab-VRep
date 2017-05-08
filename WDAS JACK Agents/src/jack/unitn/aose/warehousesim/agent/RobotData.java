@@ -194,7 +194,7 @@ public class RobotData extends Observable {
 
 	/// single bit consts to track changed parameters
 	private static final int CH_CARTP = 1 << 0, CH_BOXL = 1 << 1, CH_BOXR = 1 << 2, CH_LOADEDBOX = 1 << 3,
-			CH_LUS = 1 << 4, CH_CROSS = 1 << 5, CH_AREA = 1 << 6;
+			CH_LUS = 1 << 4, CH_CROSS = 1 << 5, CH_AREA = 1 << 6, CH_AREAREF = 1 << 7;
 
 	/**
 	 * Internally used to safely check if 'a' is different from 'b' even if they
@@ -282,42 +282,24 @@ public class RobotData extends Observable {
 		} else {
 			loadedBox = null;
 		}
-<<<<<<< HEAD
-		
-		//areas
-		AreaRef a = (AreaRef)robot.getAreaOnLeft().get();
-		if(null != a){
-			areaLeft = a.getName();
-		}
-		a = (AreaRef)robot.getAreaOnRight().get();
-		if(null != a){
-			areaRight = a.getName();
-		}
-		
-		//crosses
-		ICross c = (ICross)robot.getCrossHaed().get();
-		if(null != c){
-			this.iCrossHaed = c.getRail().getName();
-		}
-		c = (ICross)robot.getCrossBehind().get();
-		if(null != c){
-			this.iCrossBehind = c.getRail().getName();
-		}
-		c = (ICross)robot.getCrossHere().get();
-		if(null != c){
-			this.iCrossHere = c.getRail().getName();
-=======
 
 		// areas
 		AreaRef a = (AreaRef) robot.getAreaOnLeft().get();
-		if (null != a) {
-			areaLeft = a.getName();
-		}
+		//if(hasChanged(areaLeft, a)){
+			if (null != a) {
+				areaLeft = a.getName();
+			}
+			//changed |= CH_AREAREF;
+		//}
 		a = (AreaRef) robot.getAreaOnRight().get();
-		if (null != a) {
-			areaRight = a.getName();
-		}
-
+		//if(hasChanged(areaRight, a)){
+			if (null != a) {
+				areaRight = a.getName();
+			}
+			//changed |= CH_AREAREF;
+		//}
+		
+		
 		// crosses
 		ICross c = (ICross) robot.getCrossHaed().get();
 		if (hasChanged(iCrossHaed, c)) {
@@ -333,7 +315,7 @@ public class RobotData extends Observable {
 		if (hasChanged(iCrossHere, c)) {
 			this.iCrossHere = null != c ? c.getRail().getName() : null;
 			changed |= CH_CROSS;
->>>>>>> c45522fc6df4926e6d76a522bfe9887d9529103f
+
 		}
 
 		// load status
