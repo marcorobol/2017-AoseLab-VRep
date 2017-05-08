@@ -238,17 +238,19 @@
         }
         
         //check crosses
+        int pos = myRobot.getPosition();
         String ca = myRobot.getCrossAhead();
-        if(null != ca){
-            crosses.add(myRobot.getRail(), myRobot.getPosition()+1, ca);
-        }
         String ch = myRobot.getCrossHere();
-        if(null != ch){
-            crosses.add(myRobot.getRail(), myRobot.getPosition(), ch);
-        }
         String cb = myRobot.getCrossBehind();
+        dataLog.log("crosses at "+pos+" "+ca+" "+ch+" "+cb);
+        if(null != ca){
+            crosses.add(myRobot.getRail(), pos+1, ca);
+        }
+        if(null != ch){
+            crosses.add(myRobot.getRail(), pos, ch);
+        }
         if(null != cb){
-            crosses.add(myRobot.getRail(), myRobot.getPosition()-1, cb);
+            crosses.add(myRobot.getRail(), pos-1, cb);
         }
         
         //check areas
