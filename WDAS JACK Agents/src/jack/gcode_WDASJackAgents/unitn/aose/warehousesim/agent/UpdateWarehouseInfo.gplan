@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "UpdateWarehouseInfo"
     :filename  "unitn/aose/warehousesim/agent/UpdateWarehouseInfo.gplan"
@@ -78,6 +81,25 @@
 `
 	    :isLabelEditable  :false
 	>
+    :posted_events
+	(
+	    <BAPI_FileRef
+		:name  "AreaMonitorEvent"
+		:filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
+		:label  "posts AreaMonitorEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "posts"
+		:refName  "ev1"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	)
     :databases
 	(
 	    <BAPI_FileRef
@@ -180,7 +202,12 @@
             int p = leftAreas[i].intValue();
             AreaRef a = r.getLeftAreaIn(p);
             dataLog.log("left area at "+p+": "+a.getName());
-            rails.add(r.getName(), p, isRight, w.isAStorageArea(a), a.getName());
+            boolean isStorage = w.isAStorageArea(a);
+            rails.add(r.getName(), p, isRight, isStorage, a.getName());
+            if(!isStorage){
+                //monitor the area if it is a deposit area
+                agent.postEvent(ev1.monitor(a.getName()));
+            }
         }
         //right areas
         isRight = true;
@@ -189,12 +216,20 @@
             int p = rightAreas[i].intValue();
             AreaRef a = r.getRightAreaIn(p);
             dataLog.log("right area at "+p+": "+a.getName());
-            rails.add(r.getName(), p, isRight, w.isAStorageArea(a), a.getName());
+            boolean isStorage = w.isAStorageArea(a);
+            rails.add(r.getName(), p, isRight, isStorage, a.getName());
+            if(!isStorage){
+                //monitor the area if it is a deposit area
+                agent.postEvent(ev1.monitor(a.getName()));
+            }
         }
     }
     
     checkSharedAreas();
     checkCrosses();
+    
+    //start monitoring depositwithdraw areas
+    
 
     dataLog.log("warehouse info updated!");
 }

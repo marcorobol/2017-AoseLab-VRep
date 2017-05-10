@@ -1,0 +1,34 @@
+<BAPI_Event
+    :version  52
+    :superclass  "Event"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "AreaMonitorEvent"
+    :filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
+    :type  "aos.jack.ed.Event"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :evfields
+	(
+	    <BAPI_EventField
+		:name  "areaName"
+	    >
+	)
+    :evconstr
+	(
+	    <BAPI_Text
+		:lab  "monitor"
+		:val  `monitor(String areaName){
+   this.areaName = areaName;
+}`
+	    >
+	)
+>

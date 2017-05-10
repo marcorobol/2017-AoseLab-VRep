@@ -6,11 +6,11 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
- * 
- */`
+Keep the given area monitored for area state changes
+*/`
 	>
-    :name  "CoordinationPlan"
-    :filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
+    :name  "AreaMonitorPlan"
+    :filename  "unitn/aose/warehousesim/agent/AreaMonitorPlan.gplan"
     :type  "aos.jack.ed.Plan"
     :java
 	<BAPI_Java
@@ -21,15 +21,18 @@
 	    :imports
 		(
 		    <BAPI_TextLine
-			:val  "java.util.Iterator"
+			:val  "aos.jack.util.cursor.Change"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.ITellerMachine"
 		    >
 		)
 	>
     :handled_event
 	<BAPI_FileRef
-	    :name  "CoordinateEvent"
-	    :filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
-	    :label  "handles CoordinateEvent"
+	    :name  "AreaMonitorEvent"
+	    :filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
+	    :label  "handles AreaMonitorEvent"
 	    :type  "aos.jack.ed.Event"
 	    :java
 		<BAPI_Java
@@ -72,31 +75,12 @@
 `
 	    :isLabelEditable  :false
 	>
-    :posted_events
-	(
-	    <BAPI_FileRef
-		:name  "StartRobotsEvent"
-		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
-		:label  "sends StartRobotsEvent"
-		:type  "aos.jack.ed.Event"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "PlanEventList.attrs"
-		:refType  "sends"
-		:refName  "ev1"
-		:dropHandlerName  "NamedEvent.drop"
-	    >
-	)
     :databases
 	(
 	    <BAPI_FileRef
-		:name  "CrossInfo"
-		:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
-		:label  "uses CrossInfo"
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -106,7 +90,7 @@
 		    >
 		:attrs  "ReadWriteableDBList.attrs"
 		:refType  "uses"
-		:refName  "crosses"
+		:refName  "dataLog"
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
@@ -141,22 +125,6 @@
 		:refName  "myWarehouse"
 		:dropHandlerName  "NamedData.drop"
 	    >
-	    <BAPI_FileRef
-		:name  "DataLog"
-		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
-		:label  "uses DataLog"
-		:type  "aos.jack.ed.NamedData"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "ReadWriteableDBList.attrs"
-		:refType  "uses"
-		:refName  "dataLog"
-		:dropHandlerName  "NamedData.drop"
-	    >
 	)
     :reasoning_methods
 	(
@@ -164,19 +132,14 @@
 		:lab  "body"
 		:val  `body()
 {
-    Iterator it = ev.robotAgents.iterator();
-    while(it.hasNext()){
-        IRobotAgent a = (IRobotAgent)it.next();
-        //agent.send(a.name(), ev1.start());
-    }
-    
-    logical String $rail;
-    logical int $position;
-    logical boolean $right;
-    logical String $area;
-    Cursor c = rails.getDepositWithdrawAreas($rail, $position, $right, $area); 
-    while(c.next()){
-        dataLog.log("deposit withdraw area: "+$area.as_string());
+    ITellerMachine tm = myWarehouse.getWarehouse().getTellerMachine(ev.areaName);
+    dataLog.log("monitoring area "+tm);
+    for(;true;){
+        @wait_for(new Change(tm.getAreaMonitor(), false));
+        
+        dataLog.log("updating teller machine area state: "+tm.getState().get());
+        
+        //TODO: update railinfo beliefset with the new area state!
     }
 }
 `

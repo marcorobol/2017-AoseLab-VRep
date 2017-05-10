@@ -115,9 +115,88 @@
 			>
 		    )
 	    >
+	    <BAPI_DBQuery
+		:name  "getAreas"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&0 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&4 >
+			>
+		    )
+	    >
+	    <BAPI_DBQuery
+		:name  "getAreas"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&4 >
+			>
+		    )
+	    >
 	)
     :vqueries
 	(
+	    <BAPI_ViewQuery
+		:name  "getDepositWithdrawAreas"
+		:definition
+		    <BAPI_Text
+			:lab  "getDepositWithdrawAreas"
+			:val  `getDepositWithdrawAreas(logical String $rail, logical int $position, logical boolean $right, logical String $area){
+    boolean isStorage = false;
+    return getAreas($rail, $position, $right, isStorage, $area);
+}
+`
+			:isLabelEditable  :false
+		    >
+	    >
+	    <BAPI_ViewQuery
+		:name  "getStorageAreas"
+		:definition
+		    <BAPI_Text
+			:lab  "getStorageAreas"
+			:val  `getStorageAreas(logical String $rail, logical int $position, logical boolean $right, logical String $area){
+    boolean isStorage = true;
+    return getAreas($rail, $position, $right, isStorage, $area);
+}
+`
+			:isLabelEditable  :false
+		    >
+	    >
+	    <BAPI_ViewQuery
+		:name  "getStorageAreas"
+		:definition
+		    <BAPI_Text
+			:lab  "getStorageAreas"
+			:val  `getStorageAreas(String rail, logical int $position, logical boolean $right, logical String $area){
+    boolean isStorage = true;
+    return getAreas(rail, $position, $right, isStorage, $area);
+}
+`
+			:isLabelEditable  :false
+		    >
+	    >
 	    <BAPI_ViewQuery
 		:name  "getSharedAreas"
 		:definition

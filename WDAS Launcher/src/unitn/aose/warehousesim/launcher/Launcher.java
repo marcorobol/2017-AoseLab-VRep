@@ -28,39 +28,37 @@ import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 import bsh.Interpreter;
 
 public class Launcher {
-	
+
 	/**
 	 * the beanshell script file that will be executed on startup
 	 */
-	public static final String
-		SCRIPT_SOURCEFILE = "test.bsh";
-	
+	public static final String SCRIPT_SOURCEFILE = "test.bsh";
+
 	/**
 	 * the beanshell variable used to map the warehouse
 	 */
-	public static final String
-		VAR_WAREHOUSE = "warehouse";
-		
-	
-	public static final String 
-		CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
-		CLASS_WAREHOUSEAGENT = "unitn.aose.warehousesim.agent.RobotCoordinator";
-	
+	public static final String VAR_WAREHOUSE = "warehouse";
+
+	public static final String CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
+			CLASS_WAREHOUSEAGENT = "unitn.aose.warehousesim.agent.RobotCoordinator";
+
 	/**
-	 * Using the RobotAgentFactory create an instance of IRobotAgent
-	 * using the environment variable "wdas.factory.agent.class"
-	 * for each robot currently available in the given environment.
-	 * @param warehouse the current environment to get the robots from
-	 * @return a list with all the created agents 
+	 * Using the RobotAgentFactory create an instance of IRobotAgent using the
+	 * environment variable "wdas.factory.agent.class" for each robot currently
+	 * available in the given environment.
+	 * 
+	 * @param warehouse
+	 *            the current environment to get the robots from
+	 * @return a list with all the created agents
 	 */
-	private static Collection<IRobotAgent> getRobotAgents(RobotAgentFactory factory, IWarehouse warehouse){
+	private static Collection<IRobotAgent> getRobotAgents(RobotAgentFactory factory, IWarehouse warehouse) {
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
-		for(CartRef c : warehouse.getCarts()){ 
+		for (CartRef c : warehouse.getCarts()) {
 			IRobot r = warehouse.getRobot(c);
 			IRobotAgent ra = factory.createAgent(r);
-			if(null == ra){
-				System.out.println("ERROR no agent created for robot "+r.getName());
-			}else{
+			if (null == ra) {
+				System.out.println("ERROR no agent created for robot " + r.getName());
+			} else {
 				raList.add(ra);
 				r.getSimulationTime().registerListener(new IListener<Long>() {
 					public void notifyChanged(Long value) {
@@ -69,38 +67,34 @@ public class Launcher {
 				});
 			}
 		}
-		//TODO: return the agent and send out the first goal
+		// TODO: return the agent and send out the first goal
 		return raList;
 	}
-	
-	private static IWarehouseAgent getCoordinatorAgent(RobotAgentFactory factory, IWarehouse warehouse){
+
+	private static IWarehouseAgent getCoordinatorAgent(RobotAgentFactory factory, IWarehouse warehouse) {
 		IWarehouseAgent wa = factory.createAgent(warehouse);
-		if(null == wa){
-			System.out.println("ERROR no agent created for warehouse "+warehouse);
-		}else{
-			//XXX: initialize?
+		if (null == wa) {
+			System.out.println("ERROR no agent created for warehouse " + warehouse);
+		} else {
+			// XXX: initialize?
 		}
 		return wa;
 	}
 
 	public static void main(String[] args) throws InterruptedException {
-		
+
 		/*
 		 * Adapter
 		 */
 		remoteApi vrep = new remoteApi();
-		int clientID = vrep.simxStart("127.0.0.1",19997,true,true,5000,5);
+		int clientID = vrep.simxStart("127.0.0.1", 19997, true, true, 5000, 5);
 		AdapterVRep adapter = new AdapterVRep(vrep, clientID);
-		
-		
-		
+
 		/*
 		 * Warehouse
 		 */
 		Warehouse warehouse = new Warehouse(adapter);
-		
-		
-		
+
 		/*
 		 * Configuration
 		 */
@@ -108,74 +102,75 @@ public class Launcher {
 		ConfigurationOne confOne = new ConfigurationOne(configuratorVRep);
 		adapter.play();
 		confOne.initialize(warehouse);
-		
-		
-		
+
 		/*
 		 * Sezione per il caricamento degli agenti
 		 */
 		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
 		Collection<IRobotAgent> agentsList = getRobotAgents(caFactory, warehouse);
 		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse);
-		
-		//XXX: I just want to use a single agent at this time for testing
-		//FIXME: remove this code to restore normal beahviour
+
+		// XXX: I just want to use a single agent at this time for testing
+		// FIXME: remove this code to restore normal behaviour
 		Collection<IRobotAgent> tempAgentsList = new LinkedList<IRobotAgent>();
-		for(IRobotAgent a:agentsList){
-			if(a.getRobot().getName().equals("RobotMotorA1")){
+		for (IRobotAgent a : agentsList) {
+			if (a.getRobot().getName().equals("RobotMotorA1")) {
 				tempAgentsList.add(a);
 				break;
 			}
 		}
 		coordinator.coordinate(tempAgentsList);
-		
+
 		/*
 		 * Agents
 		 */
-		List<IRobot> robotList = new ArrayList<IRobot>(); 
-		for(CartRef c : warehouse.getCarts())
+		List<IRobot> robotList = new ArrayList<IRobot>();
+		for (CartRef c : warehouse.getCarts())
 			robotList.add(warehouse.getRobot(c));
-//		new Thread(new AgentJava(robotList)).start();
+		// new Thread(new AgentJava(robotList)).start();
 		new AgentGui(robotList);
 
 		/*
 		 * Beanshell
 		 */
-		Interpreter i = new Interpreter();
-		try {
-			for(IRobotAgent robot : agentsList){ //foreach robot
-				i.set(robot.getRobot().getName(), robot); 
+		Thread beanShellThread = new Thread("beanshell") {
+			public void run() {
+				Interpreter i = new Interpreter();
+				try {
+					for (IRobotAgent robot : agentsList) { // foreach robot
+						i.set(robot.getRobot().getName(), robot);
+					}
+					i.set(VAR_WAREHOUSE, warehouse);
+					i.source(SCRIPT_SOURCEFILE);
+				} catch (Exception e) {
+					System.out.println("ERROR: " + e);
+				}
 			}
-			i.set(VAR_WAREHOUSE, warehouse);
-			i.source(SCRIPT_SOURCEFILE);
-		}
-		catch (Exception e){
-			System.out.println("ERROR: " + e);
-		}
-		
+		};
+		beanShellThread.start();
+
 		/*
 		 * TellerMachines
 		 */
 		List<ITellerMachine> machineList = new ArrayList<ITellerMachine>();
-		for(DepositWithdrawAreaRef a : warehouse.getDepositWithdrawAreas())
+		for (DepositWithdrawAreaRef a : warehouse.getDepositWithdrawAreas()) {
 			machineList.add(warehouse.getTellerMachine(a));
+		}
 		new TellerMachineGui(machineList);
-        
-		
+
 		/*
 		 * SimulationGui
 		 */
 		SimulationGui simulationGui = new SimulationGui(adapter, warehouse);
-        
-		
-        /*
-         * Update and triggering cycles
-         */
-		
+
+		/*
+		 * Update and triggering cycles
+		 */
+
 		Thread aucThread = new Thread(new AdapterUpdateCycle(adapter, warehouse));
 		aucThread.setName("AdapterUpdateCycle");
 		aucThread.start();
-		
+
 		Thread astcThread = new Thread(new AdapterSyncronousTriggeringCycle(adapter, warehouse));
 		astcThread.setName("AdapterSyncronousTriggeringCycle");
 		astcThread.start();

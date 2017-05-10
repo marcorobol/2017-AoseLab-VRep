@@ -63,6 +63,18 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/AreaMonitorPlan.gplan"
+					:label  "AreaMonitorPlan"
+					:type  "aos.jack.ed.Plan"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/GoToPositionPlan.gplan"
 					:label  "GoToPositionPlan"
 					:type  "aos.jack.ed.Plan"
@@ -129,6 +141,18 @@
 			    :tag  "ContainerDesc.events"
 			    :list
 				(
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
+					:label  "AreaMonitorEvent"
+					:type  "aos.jack.ed.Event"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
 				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/GoToPositionEvent.gevent"
 					:label  "GoToPositionEvent"
@@ -446,9 +470,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn/aose/warehousesim/agent/WarehouseData.java"
+			    :name  "unitn\\aose\\warehousesim\\agent\\WarehouseData.java"
 			    :filename  "unitn/aose/warehousesim/agent/WarehouseData.java"
-			    :label  "unitn/aose/warehousesim/agent/WarehouseData.java"
+			    :label  "unitn\\aose\\warehousesim\\agent\\WarehouseData.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 			<BAPI_OtherFile
@@ -457,9 +481,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn/aose/warehousesim/agent/RobotData.java"
+			    :name  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
 			    :filename  "unitn/aose/warehousesim/agent/RobotData.java"
-			    :label  "unitn/aose/warehousesim/agent/RobotData.java"
+			    :label  "unitn\\aose\\warehousesim\\agent\\RobotData.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 			<BAPI_OtherFile
@@ -468,9 +492,9 @@
 				    :hard_lab  "Doc:"
 				    :lab  "Documentation"
 				>
-			    :name  "unitn/aose/warehousesim/agent/DataLog.java"
+			    :name  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
 			    :filename  "unitn/aose/warehousesim/agent/DataLog.java"
-			    :label  "unitn/aose/warehousesim/agent/DataLog.java"
+			    :label  "unitn\\aose\\warehousesim\\agent\\DataLog.java"
 			    :type  "aos.jack.ed.OtherFile"
 			>
 		    )

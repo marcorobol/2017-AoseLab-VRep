@@ -124,6 +124,21 @@ public class Warehouse implements IWarehouse {
 		return carts.get(ref);
 	}
 	
+	/**
+	 * Look for a depositwithraw area (tellermachine)
+	 * based on its name
+	 */
+	@Override
+	public ITellerMachine getTellerMachine(String areaName){
+		ITellerMachine m = null;
+		AreaRef ar = areas.get(areaName);
+		if(null != ar){
+			Area a = depositWithdrawAreas.get(ar);
+			m = (a instanceof ITellerMachine) ? (ITellerMachine)a : null; 
+		}
+		return m;
+	}
+	
 	@Override
 	public ITellerMachine getTellerMachine(DepositWithdrawAreaRef area) {
 		Area a = depositWithdrawAreas.get(area);
@@ -132,9 +147,6 @@ public class Warehouse implements IWarehouse {
 		else
 			return null;
 	}
-	
-	
-
 	
 	/*
 	 * Get arrays

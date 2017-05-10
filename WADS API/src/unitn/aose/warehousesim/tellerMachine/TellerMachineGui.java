@@ -27,6 +27,7 @@ public class TellerMachineGui {
    
    
    public TellerMachineGui(List<ITellerMachine> machineList){
+	   System.out.println("starting teller machine gui with "+machineList.size()+" machines");
 	   this.machineList = machineList;
 	   mainFrame = new Frame("Warehouse Agent GUI");
 	   mainFrame.setSize(400,600);

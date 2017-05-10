@@ -1,9 +1,21 @@
 //WAREHOUSE TEST1
+import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.data.Box;
+import unitn.aose.warehousesim.data.Area;
+import unitn.aose.warehousesim.data.StorageArea;
 
 //setup warehouse
-warehouse.createBox("ShareAreaAC");
-warehouse.createBox("ShareAreaBD");
-warehouse.createBox("PickAreaA");
+Box box1 = warehouse.createBox("PickAreaA");
+ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
+System.out.println("# "+box1+" created at "+t1);
 
-//start agents
-//TODO
+//start storage procedure
+t1.requestDeposit();
+
+Area a = box1.getArea();
+while(!(a instanceof StorageArea)){
+	System.out.println("> waiting for "+box1+" to be stored...");
+	Thread.sleep(500);
+}
+
+System.out.println("> "+box1+" stored at "+a);

@@ -11,8 +11,6 @@ import unitn.aose.warehousesim.api.data.StorageAreaRef;
 
 public interface IWarehouseMonitor {
 
-	Set<CartRef> getCarts();
-	
 	Set<StorageAreaRef> getStorageAreas();
 	
 	Set<DepositWithdrawAreaRef> getDepositWithdrawAreas();
@@ -20,18 +18,16 @@ public interface IWarehouseMonitor {
 	Set<BoxRef> getBoxes();
 
 	Set<RailRef> getRails();
-	
-	
-	
-	boolean isAStorageArea(AreaRef area);
-	
-	
+
+	Set<CartRef> getCarts();
 	
 	IRobotMonitor getRobot(CartRef cart);
 	
-	ITellerMachineMonitor getTellerMachine(DepositWithdrawAreaRef area);
+	ITellerMachine getTellerMachine(String areaName);
 	
+	ITellerMachine getTellerMachine(DepositWithdrawAreaRef area);
 	
+	boolean isAStorageArea(AreaRef area);
 	
 	IObservable<SimulationState> getSimulationState();
 
