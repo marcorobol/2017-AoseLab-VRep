@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="WADS API/wdas_api.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/WADS API/wdas_api.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
@@ -11,20 +11,6 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IObservable.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ICartPerception.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{AreaState.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IListener.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{SimulationState.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ICross.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{LoadUnloadState.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ITellerMachine.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IObservableQueue.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.agent"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IWarehouse.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IRobot.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api.data"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.tellerMachine"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{MovementState.java"/>
+        <javaElement handleIdentifier="=WADS API/src"/>
     </selectedElements>
 </jardesc>
