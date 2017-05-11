@@ -24,8 +24,9 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 
 	@Override
 	public AreaState requestDeposit() {
-		if(getState().get().equals(AreaState.boxAvailable)) {
-			if(!getState().get().equals(AreaState.elaboratingDeposit)){
+		AreaState currentAreaState = getState().get();
+		if(currentAreaState.equals(AreaState.boxAvailable)) {
+			if(!currentAreaState.equals(AreaState.elaboratingDeposit)){
 				getState().set(AreaState.elaboratingDeposit);
 				areaMonitor.setChanged();
 			}

@@ -8,7 +8,6 @@ import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.IWarehouse;
-import unitn.aose.warehousesim.api.IWarehouseMonitor;
 import unitn.aose.warehousesim.api.SimulationState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
@@ -50,13 +49,9 @@ public class Warehouse implements IWarehouse {
 		simulationState.set(SimulationState.stopped);
 	}
 	
-	
-	
 	public IAdapter getAdapter() {
 		return adapter;
 	}
-	
-	
 	
 	/*
 	 * Factory

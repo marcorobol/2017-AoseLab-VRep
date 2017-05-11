@@ -145,7 +145,7 @@ public class CartVRep implements IAdapterCart {
 		posBoxDest.getArray()[1] = 0f;
 		posBoxDest.getArray()[2] = 0.3f;
 		r = vrep.simxSetObjectPosition(clientID, loadedBox.getHandle().getValue(),
-				remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_oneshot);
+				remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_oneshot_wait);
         if(r!=remoteApi.simx_return_ok) {
         	System.out.println("ERROR Moving box "+cartName+", error : "+r);
         }

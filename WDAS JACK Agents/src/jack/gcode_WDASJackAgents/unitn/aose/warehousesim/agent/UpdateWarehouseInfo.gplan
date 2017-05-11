@@ -203,10 +203,10 @@
             AreaRef a = r.getLeftAreaIn(p);
             dataLog.log("left area at "+p+": "+a.getName());
             boolean isStorage = w.isAStorageArea(a);
-            rails.add(r.getName(), p, isRight, isStorage, a.getName());
+            rails.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
             if(!isStorage){
                 //monitor the area if it is a deposit area
-                agent.postEvent(ev1.monitor(a.getName()));
+                agent.postEvent(ev1.monitor(r.getName(), p, isRight, a.getName()));
             }
         }
         //right areas
@@ -217,10 +217,10 @@
             AreaRef a = r.getRightAreaIn(p);
             dataLog.log("right area at "+p+": "+a.getName());
             boolean isStorage = w.isAStorageArea(a);
-            rails.add(r.getName(), p, isRight, isStorage, a.getName());
+            rails.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
             if(!isStorage){
                 //monitor the area if it is a deposit area
-                agent.postEvent(ev1.monitor(a.getName()));
+                agent.postEvent(ev1.monitor(r.getName(), p, isRight, a.getName()));
             }
         }
     }

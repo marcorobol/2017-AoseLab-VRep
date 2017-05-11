@@ -26,6 +26,9 @@ Keep the given area monitored for area state changes
 		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.ITellerMachine"
 		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.AreaState"
+		    >
 		)
 	>
     :handled_event
@@ -135,11 +138,10 @@ Keep the given area monitored for area state changes
     ITellerMachine tm = myWarehouse.getWarehouse().getTellerMachine(ev.areaName);
     dataLog.log("monitoring area "+tm);
     for(;true;){
+        //wait for the areastate to be changed
         @wait_for(new Change(tm.getAreaMonitor(), false));
-        
-        dataLog.log("updating teller machine area state: "+tm.getState().get());
-        
-        //TODO: update railinfo beliefset with the new area state!
+        dataLog.log("updating teller machine "+tm+" to state: "+tm.getState().get());
+        rails.updateAreaState(ev.areaName, RobotData.getAreaState((AreaState)tm.getState().get()));
     }
 }
 `

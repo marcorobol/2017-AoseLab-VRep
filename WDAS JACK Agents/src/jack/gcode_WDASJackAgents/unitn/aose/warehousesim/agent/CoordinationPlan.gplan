@@ -170,11 +170,8 @@
         //agent.send(a.name(), ev1.start());
     }
     
-    logical String $rail;
-    logical int $position;
-    logical boolean $right;
     logical String $area;
-    Cursor c = rails.getDepositWithdrawAreas($rail, $position, $right, $area); 
+    Cursor c = rails.getDepositWithdrawAreas($area); 
     while(c.next()){
         dataLog.log("deposit withdraw area: "+$area.as_string());
     }

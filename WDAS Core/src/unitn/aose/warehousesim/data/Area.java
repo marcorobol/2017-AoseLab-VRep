@@ -38,6 +38,7 @@ public class Area implements AreaRef {
 	public void setBox(Box box) {
 		if (box != null) {
 			getState().set(AreaState.boxAvailable);
+			box.setArea(this);
 		} else {
 			getState().set(AreaState.free);
 		}

@@ -148,7 +148,7 @@ public class RobotData extends Observable {
 	/**
 	 * AreaState
 	 */
-	public static final int AS_FREE = 0, AS_ELABORATINGDEPOSIT = 1, AS_ELABORATINGWITHDRAW = 2, AS_BOXAVAILABLE = 3;
+	public static final int AS_FREE = 0, AS_ELABORATINGDEPOSIT = 1, AS_ELABORATINGWITHDRAW = 2, AS_BOXAVAILABLE = 3, AS_UNKNOWN = 4;
 
 	public static int getAreaState(AreaState as) {
 		return as.ordinal();
@@ -163,8 +163,10 @@ public class RobotData extends Observable {
 		case AS_ELABORATINGWITHDRAW:
 			return AreaState.elaboratingWithdraw;
 		case AS_BOXAVAILABLE:
-		default:
 			return AreaState.boxAvailable;
+		case AS_UNKNOWN:
+		default:
+			return AreaState.unknown;
 		}
 	}
 

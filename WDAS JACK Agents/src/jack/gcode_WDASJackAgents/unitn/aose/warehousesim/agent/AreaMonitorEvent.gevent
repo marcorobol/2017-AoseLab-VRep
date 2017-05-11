@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "AreaMonitorEvent"
     :filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
@@ -19,6 +22,17 @@
     :evfields
 	(
 	    <BAPI_EventField
+		:name  "railName"
+	    >
+	    <BAPI_EventField
+		:name  "position"
+		:type  "int"
+	    >
+	    <BAPI_EventField
+		:name  "isRight"
+		:type  "boolean"
+	    >
+	    <BAPI_EventField
 		:name  "areaName"
 	    >
 	)
@@ -26,9 +40,13 @@
 	(
 	    <BAPI_Text
 		:lab  "monitor"
-		:val  `monitor(String areaName){
-   this.areaName = areaName;
-}`
+		:val  `monitor(String railName, int position, boolean isRight, String areaName){
+    this.railName = railName;
+    this.position = position;
+    this.isRight = isRight;
+    this.areaName = areaName;
+}
+`
 	    >
 	)
 >

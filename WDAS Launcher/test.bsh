@@ -1,5 +1,6 @@
 //WAREHOUSE TEST1
 import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.data.Box;
 import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.data.StorageArea;
@@ -10,12 +11,18 @@ ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
 System.out.println("# "+box1+" created at "+t1);
 
 //start storage procedure
-t1.requestDeposit();
+AreaState t1state = t1.requestDeposit();
+if(t1state!=AreaState.elaboratingDeposit){
+	System.err.println("! cannot elaborate deposit");
+	return;
+}
 
 Area a = box1.getArea();
+//TODO: introduce ticket!?
 while(!(a instanceof StorageArea)){
-	System.out.println("> waiting for "+box1+" to be stored...");
+	System.out.println("> waiting for "+box1+" to be stored (currently at "+a+")");
 	Thread.sleep(500);
+	a = box1.getArea();
 }
 
 System.out.println("> "+box1+" stored at "+a);

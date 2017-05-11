@@ -18,6 +18,15 @@
 		<BAPI_TextLine
 		    :val  "unitn.aose.warehousesim.agent"
 		>
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "java.util.List"
+		    >
+		    <BAPI_TextLine
+			:val  "java.util.ArrayList"
+		    >
+		)
 	>
     :dbfields
 	(
@@ -41,6 +50,10 @@
 	    >
 	    <BAPI_DBField =4
 		:name  "area"
+	    >
+	    <BAPI_DBField =5
+		:name  "areaState"
+		:type  "int"
 	    >
 	)
     :queries
@@ -69,6 +82,10 @@
 			    :ref
 				<&4 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&5 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
@@ -91,6 +108,10 @@
 			    :ref
 				<&3 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&5 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
@@ -112,6 +133,10 @@
 			<BAPI_InternalRef
 			    :ref
 				<&4 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&5 >
 			>
 		    )
 	    >
@@ -135,6 +160,10 @@
 			    :ref
 				<&4 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&5 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
@@ -153,6 +182,10 @@
 			    :ref
 				<&4 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&5 >
+			>
 		    )
 	    >
 	)
@@ -163,9 +196,13 @@
 		:definition
 		    <BAPI_Text
 			:lab  "getDepositWithdrawAreas"
-			:val  `getDepositWithdrawAreas(logical String $rail, logical int $position, logical boolean $right, logical String $area){
+			:val  `getDepositWithdrawAreas(logical String $area){
+    logical String _$rail;
+    logical int _$position;
+    logical boolean _$right;
+    logical int _$areaState;
     boolean isStorage = false;
-    return getAreas($rail, $position, $right, isStorage, $area);
+    return getAreas(_$rail, _$position, _$right, isStorage, $area, _$areaState);
 }
 `
 			:isLabelEditable  :false
@@ -176,9 +213,13 @@
 		:definition
 		    <BAPI_Text
 			:lab  "getStorageAreas"
-			:val  `getStorageAreas(logical String $rail, logical int $position, logical boolean $right, logical String $area){
+			:val  `getStorageAreas(logical String $area){
+    logical String _$rail;
+    logical int _$position;
+    logical boolean _$right;
+    logical int _$areaState;
     boolean isStorage = true;
-    return getAreas($rail, $position, $right, isStorage, $area);
+    return getAreas(_$rail, _$position, _$right, isStorage, $area, _$areaState);
 }
 `
 			:isLabelEditable  :false
@@ -189,9 +230,12 @@
 		:definition
 		    <BAPI_Text
 			:lab  "getStorageAreas"
-			:val  `getStorageAreas(String rail, logical int $position, logical boolean $right, logical String $area){
+			:val  `getStorageAreas(String rail, logical String $area){
+    logical int _$position;
+    logical boolean _$right;
+    logical int _$areaState;
     boolean isStorage = true;
-    return getAreas(rail, $position, $right, isStorage, $area);
+    return getAreas(rail, _$position, _$right, isStorage, $area, _$areaState);
 }
 `
 			:isLabelEditable  :false
@@ -206,13 +250,15 @@
     logical int _$position;
     logical boolean _$right;
     logical boolean _$storage;
+    logical int _$areaState;
     //get all the areas of the given rail...
     logical int _$otherPos;
     logical boolean _$otherRight;
     logical boolean _$otherStorage;
+    logical int _$otherAreaState;
     //and all the rails with that has that area
-    return get($rail, _$position, _$right, _$storage, $area) && 
-        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string()) && 
+    return get($rail, _$position, _$right, _$storage, $area, _$areaState) && 
+        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string(), _$otherAreaState) && 
         $otherRail.as_string()!=$rail.as_string();
 }
 `
@@ -228,13 +274,15 @@
     logical int _$position;
     logical boolean _$right;
     logical boolean _$storage;
+    logical int _$areaState;
     //get all the areas of the given rail...
     logical int _$otherPos;
     logical boolean _$otherRight;
     logical boolean _$otherStorage;
+    logical int _$otherAreaState;
     //and all the rails with that has that area
-    return getAreas(rail, _$position, _$right, _$storage, $area) && 
-        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string()) && 
+    return getAreas(rail, _$position, _$right, _$storage, $area, _$areaState) && 
+        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string(), _$otherAreaState) && 
         $otherRail.as_string()!=rail;
 }
 `
@@ -250,13 +298,45 @@
     logical int _$position;
     logical boolean _$right;
     logical boolean _$storage;
+    logical int _$areaState;
     //get all the areas of the given rail...
     logical int _$otherPos;
     logical boolean _$otherRight;
     logical boolean _$otherStorage;
+    logical int _$otherAreaState;
     //and all the rails with that has that area
-    return getAreas(rail, _$position, _$right, _$storage, $area) && 
-        getAreas(otherRail, _$otherPos, _$otherRight, _$otherStorage, $area);        
+    return getAreas(rail, _$position, _$right, _$storage, $area, _$areaState) && 
+        getAreas(otherRail, _$otherPos, _$otherRight, _$otherStorage, $area, _$otherAreaState);        
+}
+`
+			:isLabelEditable  :false
+		    >
+	    >
+	    <BAPI_ViewQuery
+		:name  "updateAreaState"
+		:type  :function
+		:definition
+		    <BAPI_Text
+			:lab  "updateAreaState"
+			:val  `int updateAreaState(String area, int areaState){
+    logical String $rail;
+    logical int $position;
+    logical boolean $right;
+    logical boolean $storage;
+    logical int $areaState;
+    //get all rails with such area
+    Cursor c = getRail($rail, $position, $right, $storage, area, $areaState);
+    //an area can be set on different rails: store all the raildata
+    List rails = new ArrayList();
+    while(c.next()){
+        rails.add(new Object[]{$rail.as_string(), $position.as_int(), $right.as_boolean(), $storage.as_boolean()});
+    }
+    //now update the rail data with the areastate
+    for(int i=0; i<rails.size(); ++i){
+        Object[] railData = (Object[])rails.get(i);
+        add((String)railData[0], (int)railData[1], (boolean)railData[2], (boolean)railData[3], area, areaState);
+    }
+    return rails.size();
 }
 `
 			:isLabelEditable  :false

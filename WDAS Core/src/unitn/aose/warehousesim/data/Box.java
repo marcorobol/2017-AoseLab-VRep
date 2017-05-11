@@ -27,6 +27,9 @@ public class Box implements BoxRef {
 
 	public void setArea(Area area) {
 		this.area = area;
+		if(null != area){
+			this.robot = null;
+		}
 	}
 
 	public Cart getCart() {
@@ -35,6 +38,9 @@ public class Box implements BoxRef {
 
 	public void setCart(Cart robot) {
 		this.robot = robot;
+		if(null != robot){
+			this.area = null;
+		}
 	}
 
 	@Override

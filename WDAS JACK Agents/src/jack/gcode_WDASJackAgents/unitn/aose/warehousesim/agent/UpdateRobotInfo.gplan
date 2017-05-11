@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "UpdateRobotInfo"
     :filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
@@ -257,25 +260,25 @@
         boolean isStorage = true;
         String a = myRobot.getAreaOnLeft();
         if(null != a){
-            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a);
+            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a, RobotData.AS_UNKNOWN);
             //the area is shared if there is a cross ahead or behind
             //... but we don't know anything about the other rail
             if(null != ca){
-                rail.add(ca, -1, false, isStorage, a);
+                rail.add(ca, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
             }else if (null != cb){
-                rail.add(cb, -1, false, isStorage, a);
+                rail.add(cb, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
             }
         }
         isRight = true;
         a = myRobot.getAreaOnRight();
         if(null != a){
-            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a);
+            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a, RobotData.AS_UNKNOWN);
             //the area is shared if there is a cross ahead or behind
             //... but we don't know anything about the other rail
             if(null != ca){
-                rail.add(ca, -1, false, isStorage, a);
+                rail.add(ca, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
             }else if (null != cb){
-                rail.add(cb, -1, false, isStorage, a);
+                rail.add(cb, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
             }
         }
         checkSharedAreas();

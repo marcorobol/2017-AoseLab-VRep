@@ -381,6 +381,7 @@ public class Cart implements CartRef, IRobot {
 		if(getLoadedBox()==null && box!=null && getMovement().get()==MovementState.stop) {
 			adapter.getAdapterCart(this).loadBox(box, rightSideOrLeftSide);
 	        area.setBox(null);
+	        box.setCart(this);
 	        setLoadedBox(box);
 	        getLoadUnload().set(LoadUnloadState.loaded);
 		}
@@ -395,13 +396,12 @@ public class Cart implements CartRef, IRobot {
 	@Override
 	public void unloadRight() {
 		Area area = getAreaOnRight().get();
-		unloadIn(area, false);
+		unloadIn(area, true);
 	}
 
 	private void unloadIn(Area area, Boolean rightSideOrLeftSide) {
-		Box box = getLoadedBox();
 		if(loadedBox!=null && area!=null && area.getBox()==null && getMovement().get()==MovementState.stop) {
-			adapter.getAdapterCart(this).unloadBoxInArea(box, area, rightSideOrLeftSide);
+			adapter.getAdapterCart(this).unloadBoxInArea(loadedBox, area, rightSideOrLeftSide);
 	        area.setBox(loadedBox);
 	        setLoadedBox(null);
 	        getLoadUnload().set(LoadUnloadState.unloaded);

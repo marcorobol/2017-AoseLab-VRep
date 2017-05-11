@@ -5,6 +5,9 @@
 	<BAPI_Text
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
+	    :val  `/**
+ * 
+ */`
 	>
     :name  "GoToPositionPlan"
     :filename  "unitn/aose/warehousesim/agent/GoToPositionPlan.gplan"
@@ -15,6 +18,19 @@
 		<BAPI_TextLine
 		    :val  "unitn.aose.warehousesim.agent"
 		>
+	    :code
+		(
+		    <BAPI_Text
+			:lab  "int $pos"
+			:val  `logical int $pos;
+`
+		    >
+		    <BAPI_Text
+			:lab  "int $ms"
+			:val  `logical int $ms;
+`
+		    >
+		)
 	>
     :handled_event
 	<BAPI_FileRef
@@ -38,9 +54,6 @@
 	    :lab  "Relevance"
 	    :val  `static boolean relevant(<<HandlesType>> ev)
 {
-    //quando il robot non è gia nella posizione data
-    logical int $pos;
-    //return robotInfo.getPosition($pos) != ev.position;
     return true;
 }
 `
@@ -56,7 +69,9 @@
 	    :lab  "Context"
 	    :val  `context()
 {
-    true;
+    //quando il robot non è gia nella posizione data
+    robotInfo.getPosition($pos) && $pos.as_int() != ev.position 
+        || robotInfo.getMovement($ms) && $ms.as_int() !=  RobotData.MS_STOP;
 }
 `
 	    :init  `context()
@@ -180,7 +195,21 @@
 		:lab  "body"
 		:val  `body()
 {
-    
+    int position = ev.position;
+    if($pos.as_int() < position){
+        myRobot.moveForward();
+        dataLog.log("moving forward from "+$pos.as_int()+" to "+position);
+    }else if ($pos.as_int() > position){
+        myRobot.moveBackward();    
+        dataLog.log("moving backward from "+$pos.as_int()+" to "+position);
+    }
+    logical int $cpos;
+    @wait_for(robotInfo.getPosition($cpos) && $cpos.as_int() == position);
+    dataLog.log("stopping at "+position);
+    myRobot.stopHere();
+    logical int $cms;
+    @wait_for(robotInfo.getMovement($cms) && $cms.as_int() == RobotData.MS_STOP);
+    dataLog.log("stopped at "+position);
 }
 `
 	    >
