@@ -56,7 +56,7 @@
 		    <BAPI_Text
 			:lab  "void coordinate"
 			:val  `public void coordinate(Collection robotAgents){
-    postEvent(coordination.start(robotAgents));
+    postEvent(coordinateEvent.start(robotAgents));
 }
 `
 		    >
@@ -72,7 +72,7 @@
     myWarehouse.setWarehouse(warehouse);
     dataLog.log("agent "+this.getName()+" for "+warehouse+" created");
 
-    postEvent(ev2.update());
+    postEvent(updateInfo.update());
 }
 `
 	    :init  `public <<Type>>(String name)
@@ -161,7 +161,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "ev4"
+		:refName  "areaMonitorEvent"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef
@@ -194,7 +194,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "ev2"
+		:refName  "updateInfo"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef
@@ -227,7 +227,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "sends"
-		:refName  "ev1"
+		:refName  "startRobotsEvent"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef
@@ -243,7 +243,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "coordination"
+		:refName  "coordinateEvent"
 	    >
 	    <BAPI_FileRef
 		:name  "CoordinateEvent"

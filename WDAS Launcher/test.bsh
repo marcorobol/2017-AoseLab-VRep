@@ -12,6 +12,8 @@ ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
 System.out.println("# "+box1+" created at "+t1);
 System.out.println("# "+box2+" created at StorageAreaA1");
 
+RobotMotorA1.testMethod();
+
 // ---- TEST 1 ----
 //start storage procedure
 AreaState t1state = t1.requestDeposit();

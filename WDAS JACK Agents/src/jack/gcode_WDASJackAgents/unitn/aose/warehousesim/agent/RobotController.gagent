@@ -43,7 +43,14 @@ test
 			:lab  "void testMethod"
 			:val  `public void testMethod(){
     //asynchronously execute the RobotTestPlan
-    postEvent(ev1.start());
+    postEvent(startRobotsEvent.start());
+}
+`
+		    >
+		    <BAPI_Text
+			:lab  "void goToPosition"
+			:val  `public void goToPosition(int position){
+    postEvent(goToPositionEvent.goToPosition(position));
 }
 `
 		    >
@@ -74,7 +81,7 @@ test
     myRobot.setRobot(robot);
     dataLog.log("agent "+this.getName()+" for "+robot.getName()+" created");
 
-    postEvent(ev2.update());
+    postEvent(updateInfo.update());
 }
 `
 	    :init  `public <<Type>>(String name)
@@ -212,6 +219,39 @@ test
     :events
 	(
 	    <BAPI_FileRef
+		:name  "GoToPositionEvent"
+		:filename  "unitn/aose/warehousesim/agent/GoToPositionEvent.gevent"
+		:label  "posts GoToPositionEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "posts"
+		:refName  "goToPositionEvent"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "GoToPositionEvent"
+		:filename  "unitn/aose/warehousesim/agent/GoToPositionEvent.gevent"
+		:label  "handles"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "handles"
+		:hasName  :false
+		:refName  "ev"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "StartRobotsEvent"
 		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
 		:label  "posts StartRobotsEvent"
@@ -224,7 +264,7 @@ test
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "ev1"
+		:refName  "startRobotsEvent"
 	    >
 	    <BAPI_FileRef
 		:name  "StartRobotsEvent"
@@ -254,7 +294,7 @@ test
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "ev2"
+		:refName  "updateInfo"
 	    >
 	    <BAPI_FileRef
 		:name  "UpdateInfo"
@@ -275,6 +315,21 @@ test
     :plans
 	(
 	    <BAPI_FileRef
+		:name  "UpdateRobotInfo"
+		:filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
+		:label  "uses"
+		:type  "aos.jack.ed.Plan"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanList.attrs"
+		:refType  "uses"
+		:hasName  :false
+	    >
+	    <BAPI_FileRef
 		:name  "RobotTestPlan"
 		:filename  "unitn/aose/warehousesim/agent/RobotTestPlan.gplan"
 		:label  "uses"
@@ -290,8 +345,8 @@ test
 		:hasName  :false
 	    >
 	    <BAPI_FileRef
-		:name  "UpdateRobotInfo"
-		:filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
+		:name  "GoToPositionPlan"
+		:filename  "unitn/aose/warehousesim/agent/GoToPositionPlan.gplan"
 		:label  "uses"
 		:type  "aos.jack.ed.Plan"
 		:java
@@ -303,6 +358,7 @@ test
 		:attrs  "PlanList.attrs"
 		:refType  "uses"
 		:hasName  :false
+		:dropHandlerName  "Plan.drop"
 	    >
 	)
 >

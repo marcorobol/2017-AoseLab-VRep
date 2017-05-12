@@ -12,6 +12,7 @@ import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.agent.IRobotAgent;
 import unitn.aose.warehousesim.agent.IWarehouseAgent;
 import unitn.aose.warehousesim.agent.RobotAgentFactory;
+import unitn.aose.warehousesim.agent.RobotAgentGui;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
@@ -119,16 +120,17 @@ public class Launcher {
 				break;
 			}
 		}
-		coordinator.coordinate(tempAgentsList);
+		coordinator.coordinate(agentsList);
 
 		/*
-		 * Agents
+		 * Agents Gui
 		 */
 		List<IRobot> robotList = new ArrayList<IRobot>();
 		for (CartRef c : warehouse.getCarts())
 			robotList.add(warehouse.getRobot(c));
 		// new Thread(new AgentJava(robotList)).start();
 		new AgentGui(robotList);
+		new RobotAgentGui(agentsList);
 
 		/*
 		 * Beanshell

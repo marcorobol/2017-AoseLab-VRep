@@ -195,6 +195,7 @@
 		:lab  "body"
 		:val  `body()
 {
+	dataLog.log("goToPositionPlan");
     int position = ev.position;
     if($pos.as_int() < position){
         myRobot.moveForward();
