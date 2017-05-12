@@ -7,7 +7,7 @@
 	    :val  "where are the other robots with respect to the \"myRobot\""
 	>
     :name  "otherRobots"
-    :filename  "unitn/aose/warehousesim/agent/RobotPerception_-otherRobots.gnd"
+    :filename  "unitn/aose/warehousesim/agent/RobotsPerception_-otherRobots.gnd"
     :type  "aos.jack.ed.NamedData"
     :java
 	<BAPI_Java
@@ -18,8 +18,8 @@
 	>
     :user_type
 	<BAPI_FileRef
-	    :name  "RobotPerception"
-	    :filename  "unitn/aose/warehousesim/agent/RobotPerception.gdb"
+	    :name  "RobotsPerception"
+	    :filename  "unitn/aose/warehousesim/agent/RobotsPerception.gdb"
 	    :label  "Type: "
 	    :type  "aos.jack.ed.Database"
 	    :java
@@ -33,5 +33,5 @@
 	    :dropHandlerName  "Data.drop"
 	    :allowsReplace  :true
 	>
-    :prevType  "unitn.aose.warehousesim.agent.RobotPerception"
+    :prevType  "unitn.aose.warehousesim.agent.RobotsPerception"
 >

@@ -14,8 +14,8 @@
  * No robot is present at a given position if no variable is bound for that position.
  */`
 	>
-    :name  "RobotPerception"
-    :filename  "unitn/aose/warehousesim/agent/RobotPerception.gdb"
+    :name  "RobotsPerception"
+    :filename  "unitn/aose/warehousesim/agent/RobotsPerception.gdb"
     :type  "aos.jack.ed.Database"
     :java
 	<BAPI_Java

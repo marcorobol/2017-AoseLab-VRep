@@ -95,25 +95,6 @@ public class Warehouse implements IWarehouse {
     /*
      * Get given reference
      */
-
-//	public Cart getCart(CartRef ref) {
-//		return carts.get(ref);
-//	}
-//	
-//	public Area getArea(AreaRef ref) {
-//		return areas.get(ref);
-//	}
-//	
-//	public Box getBox(BoxRef ref) {
-//		return boxes.get(ref);
-//	}
-//
-//	public Rail getRail(RailRef ref) {
-//		return rails.get(ref);
-//	}
-	
-	
-	
 	@Override
 	public IRobot getRobot(CartRef ref) {
 		return carts.get(ref);

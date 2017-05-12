@@ -14,6 +14,7 @@ import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.MovementWithRespectToMe;
 import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
+import unitn.aose.warehousesim.api.data.StorageAreaRef;
 
 public class RobotData extends Observable {
 
@@ -348,8 +349,6 @@ public class RobotData extends Observable {
 			changed |= CH_CROSS;
 		}
 
-		
-
 		// load status
 		int l = getLoadUnloadState(((LoadUnloadState) robot.getLoadUnload().get()));
 		if (l != loadUnloadState) {
@@ -446,8 +445,26 @@ public class RobotData extends Observable {
 		return boxOnRight;
 	}
 
-	public int getAreaState(AreaRef area) {
-		return getAreaState((AreaState) robot.getAreaState(area).get());
+	/**
+	 * Tells the state of the area on right or left.
+	 * If no such area is available returns AS_UNKNOWN 
+	 * @param isRight true if right, false if left
+	 * @return
+	 */
+	public int getAreaState(boolean isRight) {
+		AreaRef a = (AreaRef)(isRight?robot.getAreaOnRight().get():robot.getAreaOnLeft().get());
+		return null != a ? getAreaState((AreaState) robot.getAreaState(a).get()) : RobotData.AS_UNKNOWN;
+	}
+	
+	/**
+	 * Tells if the area on right or left is a storage area.
+	 * If no such area is available false is returned
+	 * @param isRight true if right, false if left
+	 * @return
+	 */
+	public boolean isStorageArea(boolean isRight){
+		AreaRef a = (AreaRef)(isRight?robot.getAreaOnRight().get():robot.getAreaOnLeft().get());
+		return null != a ? a instanceof StorageAreaRef : false;
 	}
 
 	public String getCrossAhead() {

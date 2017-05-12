@@ -163,17 +163,24 @@
 	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
 		:lab  "body"
 		:val  `body()
-{
-    Iterator it = ev.robotAgents.iterator();
-    while(it.hasNext()){
-        IRobotAgent a = (IRobotAgent)it.next();
-        //agent.send(a.name(), ev1.start());
-    }
+{   
+    /*
+     * This is just a stub for a coordination plan,
+     * showing what APIs are available
+     */
     
+    //monitor area states
     logical String $area;
     Cursor c = rails.getDepositWithdrawAreas($area); 
     while(c.next()){
         dataLog.log("deposit withdraw area: "+$area.as_string());
+    }
+    
+    //send goal to robots
+    Iterator it = ev.robotAgents.iterator();
+    while(it.hasNext()){
+        IRobotAgent a = (IRobotAgent)it.next();
+        //agent.send(a.name(), ev1.start());
     }
 }
 `

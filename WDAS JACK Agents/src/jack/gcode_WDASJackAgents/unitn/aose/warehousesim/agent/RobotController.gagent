@@ -40,6 +40,14 @@ test
 	    :code
 		(
 		    <BAPI_Text
+			:lab  "void testMethod"
+			:val  `public void testMethod(){
+    //asynchronously execute the RobotTestPlan
+    postEvent(ev1.start());
+}
+`
+		    >
+		    <BAPI_Text
 			:lab  "void updateTime"
 			:val  `public void updateTime(long time){
     timer.setTime(time);
@@ -156,9 +164,9 @@ test
 		:refName  "robotInfo"
 	    >
 	    <BAPI_FileRef
-		:name  "RobotPerception"
-		:filename  "unitn/aose/warehousesim/agent/RobotPerception_-otherRobots.gnd"
-		:label  "private RobotPerception"
+		:name  "RobotsPerception"
+		:filename  "unitn/aose/warehousesim/agent/RobotsPerception_-otherRobots.gnd"
+		:label  "private RobotsPerception"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -267,8 +275,8 @@ test
     :plans
 	(
 	    <BAPI_FileRef
-		:name  "MoveRobotsPlan"
-		:filename  "unitn/aose/warehousesim/agent/MoveRobotsPlan.gplan"
+		:name  "RobotTestPlan"
+		:filename  "unitn/aose/warehousesim/agent/RobotTestPlan.gplan"
 		:label  "uses"
 		:type  "aos.jack.ed.Plan"
 		:java
