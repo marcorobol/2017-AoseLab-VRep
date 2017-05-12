@@ -7,22 +7,46 @@ import unitn.aose.warehousesim.data.StorageArea;
 
 //setup warehouse
 Box box1 = warehouse.createBox("PickAreaA");
+Box box2 = warehouse.createBox("StorageAreaA1");
 ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
 System.out.println("# "+box1+" created at "+t1);
+System.out.println("# "+box2+" created at StorageAreaA1");
 
+// ---- TEST 1 ----
 //start storage procedure
 AreaState t1state = t1.requestDeposit();
 if(t1state!=AreaState.elaboratingDeposit){
 	System.err.println("! cannot elaborate deposit");
 	return;
 }
-
-Area a = box1.getArea();
-//TODO: introduce ticket!?
-while(!(a instanceof StorageArea)){
-	System.out.println("> waiting for "+box1+" to be stored (currently at "+a+")");
+System.out.println("> waiting for "+box1+" deposit...");
+int b1ticket = box1.getTicket();
+while(b1ticket!=Box.TICKET_DONE){
 	Thread.sleep(500);
-	a = box1.getArea();
+}
+System.out.println("> "+box1+" marked as done");
+a = box1.getArea();
+if(!(a instanceof StorageArea)){
+	System.err.println("! "+box1+" not correctly stored");
+}else{
+	System.out.println("> "+box1+" stored at "+a);
 }
 
-System.out.println("> "+box1+" stored at "+a);
+//---- TEST 1 ----
+//start retrieval procedure
+t1state = t1.requestWithdraw(box2);
+//TODO: verify withdraw available
+System.out.println("> waiting for "+box1+" withdraw...");
+int b1ticket = box1.getTicket();
+while(b1ticket!=Box.TICKET_DONE){
+	Thread.sleep(500);
+}
+System.out.println("> "+box1+" marked as done");
+a = box1.getArea();
+if(t1 == a){
+	System.err.println("! "+box1+" not in the requested area");
+}else{
+	System.out.println("> "+box1+" correctly placed in "+t1);
+}
+
+

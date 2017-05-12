@@ -197,7 +197,7 @@ public class RobotData extends Observable {
 
 	/// single bit consts to track changed parameters
 	private static final int CH_CARTP = 1 << 0, CH_BOXL = 1 << 1, CH_BOXR = 1 << 2, CH_LOADEDBOX = 1 << 3,
-			CH_LUS = 1 << 4, CH_CROSS = 1 << 5, CH_AREAREF = 1 << 6;
+			CH_LUS = 1 << 4, CH_CROSS = 1 << 5, CH_AREAREF = 1 << 6, CH_POS = 1 << 7, CH_MS = 1 << 8;
 
 	/**
 	 * Internally used to safely check if 'a' is different from 'b' even if they
@@ -250,9 +250,16 @@ public class RobotData extends Observable {
 		}
 
 		// position and movement
-		Object p = robot.getPosition().get();
-		pos = (null != p) ? (int) p : 0;
-		movementState = ((MovementState) robot.getMovement().get()).ordinal();
+		Integer p = (Integer)robot.getPosition().get();
+		if(null != p && p.intValue() != pos){
+			pos = (null != p) ? (int) p : 0;
+			changed |= CH_POS;
+		}
+		int ms = ((MovementState) robot.getMovement().get()).ordinal();
+		if(ms != movementState){
+			movementState = ms;
+			changed |= CH_MS;
+		}
 
 		// boxes around
 		BoxRef b = (BoxRef) robot.getBoxOnLeft();
@@ -309,7 +316,6 @@ public class RobotData extends Observable {
 		} else if(areaRight!=null){
 				areaRight=null;
 				changed |= CH_AREAREF;
-			
 		}
 
 		// crosses

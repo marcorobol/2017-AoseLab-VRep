@@ -12,6 +12,10 @@ public interface IWarehouse extends IWarehouseMonitor {
 	
 	void deleteBox(BoxRef box);
 	
+	int getTicket(String box);
+	
+	void assignTicket(String box, int ticket);
+	
 	IObservable<SimulationState> getSimulationState();
 
 	IObservable<Long> getSimulationTime();

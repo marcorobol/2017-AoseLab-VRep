@@ -23,6 +23,12 @@
 		    <BAPI_TextLine
 			:val  "java.util.Iterator"
 		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.BoxRef"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.ITellerMachine"
+		    >
 		)
 	>
     :handled_event
@@ -174,6 +180,28 @@
     Cursor c = rails.getDepositWithdrawAreas($area); 
     while(c.next()){
         dataLog.log("deposit withdraw area: "+$area.as_string());
+        //retrieve all the area data, including position
+        logical String $rail;
+        logical int $pos;
+        logical boolean $right;
+        logical boolean $storage;
+        logical int $areaState;
+        Cursor ac = rails.getRail($rail, $pos, $right, $storage, $area.as_string(), $areaState);
+        while(ac.next()){
+            if(!$storage.as_boolean()){
+                //we have information about all the rails that area belongs to...
+                ITellerMachine tm = myWarehouse.getWarehouse().getTellerMachine($area.as_string());
+                BoxRef box;
+                //ok: teller machine box is blah
+                int areaState = $areaState.as_int();
+                if(areaState == RobotData.AS_ELABORATINGWITHDRAW){
+                    box = tm.getRequestedBox();
+                    //ok: box to retrieve is box
+                } else if (areaState == RobotData.AS_ELABORATINGDEPOSIT){
+                    box = tm.getBox();
+                }
+            }
+        }
     }
     
     //send goal to robots
@@ -182,6 +210,12 @@
         IRobotAgent a = (IRobotAgent)it.next();
         //agent.send(a.name(), ev1.start());
     }
+    
+    //IDEALLY
+    //1. optinally perform initialization of all robots (e.g. discovery)
+    //2. start monitoring requests (tellermachines states)
+    //3. issue commands to robots to achieve requests
+    
 }
 `
 	    >

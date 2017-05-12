@@ -220,7 +220,7 @@
                 MovementWithRespectToMe mwr = (MovementWithRespectToMe)p.getMovementWithRespectToMe().get();
                 String name = p.getCart().getName();
                 otherRobots.add(pwr, name, RobotData.getMovementWithRespectToMe(mwr));
-                dataLog.log("cart perception at "+RobotData.getPositionWithRespectToMe(pwr)+" "+name+" "+mwr);
+                //dataLog.log("cart perception at "+RobotData.getPositionWithRespectToMe(pwr)+" "+name+" "+mwr);
             }else{
                 otherRobots.remove(pwr);
             }
@@ -246,7 +246,7 @@
         String ca = myRobot.getCrossAhead();
         String ch = myRobot.getCrossHere();
         String cb = myRobot.getCrossBehind();
-        dataLog.log("crosses at "+pos+" "+ca+" "+ch+" "+cb);
+        //dataLog.log("crosses at "+pos+" "+ca+" "+ch+" "+cb);
         if(null != ca){
             crosses.add(myRobot.getRail(), pos+1, ca);
         }
@@ -264,8 +264,8 @@
         areaUpdate(myRobot.getAreaOnRight(), pos, isRight, ca, cb);
         
         // --- test only ---
-        checkSharedAreas();
-        checkCrosses();
+        //checkSharedAreas();
+        //checkCrosses();
     }
 }
 `

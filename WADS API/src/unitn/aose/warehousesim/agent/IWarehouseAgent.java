@@ -19,7 +19,6 @@ public interface IWarehouseAgent extends ISimulationAgent {
 	IWarehouseMonitor getWarehouse();
 	
 	/**
-	 * Acquire 
 	 * @param agents
 	 */
 	void coordinate(Collection<IRobotAgent> agents);

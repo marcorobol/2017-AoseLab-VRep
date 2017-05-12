@@ -1,0 +1,22 @@
+<BAPI_Event
+    :version  52
+    :superclass  "Event"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+* automatically triggered whenever an areastate of a tellermachine switches to elaboratingWithdraw
+*/`
+	>
+    :name  "DepositRequestedEvent"
+    :filename  "unitn/aose/warehousesim/agent/DepositRequestedEvent.gevent"
+    :type  "aos.jack.ed.Event"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+>

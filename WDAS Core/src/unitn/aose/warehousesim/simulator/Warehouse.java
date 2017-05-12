@@ -32,9 +32,10 @@ public class Warehouse implements IWarehouse {
 	private final ObservableLong simulationTime;
 	
     private final Map<RailRef, Rail> rails = new HashMap<RailRef, Rail>();
-    private final Map<String, AreaRef> areas;
+    private final Map<String, AreaRef> areaIndex;
 	private final Map<StorageAreaRef, Area> storageAreas = new HashMap<StorageAreaRef, Area>();
 	private final Map<DepositWithdrawAreaRef, Area> depositWithdrawAreas = new HashMap<DepositWithdrawAreaRef, Area>();
+    private final Map<String, BoxRef> boxIndex;
     private final Map<BoxRef, Box> boxes = new HashMap<BoxRef, Box>();
 	private final Map<CartRef, Cart> carts = new HashMap<CartRef, Cart>();
 	
@@ -42,7 +43,8 @@ public class Warehouse implements IWarehouse {
 	
 	public Warehouse(IAdapter adapter) {
 		this.adapter = adapter;
-		areas = new HashMap<String, AreaRef>();
+		areaIndex = new HashMap<String, AreaRef>();
+		boxIndex = new HashMap<String, BoxRef>();
 		simulationTime = new ObservableLong();
 		simulationTime.set(0l);
 		simulationState = new ObservableSimulationState(simulationTime);
@@ -73,24 +75,59 @@ public class Warehouse implements IWarehouse {
 	public Area defineArea(String name) {
 		StorageArea a = new StorageArea(name, adapter);
 		storageAreas.put(a, a);
-		areas.put(name, a);
+		areaIndex.put(name, a);
 		return a;
 	}
 
 	public Area defineDepositWithdrawArea(String name) {
-		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter);
+		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter, this);
 		depositWithdrawAreas.put(a, a);
-		areas.put(name, a);
+		areaIndex.put(name, a);
 		return a;
 	}
 
 	public Box defineBox(String name) {
 		Box b = new Box(name);
 		boxes.put(b, b);
+		boxIndex.put(name, b);
 		return b;
 	}
+	
+	/**
+	 * Retrieve an already defined box instance
+	 * @param boxName
+	 * @return
+	 */
+	public Box getBox(String boxName){
+		Box b = null;
+		BoxRef br = boxIndex.get(boxName);
+    	if(null != br){
+    		b = boxes.get(br);
+    	}
+    	return b;
+	}
     
+	/**
+	 * Retrieve the ticket assigned to the box identified by the given name
+	 */
+    public int getTicket(String boxName){
+    	int ticket = Box.TICKET_NONE;
+    	Box b = getBox(boxName);
+    	if(null != b){
+    		ticket = b.getTicket();
+    	}
+    	return ticket;
+    }
     
+    /**
+     * Set a ticket to the box idenfied by the given name
+     */
+    public void assignTicket(String boxName, int ticket){
+		Box b = getBox(boxName);
+		if(null != b){
+			b.assignTicket(ticket);
+		}
+    }
     
     /*
      * Get given reference
@@ -100,6 +137,19 @@ public class Warehouse implements IWarehouse {
 		return carts.get(ref);
 	}
 	
+	@Override
+	public AreaRef getArea(String areaName){
+		Area a = null;
+		AreaRef ar = areaIndex.get(areaName);
+		if(null != ar){
+			a = depositWithdrawAreas.get(ar);
+			if(null == a){
+				a = storageAreas.get(ar);
+			}
+		}
+		return a;
+	}
+	
 	/**
 	 * Look for a depositwithraw area (tellermachine)
 	 * based on its name
@@ -107,7 +157,7 @@ public class Warehouse implements IWarehouse {
 	@Override
 	public ITellerMachine getTellerMachine(String areaName){
 		ITellerMachine m = null;
-		AreaRef ar = areas.get(areaName);
+		AreaRef ar = areaIndex.get(areaName);
 		if(null != ar){
 			Area a = depositWithdrawAreas.get(ar);
 			m = (a instanceof ITellerMachine) ? (ITellerMachine)a : null; 
@@ -168,7 +218,7 @@ public class Warehouse implements IWarehouse {
 	
 	@Override
 	public BoxRef createBox(String areaName){
-		AreaRef ar = areas.get(areaName);
+		AreaRef ar = areaIndex.get(areaName);
 		return null != ar ? createBox(ar) : null;
 	}
 

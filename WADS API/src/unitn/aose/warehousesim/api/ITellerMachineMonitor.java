@@ -20,4 +20,10 @@ public interface ITellerMachineMonitor {
 	
 	BoxRef getRequestedBox();
 	
+	/**
+	 * Box currently stored in this teller machine
+	 * @return
+	 */
+	BoxRef getBox();
+	
 }

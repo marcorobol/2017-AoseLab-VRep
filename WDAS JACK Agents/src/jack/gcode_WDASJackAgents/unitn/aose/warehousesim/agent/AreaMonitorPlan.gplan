@@ -24,10 +24,10 @@ Keep the given area monitored for area state changes
 			:val  "aos.jack.util.cursor.Change"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.ITellerMachine"
+			:val  "unitn.aose.warehousesim.api.AreaState"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.AreaState"
+			:val  "unitn.aose.warehousesim.api.ITellerMachine"
 		    >
 		)
 	>
@@ -142,6 +142,7 @@ Keep the given area monitored for area state changes
         @wait_for(new Change(tm.getAreaMonitor(), false));
         dataLog.log("updating teller machine "+tm+" to state: "+tm.getState().get());
         rails.updateAreaState(ev.areaName, RobotData.getAreaState((AreaState)tm.getState().get()));
+        //TODO: if request deposit or withdraw send event!
     }
 }
 `
