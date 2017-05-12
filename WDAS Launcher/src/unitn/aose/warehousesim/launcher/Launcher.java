@@ -20,6 +20,7 @@ import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationOne;
+import unitn.aose.warehousesim.configuration.ConfigurationThree;
 import unitn.aose.warehousesim.configuration.IConfigurator;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
 import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
@@ -100,9 +101,9 @@ public class Launcher {
 		 * Configuration
 		 */
 		IConfigurator configuratorVRep = new ConfiguratorVRep(adapter, warehouse);
-		ConfigurationOne confOne = new ConfigurationOne(configuratorVRep);
+		ConfigurationThree conf = new ConfigurationThree(configuratorVRep);
 		adapter.play();
-		confOne.initialize(warehouse);
+		conf.initialize(warehouse);
 
 		/*
 		 * Sezione per il caricamento degli agenti
