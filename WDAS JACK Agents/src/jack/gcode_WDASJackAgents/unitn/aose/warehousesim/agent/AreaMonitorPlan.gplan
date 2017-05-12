@@ -24,6 +24,9 @@ Keep the given area monitored for area state changes
 			:val  "aos.jack.util.cursor.Change"
 		    >
 		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.agent.AreaState"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.AreaState"
 		    >
 		    <BAPI_TextLine
@@ -78,6 +81,41 @@ Keep the given area monitored for area state changes
 `
 	    :isLabelEditable  :false
 	>
+    :posted_events
+	(
+	    <BAPI_FileRef
+		:name  "DepositRequestedEvent"
+		:filename  "unitn/aose/warehousesim/agent/DepositRequestedEvent.gevent"
+		:label  "posts DepositRequestedEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "posts"
+		:refName  "depositRequestedEvent"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "WithdrawRequestedEvent"
+		:filename  "unitn/aose/warehousesim/agent/WithdrawRequestedEvent.gevent"
+		:label  "posts WithdrawRequestedEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "posts"
+		:refName  "withdrawRequestedEvent"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	)
     :databases
 	(
 	    <BAPI_FileRef
@@ -141,8 +179,13 @@ Keep the given area monitored for area state changes
         //wait for the areastate to be changed
         @wait_for(new Change(tm.getAreaMonitor(), false));
         dataLog.log("updating teller machine "+tm+" to state: "+tm.getState().get());
-        rails.updateAreaState(ev.areaName, RobotData.getAreaState((AreaState)tm.getState().get()));
+        int areaState = RobotData.getAreaState((AreaState)tm.getState().get());
+        rails.updateAreaState(ev.areaName, areaState);
         //TODO: if request deposit or withdraw send event!
+        if(areaState==RobotData.AS_ELABORATINGDEPOSIT)
+        	agent.postEvent(depositRequestedEvent.start(ev.railName, ev.position, ev.isRight, ev.areaName));
+        else if(areaState==RobotData.AS_ELABORATINGWITHDRAW)
+        	agent.postEvent(withdrawRequestedEvent.start(ev.railName, ev.position, ev.isRight, ev.areaName));
     }
 }
 `

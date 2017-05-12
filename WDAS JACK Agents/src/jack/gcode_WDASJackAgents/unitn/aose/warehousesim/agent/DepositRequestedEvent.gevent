@@ -19,4 +19,34 @@
 		    :val  "unitn.aose.warehousesim.agent"
 		>
 	>
+    :evfields
+	(
+	    <BAPI_EventField
+		:name  "railName"
+	    >
+	    <BAPI_EventField
+		:name  "position"
+		:type  "int"
+	    >
+	    <BAPI_EventField
+		:name  "isRight"
+		:type  "boolean"
+	    >
+	    <BAPI_EventField
+		:name  "areaName"
+	    >
+	)
+    :evconstr
+	(
+	    <BAPI_Text
+		:lab  "start"
+		:val  `start(String railName, int position, boolean isRight, String areaName){
+    this.railName = railName;
+    this.position = position;
+    this.isRight = isRight;
+    this.areaName = areaName;
+}
+`
+	    >
+	)
 >

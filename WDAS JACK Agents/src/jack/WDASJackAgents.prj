@@ -68,6 +68,30 @@
 					:list
 					    (
 						<BAPI_Filename
+						    :filename  "unitn/aose/warehousesim/agent/WithdrawRequestedPlan.gplan"
+						    :label  "WithdrawRequestedPlan"
+						    :type  "aos.jack.ed.Plan"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
+						<BAPI_Filename
+						    :filename  "unitn/aose/warehousesim/agent/DepositRequestedPlan.gplan"
+						    :label  "DepositRequestedPlan"
+						    :type  "aos.jack.ed.Plan"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
+						<BAPI_Filename
 						    :filename  "unitn/aose/warehousesim/agent/UpdateWarehouseInfo.gplan"
 						    :label  "UpdateWarehouseInfo"
 						    :type  "aos.jack.ed.Plan"
