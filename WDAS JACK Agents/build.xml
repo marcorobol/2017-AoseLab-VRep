@@ -37,6 +37,9 @@
   		</fileset>
   	</chmod>
   	
+  	<!-- BeanShell script -->
+  	<copy todir="${build}" file="../WDAS Launcher/rootScript.bsh"/>
+
   	<!-- V-REP FILES -->
   	<mkdir dir="${build}/vrepFiles"/>
   	<copy todir="${build}/vrepFiles" file="../warehouseStaticThree.ttt"/>
