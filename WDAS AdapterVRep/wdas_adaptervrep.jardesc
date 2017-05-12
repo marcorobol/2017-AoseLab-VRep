@@ -26,8 +26,8 @@
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{simpleTest.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{IntWA.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;unitn.aose.warehousesim.adapter.vrep"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{FloatWAA.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{CharW.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{FloatWAA.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{FloatWA.java"/>
     </selectedElements>
 </jardesc>

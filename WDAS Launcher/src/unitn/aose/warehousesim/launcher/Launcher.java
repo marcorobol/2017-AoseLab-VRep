@@ -34,7 +34,7 @@ public class Launcher {
 	/**
 	 * the beanshell script file that will be executed on startup
 	 */
-	public static final String SCRIPT_SOURCEFILE = "test.bsh";
+	public static final String SCRIPT_SOURCEFILE = "rootScript.bsh";
 
 	/**
 	 * the beanshell variable used to map the warehouse
