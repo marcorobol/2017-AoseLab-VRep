@@ -14,19 +14,19 @@ System.out.println("# "+box2+" created at StorageAreaA1");
 
 RobotMotorA1.testMethod();
 
-// ---- TEST 1 ----
+//---- TEST 1 ----
 //start storage procedure
-AreaState t1state = t1.requestDeposit();
-if(t1state!=AreaState.elaboratingDeposit){
+String ticketCode = t1.requestDeposit();
+if(null != ticketCode){
 	System.err.println("! cannot elaborate deposit");
 	return;
 }
-System.out.println("> waiting for "+box1+" deposit...");
-int b1ticket = box1.getTicket();
-while(b1ticket!=Box.TICKET_DONE){
+System.out.println("> waiting for "+box1+" deposit: tracking number "+ticketCode);
+while(ticketManager.getTrackingNumberState(ticketCode)!=Ticket.TICKET_DONE){
 	Thread.sleep(500);
 }
-System.out.println("> "+box1+" marked as done");
+
+System.out.println("> "+ticketCode+" marked as done");
 a = box1.getArea();
 if(!(a instanceof StorageArea)){
 	System.err.println("! "+box1+" not correctly stored");
@@ -34,21 +34,18 @@ if(!(a instanceof StorageArea)){
 	System.out.println("> "+box1+" stored at "+a);
 }
 
-//---- TEST 1 ----
+//---- TEST 2 ----
 //start retrieval procedure
-t1state = t1.requestWithdraw(box2);
+ticketCode = t1.requestWithdraw(box2);
 //TODO: verify withdraw available
-System.out.println("> waiting for "+box1+" withdraw...");
-int b1ticket = box1.getTicket();
-while(b1ticket!=Box.TICKET_DONE){
+System.out.println("> waiting for "+box1+" withdraw: tracking number "+ticketCode);
+while(ticketManager.getTrackingNumberState(ticketCode)!=Ticket.TICKET_DONE){
 	Thread.sleep(500);
 }
-System.out.println("> "+box1+" marked as done");
+System.out.println("> "+ticketCode+" marked as done");
 a = box1.getArea();
 if(t1 == a){
 	System.err.println("! "+box1+" not in the requested area");
 }else{
-	System.out.println("> "+box1+" correctly placed in "+t1);
+	System.out.println("> "+box1+" ready for withdrawal at "+t1);
 }
-
-
