@@ -95,7 +95,7 @@ public class RobotData extends Observable {
 	/**
 	 * PositionWithRespectToMe
 	 * 
-	 * Graphical representation assuming heading right (->) 7 3 5 1 > 0 6 2 4
+	 * Graphical representation assuming heading right (-&gt;) 7 3 5 1 &gt; 0 6 2 4
 	 */
 	public static final int PWR_AHEAD = 0, PWR_BEHIND = 1, PWR_RIGHT = 2, PWR_LEFT = 3, PWR_AHEADRIGHT = 4,
 			PWR_AHEADLEFT = 5, PWR_BEHINDRIGHT = 6, PWR_BEHINDLEFT = 7, PWR_UNKNOWN = 8;

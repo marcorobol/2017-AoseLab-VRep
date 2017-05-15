@@ -8,4 +8,6 @@ src/java
 *.bak
 *.old
 *.jts
-/target/
+/target*/
+/build*/
+/release*/

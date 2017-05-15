@@ -25,7 +25,7 @@ public class RobotAgentFactory {
 	}
 	/**
 	 * Create an IRobotAgent 
-	 * @param IRobot
+	 * @param robot 
 	 * @return the created IRobotAgent, null in case of an error
 	 */
 	public IRobotAgent createAgent(IRobot robot){

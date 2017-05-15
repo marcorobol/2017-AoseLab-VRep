@@ -80,7 +80,7 @@ public class Warehouse implements IWarehouse {
 	}
 
 	public Area defineDepositWithdrawArea(String name) {
-		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter, this);
+		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter);
 		depositWithdrawAreas.put(a, a);
 		areaIndex.put(name, a);
 		return a;
@@ -106,29 +106,6 @@ public class Warehouse implements IWarehouse {
     	}
     	return b;
 	}
-    
-	/**
-	 * Retrieve the ticket assigned to the box identified by the given name
-	 */
-    public int getTicket(String boxName){
-    	int ticket = Box.TICKET_NONE;
-    	Box b = getBox(boxName);
-    	if(null != b){
-    		ticket = b.getTicket();
-    	}
-    	return ticket;
-    }
-    
-    /**
-     * Set a ticket to the box idenfied by the given name
-     */
-    public void assignTicket(String boxName, int ticket){
-		Box b = getBox(boxName);
-		if(null != b){
-			b.assignTicket(ticket);
-		}
-    }
-    
     /*
      * Get given reference
      */

@@ -9,7 +9,7 @@ public interface ISimulationAgent {
 	
 	/**
 	 * Set the new time in the agent clock
-	 * @param simulation time in milliseconds
+	 * @param time simulation time in milliseconds
 	 */
 	void updateTime(long time);
 }

@@ -1,67 +1,101 @@
-<project name="MyProject" default="pack" basedir=".">
-  <property name="src" location="src"/>
-  <property name="build" location="target"/>
+<project name="WDAS" default="release" basedir=".">
+	<property name="src" location="src" />
+	<property name="target" location="target" />
+	<property name="release" location="release" />
+	<property name="release_name" value="aose_warehouse" />
 
-  <target name="pack" depends="clean">
-    <mkdir dir="${build}"/>
-  	<mkdir dir="${build}/lib"/>
-  	<copy todir="${build}/lib" file="../WADS API/wdas_api.jar"/>
-  	<copy todir="${build}/lib" file="../WDAS AdapterVRep/wdas_adaptervrep.jar"/>
-  	<copy todir="${build}/lib" file="../WDAS Core/wdas_core.jar"/>
-  	<copy todir="${build}/lib" file="../WDAS Launcher/wdas_launcher.jar"/>
-  	<copy todir="${build}/lib" file="../WDAS Launcher/lib/bsh-2.0b6.jar"/>
+	<target name="build" depends="clean, javadoc" description="collects all the data in a target folder">
+		<mkdir dir="${target}" />
+		<mkdir dir="${target}/lib" />
+		<copy todir="${target}/lib" file="../WADS API/wdas_api.jar" />
+		<copy todir="${target}/lib" file="../WDAS AdapterVRep/wdas_adaptervrep.jar" />
+		<copy todir="${target}/lib" file="../WDAS Core/wdas_core.jar" />
+		<copy todir="${target}/lib" file="../WDAS Launcher/wdas_launcher.jar" />
+		<copy todir="${target}/lib" file="../WDAS Launcher/lib/bsh-2.0b6.jar" />
 
-  	<mkdir dir="${build}/src/jack"/>
-  	<copy todir="${build}/src/jack">
-  		<fileset dir="${src}/jack">
-  			<exclude name="**/*.bak"/>
-  			<exclude name="**/*.jts"/>
-  			<exclude name="**/.*"/>
-  			<exclude name="**/*.sh"/>
-  		</fileset>
-  	</copy>
+		<mkdir dir="${target}/src/jack" />
+		<copy todir="${target}/src/jack">
+			<fileset dir="${src}/jack">
+				<exclude name="**/*.bak" />
+				<exclude name="**/*.jts" />
+				<exclude name="**/.*" />
+				<exclude name="**/*.sh" />
+			</fileset>
+		</copy>
 
-  	<mkdir dir="${build}/bin"/>
-  	<mkdir dir="${build}/src/java"/>
-  	
-  	<!-- export scripts -->
-   <copy todir="${build}">
-  		<fileset dir="scripts">
-  		  			<include name="*.sh"/>
-  					<include name="*.bat"/>
-  		</fileset>
-  	</copy>
-  	<chmod perm="ugo+x">
-  		<fileset dir="${build}">
-  			<include name="*.sh"/>
-  		</fileset>
-  	</chmod>
-  	
-  	<!-- BeanShell script -->
-  	<copy todir="${build}" file="../WDAS Launcher/rootScript.bsh"/>
+		<mkdir dir="${target}/bin" />
+		<mkdir dir="${target}/src/java" />
 
-  	<!-- V-REP FILES -->
-  	<mkdir dir="${build}/vrepFiles"/>
-  	<copy todir="${build}/vrepFiles" file="../warehouseStaticThree.ttt"/>
-  	
-  	<!-- LIB-->
-  	<mkdir dir="${build}/lib/lib"/>
-  	<copy todir="${build}/lib/lib">
-  		<fileset dir="../WDAS Launcher/lib"></fileset>
-  	</copy>
-  	
-  	  	
-  	<mkdir dir="${build}/docs"/>
-  	<copy todir="${build}/docs">
-  		<fileset dir="docs">
-  			<include name="*.pdf"/>
-  			<include name="*.txt"/>
-  			<!-- only export pdf? -->
-  		</fileset>
-  	</copy>
-  </target>
+		<!-- export scripts -->
+		<copy todir="${target}">
+			<fileset dir="scripts">
+				<include name="*.sh" />
+				<include name="*.bat" />
+			</fileset>
+		</copy>
+		<chmod perm="ugo+x">
+			<fileset dir="${target}">
+				<include name="*.sh" />
+			</fileset>
+		</chmod>
 
-  <target name="clean" description="clean up">
-    <delete dir="${build}"/>
-  </target>
+		<!-- BeanShell script -->
+		<copy todir="${target}" file="../WDAS Launcher/rootScript.bsh" />
+
+		<!-- V-REP FILES -->
+		<mkdir dir="${target}/vrepFiles" />
+		<copy todir="${target}/vrepFiles" file="../warehouseStaticThree.ttt" />
+
+		<!-- LIB-->
+		<mkdir dir="${target}/lib/lib" />
+		<copy todir="${target}/lib/lib">
+			<fileset dir="../WDAS Launcher/lib">
+			</fileset>
+		</copy>
+
+		<mkdir dir="${target}/docs" />
+		<copy todir="${target}/docs">
+			<fileset dir="docs">
+				<include name="*.pdf" />
+				<include name="*.txt" />
+				<!-- only export pdf? -->
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="javadoc" description="create the javadoc for all the projects">
+		<delete dir="${target}/javadoc" />
+		<mkdir dir="${target}/javadoc" />
+		<javadoc packagenames="unitn.*" destdir="${target}/javadoc">
+			<fileset dir="../">
+				<filename name="**/*.java" />
+				<not>
+					<filename name="**/*test*/**/*.java" />
+				</not>
+				<not>
+					<filename name="**/*coppelia*/**/*.java" />
+				</not>
+			</fileset>
+		</javadoc>
+	</target>
+	
+	<target name="release" depends="build" description="prepares a folder with the latest compiled data">
+		<buildnumber file="build.num"/>
+		<tstamp>
+			<format property="TODAY" pattern="yyyyMMdd" />
+		</tstamp>
+		<property name="build" value="build${build.number}"/>
+		
+		<mkdir dir="${build}"/>
+		<copydir src="${target}" dest="${build}" />
+		
+		<mkdir dir="${release}"/>
+		<zip destfile="${release}/${release_name}_${build.number}_${TODAY}.zip">
+			<fileset dir="${build}"/>
+		</zip>
+	</target>
+
+	<target name="clean" description="clean up previous target folder, if available">
+		<delete dir="${target}" />
+	</target>
 </project>

@@ -14,11 +14,9 @@ import unitn.aose.warehousesim.simulator.IAdapter;
 public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef, ITellerMachine {
 
 	private BoxRef requestedBox;
-	private final IWarehouse warehouse;
 	
-	public DepositWithdrawArea(String name, IAdapter adapter, IWarehouse warehouse) {
+	public DepositWithdrawArea(String name, IAdapter adapter) {
 		super(name, adapter);
-		this.warehouse = warehouse;
 	}
 
 	@Override
@@ -34,7 +32,6 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 			if(!currentAreaState.equals(AreaState.elaboratingDeposit)){
 				getState().set(AreaState.elaboratingDeposit);
 				areaMonitor.setChanged();
-				getBox().assignTicket(Box.TICKET_STORE);
 				TicketManager tm = TicketManager.getInstance();
 				code = tm.getNewTrackingCode();
 				tm.setTrackingState(code, Ticket.TICKET_STORE);
@@ -52,7 +49,6 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 				getState().set(AreaState.elaboratingWithdraw);
 				requestedBox = box;
 				areaMonitor.setChanged();
-				warehouse.assignTicket(box.getName(), Box.TICKET_RETRIEVE);
 				TicketManager tm = TicketManager.getInstance();
 				code = tm.getNewTrackingCode();
 				tm.setTrackingState(code, Ticket.TICKET_RETRIEVE);
