@@ -21,4 +21,14 @@ public interface IRobotAgent extends ISimulationAgent {
 	 * @return
 	 */
 	String name();
+	
+	/**
+	 * Submit test goal
+	 */
+	public void testMethod();
+	
+	/**
+	 * Submit goToPosition goal
+	 */
+	public void goToPosition(int position);
 }

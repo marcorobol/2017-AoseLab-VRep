@@ -12,6 +12,7 @@ import unitn.aose.warehousesim.agent.AgentGui;
 import unitn.aose.warehousesim.agent.IRobotAgent;
 import unitn.aose.warehousesim.agent.IWarehouseAgent;
 import unitn.aose.warehousesim.agent.RobotAgentFactory;
+import unitn.aose.warehousesim.agent.RobotAgentGui;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
@@ -19,6 +20,7 @@ import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationOne;
+import unitn.aose.warehousesim.configuration.ConfigurationThree;
 import unitn.aose.warehousesim.configuration.IConfigurator;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
 import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
@@ -32,12 +34,14 @@ public class Launcher {
 	/**
 	 * the beanshell script file that will be executed on startup
 	 */
-	public static final String SCRIPT_SOURCEFILE = "test.bsh";
+	public static final String SCRIPT_SOURCEFILE = "rootScript.bsh";
 
 	/**
 	 * the beanshell variable used to map the warehouse
 	 */
 	public static final String VAR_WAREHOUSE = "warehouse";
+
+	protected static final String VAR_COORDINATOR = "coordinator";
 
 	public static final String CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
 			CLASS_WAREHOUSEAGENT = "unitn.aose.warehousesim.agent.RobotCoordinator";
@@ -99,9 +103,9 @@ public class Launcher {
 		 * Configuration
 		 */
 		IConfigurator configuratorVRep = new ConfiguratorVRep(adapter, warehouse);
-		ConfigurationOne confOne = new ConfigurationOne(configuratorVRep);
+		ConfigurationThree conf = new ConfigurationThree(configuratorVRep);
 		adapter.play();
-		confOne.initialize(warehouse);
+		conf.initialize(warehouse);
 
 		/*
 		 * Sezione per il caricamento degli agenti
@@ -119,16 +123,17 @@ public class Launcher {
 				break;
 			}
 		}
-		coordinator.coordinate(tempAgentsList);
+		coordinator.coordinate(agentsList);
 
 		/*
-		 * Agents
+		 * Agents Gui
 		 */
 		List<IRobot> robotList = new ArrayList<IRobot>();
 		for (CartRef c : warehouse.getCarts())
 			robotList.add(warehouse.getRobot(c));
 		// new Thread(new AgentJava(robotList)).start();
 		new AgentGui(robotList);
+		new RobotAgentGui(agentsList);
 
 		/*
 		 * Beanshell
@@ -140,7 +145,12 @@ public class Launcher {
 					for (IRobotAgent robot : agentsList) { // foreach robot
 						i.set(robot.getRobot().getName(), robot);
 					}
+					for (DepositWithdrawAreaRef area : warehouse.getDepositWithdrawAreas()) { // foreach robot
+						ITellerMachine tellerMachine = warehouse.getTellerMachine(area);
+						i.set(tellerMachine.getName(), tellerMachine);
+					}
 					i.set(VAR_WAREHOUSE, warehouse);
+					i.set(VAR_COORDINATOR, coordinator);
 					i.source(SCRIPT_SOURCEFILE);
 				} catch (Exception e) {
 					System.out.println("ERROR: " + e);

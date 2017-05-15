@@ -129,13 +129,16 @@ public class ConfigurationOne {
         rail_a.addLeftArea(3, area_ac);
         rail_a.addRightArea(7, area_a1);
         rail_a.addLeftArea(12, area_ad);
+        rail_b.addRightArea(0, area_b);
         rail_b.addLeftArea(3, area_bc);
         rail_b.addLeftArea(12, area_bd);
+        rail_c.addRightArea(0, area_c);
         rail_c.addLeftArea(1, area_c3);
         rail_c.addRightArea(3, area_bc);
         rail_c.addRightArea(6, area_c2);
         rail_c.addLeftArea(9, area_c1);
         rail_c.addRightArea(12, area_ac);
+        rail_d.addRightArea(0, area_d);
         rail_d.addRightArea(3, area_ad);
         rail_d.addLeftArea(6, area_d1);
         rail_d.addRightArea(9, area_d2);

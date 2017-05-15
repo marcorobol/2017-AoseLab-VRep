@@ -138,11 +138,11 @@ public class ConfigurationThree {
     	Rail rail_f = conf.defineRail("RailF", 15);
     	
     	// INCROCI 
-    	rail_a.addCross(2, rail_c, 11, false);// punto 2 della rotaia A si incrocia all'indice 11 della rotaia c.  false = direzionata verso sinistra
+    	rail_a.addCross(3, rail_c, 11, false);// punto 2 della rotaia A si incrocia all'indice 11 della rotaia c.  false = direzionata verso sinistra
     	rail_a.addCross(13, rail_d, 4, true);
     	
     	rail_b.addCross(2, rail_d, 11, true);
-    	rail_b.addCross(13, rail_c, 4, false);	
+    	rail_b.addCross(12, rail_c, 4, false);	
     	
     	rail_c.addCross(4, rail_b, 13, false);
     	rail_c.addCross(6, rail_e, 2, true);
@@ -154,14 +154,17 @@ public class ConfigurationThree {
     	rail_d.addCross(9, rail_e, 13, true);
     	rail_d.addCross(11, rail_b, 2, false);
     	
-    	rail_e.addCross(2, rail_c, 6, false);
+    	rail_e.addCross(3, rail_c, 6, false);
     	rail_e.addCross(13, rail_d, 9, true);
+    	
+    	rail_f.addCross(9, rail_c, 6, false);
+    	rail_f.addCross(6, rail_d, 9, true);
 
     	// AREE
         rail_a.addLeftArea(1, area_a);
-        rail_a.addRightArea(1, area_c1);
-        rail_a.addLeftArea(3, area_ac);
-        rail_a.addRightArea(3, area_fc);
+        rail_a.addRightArea(2, area_c1);
+        rail_a.addLeftArea(4, area_ac);
+        rail_a.addRightArea(4, area_fc);
         rail_a.addRightArea(7, area_a1);
         rail_a.addLeftArea(12, area_ad);
         rail_a.addRightArea(12, area_fd);
@@ -170,21 +173,18 @@ public class ConfigurationThree {
         rail_b.addLeftArea(3, area_bd);
         rail_b.addRightArea(3, area_d2);
         rail_b.addRightArea(7, area_e1);
-        rail_b.addLeftArea(12, area_bc);
-        rail_b.addRightArea(12, area_c2);
+        rail_b.addLeftArea(11, area_bc);
+        rail_b.addRightArea(11, area_c2);
         rail_b.addLeftArea(14, area_b);
         
         rail_c.addLeftArea(1, area_c3);
         rail_c.addRightArea(3, area_bc);
-        rail_c.addLeftArea(3, area_b);
         rail_c.addRightArea(5, area_c2);
         rail_c.addLeftArea(7, area_e);        
         rail_c.addRightArea(7, area_ec);
-        rail_c.addLeftArea(8, area_f);
         rail_c.addLeftArea(10, area_c1);
         rail_c.addRightArea(10, area_fc);
         rail_c.addRightArea(12, area_ac);
-        rail_c.addLeftArea(12, area_a);
         rail_c.addRightArea(14, area_c);
         
         rail_d.addRightArea(1, area_d);
@@ -197,16 +197,15 @@ public class ConfigurationThree {
         rail_d.addLeftArea(14, area_d3);
         
         rail_e.addLeftArea(1, area_e);
-        rail_e.addRightArea(3, area_c2);
-        rail_e.addLeftArea(3, area_ec);
+        rail_e.addRightArea(4, area_c2);
+        rail_e.addLeftArea(4, area_ec);
         rail_e.addRightArea(7, area_e1);
         rail_e.addRightArea(12, area_d2);
         rail_e.addLeftArea(12, area_ed);
-        
-        rail_f.addLeftArea(1, area_c1);
+
         rail_f.addRightArea(1, area_f);
-        rail_f.addLeftArea(3, area_fc);
-        rail_f.addLeftArea(1, area_c1);
+        rail_f.addLeftArea(2, area_c1);
+        rail_f.addLeftArea(4, area_fc);
         rail_f.addLeftArea(7, area_a1);
         rail_f.addLeftArea(12, area_fd);
         rail_f.addLeftArea(14, area_d1);

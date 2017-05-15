@@ -6,7 +6,10 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
- * 
+ * This is the perception plan for the individual robot controller.
+ * The robot has a perception field of 1 step.
+ * Every time the robot data is updated, for example when position changes,
+ * the plan will load the fresh sensor data from myRobot and update the appropriate beliefsets.
  */`
 	>
     :name  "UpdateRobotInfo"
@@ -97,9 +100,9 @@
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
-		:name  "RailInfo"
-		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rail.gnd"
-		:label  "uses RailInfo"
+		:name  "AreaInfo"
+		:filename  "unitn/aose/warehousesim/agent/AreaInfo_-rail.gnd"
+		:label  "uses AreaInfo"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -161,9 +164,9 @@
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
-		:name  "RobotPerception"
-		:filename  "unitn/aose/warehousesim/agent/RobotPerception_-otherRobots.gnd"
-		:label  "uses RobotPerception"
+		:name  "RobotsPerception"
+		:filename  "unitn/aose/warehousesim/agent/RobotsPerception_-otherRobots.gnd"
+		:label  "uses RobotsPerception"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -217,13 +220,14 @@
                 MovementWithRespectToMe mwr = (MovementWithRespectToMe)p.getMovementWithRespectToMe().get();
                 String name = p.getCart().getName();
                 otherRobots.add(pwr, name, RobotData.getMovementWithRespectToMe(mwr));
-                dataLog.log("cart perception at "+RobotData.getPositionWithRespectToMe(pwr)+" "+name+" "+mwr);
+                //dataLog.log("cart perception at "+RobotData.getPositionWithRespectToMe(pwr)+" "+name+" "+mwr);
             }else{
                 otherRobots.remove(pwr);
             }
         }
         
         //check boxes
+        //boxes perception is 
         String b = myRobot.getBoxOnLeft();
         if(null == b){
             boxes.remove(RobotData.PWR_LEFT);
@@ -237,14 +241,12 @@
             boxes.add(RobotData.PWR_RIGHT, b);
         }
         
-        //check crosses
-
         int pos = myRobot.getPosition();
-
+        //check crosses
         String ca = myRobot.getCrossAhead();
         String ch = myRobot.getCrossHere();
         String cb = myRobot.getCrossBehind();
-        dataLog.log("crosses at "+pos+" "+ca+" "+ch+" "+cb);
+        //dataLog.log("crosses at "+pos+" "+ca+" "+ch+" "+cb);
         if(null != ca){
             crosses.add(myRobot.getRail(), pos+1, ca);
         }
@@ -257,32 +259,34 @@
         
         //check areas
         boolean isRight = false;
-        boolean isStorage = true;
-        String a = myRobot.getAreaOnLeft();
-        if(null != a){
-            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a, RobotData.AS_UNKNOWN);
-            //the area is shared if there is a cross ahead or behind
-            //... but we don't know anything about the other rail
-            if(null != ca){
-                rail.add(ca, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
-            }else if (null != cb){
-                rail.add(cb, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
-            }
-        }
+        areaUpdate(myRobot.getAreaOnLeft(), pos, isRight, ca, cb);
         isRight = true;
-        a = myRobot.getAreaOnRight();
-        if(null != a){
-            rail.add(myRobot.getRail(), myRobot.getPosition(), isRight, isStorage, a, RobotData.AS_UNKNOWN);
-            //the area is shared if there is a cross ahead or behind
-            //... but we don't know anything about the other rail
-            if(null != ca){
-                rail.add(ca, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
-            }else if (null != cb){
-                rail.add(cb, -1, false, isStorage, a, RobotData.AS_UNKNOWN);
-            }
+        areaUpdate(myRobot.getAreaOnRight(), pos, isRight, ca, cb);
+        
+        // --- test only ---
+        //checkSharedAreas();
+        //checkCrosses();
+    }
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "areaUpdate"
+		:val  `areaUpdate(String areaName, int position, boolean isRight, String crossAhead, String crossBehind){
+    if(null != areaName) {//skip null areas
+        //fetch additional area data
+        int areaState = myRobot.getAreaState(isRight);
+        boolean isStorage = myRobot.isStorageArea(isRight);
+        rail.add(myRobot.getRail(), position, isRight, isStorage, areaName, areaState);
+        //this area is shared if there is a cross ahead or behind
+        //let's add the other rail even if we don't know anything about the other rail
+        //so that the getSharedAreas could work appropriately
+        //XXX: right or left side parameter depends on direction of rail which we are not aware of
+        if(null != crossAhead){
+            rail.add(crossAhead, -1, false, isStorage, areaName, areaState);
+        }else if (null != crossBehind){
+            rail.add(crossBehind, -1, false, isStorage, areaName, areaState);
         }
-        checkSharedAreas();
-        checkCrosses();
     }
 }
 `
@@ -295,7 +299,7 @@
     logical String $area;
     Cursor c = rail.getSharedAreas($rail, $otherRail, $area);
     while(c.next()){
-        dataLog.log("shared area "+$area.as_string()+" between "+$rail.as_string()+" and "+$otherRail.as_string());    
+        dataLog.log("shared area "+$area.as_string()+" between "+$rail.as_string()+" and "+$otherRail.as_string());
     }
 }
 `
@@ -303,7 +307,6 @@
 	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
 		:lab  "checkCrosses"
 		:val  `checkCrosses(){
-    //XXX: check crosses
     logical String $rail;
     logical int $position;
     logical String $crossedRail;

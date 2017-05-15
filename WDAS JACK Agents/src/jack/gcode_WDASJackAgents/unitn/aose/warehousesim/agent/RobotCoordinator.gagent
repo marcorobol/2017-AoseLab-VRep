@@ -56,7 +56,7 @@
 		    <BAPI_Text
 			:lab  "void coordinate"
 			:val  `public void coordinate(Collection robotAgents){
-    postEvent(coordination.start(robotAgents));
+    postEvent(coordinateEvent.start(robotAgents));
 }
 `
 		    >
@@ -72,7 +72,7 @@
     myWarehouse.setWarehouse(warehouse);
     dataLog.log("agent "+this.getName()+" for "+warehouse+" created");
 
-    postEvent(ev2.update());
+    postEvent(updateInfo.update());
 }
 `
 	    :init  `public <<Type>>(String name)
@@ -101,9 +101,9 @@
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
-		:name  "RailInfo"
-		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
-		:label  "private RailInfo"
+		:name  "AreaInfo"
+		:filename  "unitn/aose/warehousesim/agent/AreaInfo_-areas.gnd"
+		:label  "private AreaInfo"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -113,7 +113,7 @@
 		    >
 		:attrs  "AccessibleDBList.attrs"
 		:refType  "private"
-		:refName  "rails"
+		:refName  "areas"
 	    >
 	    <BAPI_FileRef
 		:name  "CrossInfo"
@@ -149,6 +149,40 @@
     :events
 	(
 	    <BAPI_FileRef
+		:name  "WithdrawRequestedEvent"
+		:filename  "unitn/aose/warehousesim/agent/WithdrawRequestedEvent.gevent"
+		:label  "handles"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "handles"
+		:hasName  :false
+		:refName  "ev2"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "DepositRequestedEvent"
+		:filename  "unitn/aose/warehousesim/agent/DepositRequestedEvent.gevent"
+		:label  "handles"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "handles"
+		:hasName  :false
+		:refName  "ev1"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "AreaMonitorEvent"
 		:filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
 		:label  "posts AreaMonitorEvent"
@@ -161,7 +195,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "ev4"
+		:refName  "areaMonitorEvent"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef
@@ -194,7 +228,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "ev2"
+		:refName  "updateInfo"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef
@@ -227,7 +261,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "sends"
-		:refName  "ev1"
+		:refName  "startRobotsEvent"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef
@@ -243,7 +277,7 @@
 		    >
 		:attrs  "NamedEventList.attrs"
 		:refType  "posts"
-		:refName  "coordination"
+		:refName  "coordinateEvent"
 	    >
 	    <BAPI_FileRef
 		:name  "CoordinateEvent"
@@ -263,6 +297,38 @@
 	)
     :plans
 	(
+	    <BAPI_FileRef
+		:name  "DepositRequestedPlan"
+		:filename  "unitn/aose/warehousesim/agent/DepositRequestedPlan.gplan"
+		:label  "uses"
+		:type  "aos.jack.ed.Plan"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanList.attrs"
+		:refType  "uses"
+		:hasName  :false
+		:dropHandlerName  "Plan.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "WithdrawRequestedPlan"
+		:filename  "unitn/aose/warehousesim/agent/WithdrawRequestedPlan.gplan"
+		:label  "uses"
+		:type  "aos.jack.ed.Plan"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanList.attrs"
+		:refType  "uses"
+		:hasName  :false
+		:dropHandlerName  "Plan.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "AreaMonitorPlan"
 		:filename  "unitn/aose/warehousesim/agent/AreaMonitorPlan.gplan"

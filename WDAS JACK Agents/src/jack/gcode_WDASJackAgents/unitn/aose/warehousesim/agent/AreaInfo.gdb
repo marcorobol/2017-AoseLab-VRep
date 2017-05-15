@@ -6,11 +6,13 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
- * 
+ * Contains information about the areas and their position on the rails
+ * The RobotController will only be aware of areas and other rails as they perceive them.
+ * The RobotCoordinator, instead, is aware of all the areas at initialization.
  */`
 	>
-    :name  "RailInfo"
-    :filename  "unitn/aose/warehousesim/agent/RailInfo.gdb"
+    :name  "AreaInfo"
+    :filename  "unitn/aose/warehousesim/agent/AreaInfo.gdb"
     :type  "aos.jack.ed.Database"
     :java
 	<BAPI_Java
@@ -21,10 +23,10 @@
 	    :imports
 		(
 		    <BAPI_TextLine
-			:val  "java.util.List"
+			:val  "java.util.ArrayList"
 		    >
 		    <BAPI_TextLine
-			:val  "java.util.ArrayList"
+			:val  "java.util.List"
 		    >
 		)
 	>

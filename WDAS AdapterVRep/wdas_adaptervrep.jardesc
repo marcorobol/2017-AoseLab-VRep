@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="WDAS AdapterVRep/wdas_adaptervrep.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/WDAS AdapterVRep/wdas_adaptervrep.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
@@ -11,23 +11,23 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{simpleTest.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{App.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{CharW.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{BoolW.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{remoteApi.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{StringW.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{BoolWA.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{App.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{IntW.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{remoteApi.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{complexCommandTest.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{simpleSynchronousTest.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{StringWA.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{AppTestJoint.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{BoolW.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{FloatW.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{CharWA.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{simpleTest.java"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{IntWA.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;unitn.aose.warehousesim.adapter.vrep"/>
+        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{CharW.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{FloatWAA.java"/>
         <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{FloatWA.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{complexCommandTest.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{IntW.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{CharWA.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{StringWA.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{simpleSynchronousTest.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;coppelia{IntWA.java"/>
-        <javaElement handleIdentifier="=WDAS AdapterVRep/src&lt;test{AppTestJoint.java"/>
     </selectedElements>
 </jardesc>

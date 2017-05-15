@@ -61,7 +61,6 @@ public class Area implements AreaRef {
 			adapter.deleteBox(getBox());
 			box.setArea(null);
 			setBox(null);
-			getState().set(AreaState.free);
 		}
 	}
 

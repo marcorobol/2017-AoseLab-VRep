@@ -23,6 +23,15 @@
 		    <BAPI_TextLine
 			:val  "java.util.Iterator"
 		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.ITellerMachine"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.BoxRef"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef"
+		    >
 		)
 	>
     :handled_event
@@ -75,6 +84,22 @@
     :posted_events
 	(
 	    <BAPI_FileRef
+		:name  "AreaMonitorEvent"
+		:filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
+		:label  "posts AreaMonitorEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "posts"
+		:refName  "areaMonitorEvent"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "StartRobotsEvent"
 		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
 		:label  "sends StartRobotsEvent"
@@ -87,12 +112,28 @@
 		    >
 		:attrs  "PlanEventList.attrs"
 		:refType  "sends"
-		:refName  "ev1"
+		:refName  "startRobotsEvent"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	)
     :databases
 	(
+	    <BAPI_FileRef
+		:name  "AgentsToCoordinate"
+		:filename  "unitn/aose/warehousesim/agent/AgentsToCoordinate_-agents.gnd"
+		:label  "uses AgentsToCoordinate"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "agents"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "CrossInfo"
 		:filename  "unitn/aose/warehousesim/agent/CrossInfo_-crosses.gnd"
@@ -110,9 +151,9 @@
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
-		:name  "RailInfo"
-		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
-		:label  "uses RailInfo"
+		:name  "AreaInfo"
+		:filename  "unitn/aose/warehousesim/agent/AreaInfo_-areas.gnd"
+		:label  "uses AreaInfo"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -122,7 +163,7 @@
 		    >
 		:attrs  "ReadWriteableDBList.attrs"
 		:refType  "uses"
-		:refName  "rails"
+		:refName  "areas"
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
@@ -163,18 +204,83 @@
 	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
 		:lab  "body"
 		:val  `body()
-{
+{   
+    /*
+     * This is just a stub for a coordination plan,
+     * showing what APIs are available
+     */
+    
+//        monitor area states
+//        logical String $area;
+//        Cursor c = rails.getDepositWithdrawAreas($area); 
+//        while(c.next()){
+//            dataLog.log("deposit withdraw area: "+$area.as_string());
+//            //retrieve all the area data, including position
+//            logical String $rail;
+//            logical int $pos;
+//            logical boolean $right;
+//            logical boolean $storage;
+//            logical int $areaState;
+//            Cursor ac = rails.getRail($rail, $pos, $right, $storage, $area.as_string(), $areaState);
+//            while(ac.next()){
+//                if(!$storage.as_boolean()){
+//                    //we have information about all the rails that area belongs to...
+//                    ITellerMachine tm = myWarehouse.getWarehouse().getTellerMachine($area.as_string());
+//                    BoxRef box;
+//                    //ok: teller machine box is blah
+//                    int areaState = $areaState.as_int();
+//                    if(areaState == RobotData.AS_ELABORATINGWITHDRAW){
+//                        box = tm.getRequestedBox();
+//                        //ok: box to retrieve is box
+//                    } else if (areaState == RobotData.AS_ELABORATINGDEPOSIT){
+//                        box = tm.getBox();
+//                    }
+//                }
+//            }
+//        }
+    
+    
+    
+    //IDEALLY
+    //1. optinally perform initialization of all robots (e.g. discovery)
+    //2. start monitoring requests (tellermachines states)
+	// isn't this started from the UpdateWarehouseInfo plan???
+    //3. issue commands to robots to achieve requests
+    
+    
+    //send goal to robots
     Iterator it = ev.robotAgents.iterator();
     while(it.hasNext()){
         IRobotAgent a = (IRobotAgent)it.next();
-        //agent.send(a.name(), ev1.start());
+        agent.send(a.name(), startRobotsEvent.start());
+        agents.add(a.name(), 0);
     }
+
+//        //monitor area states
+//        Iterator it = myWarehouse.getWarehouse().getDepositWithdrawAreas().iterator();
+//        while(it.hasNext()){
+//        	DepositWithdrawAreaRef a = (DepositWithdrawAreaRef)it.next();
+//        	String area = a.getName();
+//    	//        	agent.postEvent(areaMonitorEvent.monitor($rail.as_string(), $pos.as_integer(), $right.as_boolean(), $area.as_string()));
+//    	//        }
+//    	//        logical String $area;
+//    	//        Cursor c = rails.getDepositWithdrawAreas($area); 
+//    	//        while(c.next()){
+//    	//        	String area = $area.as_string();
+//    	//          dataLog.log("deposit withdraw area: "+area);
+//            //retrieve all the area data, including position
+//            logical String $rail;
+//            logical int $pos;
+//            logical boolean $right;
+//            logical boolean $storage;
+//            logical int $areaState;
+//            Cursor ac = rails.getRail($rail, $pos, $right, $storage, area, $areaState);
+//            if(ac.next()){
+//            	agent.postEvent(areaMonitorEvent.monitor($rail.as_string(), $pos.as_int(), $right.as_boolean(), area));
+//            } else 
+//            	dataLog.log("no beliefset for deposit withdraw area: "+area);
+//        }
     
-    logical String $area;
-    Cursor c = rails.getDepositWithdrawAreas($area); 
-    while(c.next()){
-        dataLog.log("deposit withdraw area: "+$area.as_string());
-    }
 }
 `
 	    >

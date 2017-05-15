@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="**.agent|*.agent|?.agent|unitn/aose/warehousesim/agent/Agent_1.agent|unitn/aose/warehousesim/agent/RobotController.agent|unitn/aose/warehousesim/agent/RobotCoordinator.agent" kind="src" path="src/jack"/>
+	<classpathentry excluding="**.agent|*.agent|?.agent|unitn/aose/warehousesim/agent/Agent_1.agent" kind="src" path="src/jack"/>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jackrt.jar"/>

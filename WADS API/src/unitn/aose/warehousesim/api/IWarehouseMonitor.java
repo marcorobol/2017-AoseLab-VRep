@@ -23,6 +23,18 @@ public interface IWarehouseMonitor {
 	
 	IRobotMonitor getRobot(CartRef cart);
 	
+	/**
+	 * Retrieve a generic area identified by the given name
+	 * @param areaName
+	 * @return
+	 */
+	AreaRef getArea(String areaName);
+	
+	/**
+	 * Retrieve the special area "teller machine" identified by the given name
+	 * @param areaName
+	 * @return
+	 */
 	ITellerMachine getTellerMachine(String areaName);
 	
 	ITellerMachine getTellerMachine(DepositWithdrawAreaRef area);

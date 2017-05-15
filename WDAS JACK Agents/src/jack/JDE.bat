@@ -1,1 +1,2 @@
-java -classpath "C:\Program Files (x86)\AOS\JACK-56c\lib\jack.jar;..\..\..\WADS API\bin" aos.main.Jack WDASJackAgents.prj
+set PATH=%PATH%;../../x64/remoteApiJava.dll;../../x86/remoteApiJava.dll
+java -classpath "C:\Program Files (x86)\AOS\JACK-56c\lib\jack.jar;..\..\bin;..\..\..\WADS API\bin;..\..\..\WDAS Launcher\bin;..\..\..\WDAS Core\bin;..\..\..\WDAS AdapterVRep\bin" aos.main.Jack WDASJackAgents.prj

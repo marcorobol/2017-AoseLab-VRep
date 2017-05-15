@@ -5,8 +5,22 @@ import unitn.aose.warehousesim.api.data.BoxRef;
 
 public class Box implements BoxRef {
 
+	/**
+	 * Ticket codes are assigned to mark the box ongoing process.
+	 */
+	public static final int 
+			/** No ticket for this box (yet) **/
+			TICKET_NONE = 0,
+			/** The box has to be stored: carried from a deposit/withdraw area in an internal storage area **/
+			TICKET_STORE = 1,
+			/** The box has to be retrieved: carried from a storage area to an appropriate delivery area **/
+			TICKET_RETRIEVE = 2,
+			/** The box ticket has been completed **/
+			TICKET_DONE = 3;
+	
 	private final String name;
 	private final String stringFormat;
+	private int ticket;
 	
 	private Area area;
 
@@ -23,6 +37,23 @@ public class Box implements BoxRef {
 	
 	public Area getArea() {
 		return area;
+	}
+	
+	/**
+	 * Retrieve the currently assigned ticket
+	 * @return
+	 */
+	public int getTicket(){
+		return ticket;
+	}
+	
+	/**
+	 * Assign one of the available tickets to this box
+	 * so that all the relevant actors will know what's supposed to happen to this box.
+	 * @param ticketStatus
+	 */
+	public void assignTicket(int ticket){
+		this.ticket = ticket;
 	}
 
 	public void setArea(Area area) {

@@ -4,17 +4,21 @@ import java.util.Observable;
 
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.IWarehouse;
+import unitn.aose.warehousesim.api.TicketManager;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
-import unitn.aose.warehousesim.observable.AreaStateMonitor;
+import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.simulator.IAdapter;
 
 public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef, ITellerMachine {
 
 	private BoxRef requestedBox;
+	private final IWarehouse warehouse;
 	
-	public DepositWithdrawArea(String name, IAdapter adapter) {
+	public DepositWithdrawArea(String name, IAdapter adapter, IWarehouse warehouse) {
 		super(name, adapter);
+		this.warehouse = warehouse;
 	}
 
 	@Override
@@ -23,27 +27,38 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 	}
 
 	@Override
-	public AreaState requestDeposit() {
+	public String requestDeposit() {
+		String code = null;
 		AreaState currentAreaState = getState().get();
 		if(currentAreaState.equals(AreaState.boxAvailable)) {
 			if(!currentAreaState.equals(AreaState.elaboratingDeposit)){
 				getState().set(AreaState.elaboratingDeposit);
 				areaMonitor.setChanged();
+				getBox().assignTicket(Box.TICKET_STORE);
+				TicketManager tm = TicketManager.getInstance();
+				code = tm.getNewTrackingCode();
+				tm.setTrackingState(code, Ticket.TICKET_STORE);
 			}
 		}
-		return getState().get();
+		return code;
 	}
 
 	@Override
-	public AreaState requestWithdraw(BoxRef box) {
-		if(getState().get().equals(AreaState.free)) {
-			if(!getState().get().equals(AreaState.elaboratingWithdraw)){
+	public String requestWithdraw(BoxRef box) {
+		String code = null;
+		AreaState currentAreaState = getState().get();
+		if(currentAreaState.equals(AreaState.free)) {
+			if(!currentAreaState.equals(AreaState.elaboratingWithdraw)){
 				getState().set(AreaState.elaboratingWithdraw);
 				requestedBox = box;
 				areaMonitor.setChanged();
+				warehouse.assignTicket(box.getName(), Box.TICKET_RETRIEVE);
+				TicketManager tm = TicketManager.getInstance();
+				code = tm.getNewTrackingCode();
+				tm.setTrackingState(code, Ticket.TICKET_RETRIEVE);
 			}
 		}
-		return getState().get();
+		return code;
 	}
 	
 	@Override
