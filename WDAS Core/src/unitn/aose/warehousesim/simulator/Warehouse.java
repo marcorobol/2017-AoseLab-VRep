@@ -263,5 +263,15 @@ public class Warehouse implements IWarehouse {
 			simulationTime.set(0l);
 		}
 	}
+
+	@Override
+	public void breakCart(CartRef cart) {
+		carts.get(cart).setBroken(true);
+	}
+
+	@Override
+	public void fixCart(CartRef cart) {
+		carts.get(cart).setBroken(false);
+	}
 	
 }

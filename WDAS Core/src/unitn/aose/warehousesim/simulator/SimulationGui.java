@@ -91,12 +91,28 @@ public class SimulationGui {
 		   }
 	   });
 	   
+	   Button breakCartA1 = new Button("breakCartA1");
+	   breakCartA1.addActionListener(new ActionListener() {
+		   public void actionPerformed(ActionEvent e) {
+			   warehouse.breakCart(warehouse.getCarts().iterator().next());
+		   }
+	   });
+	   
+	   Button fixCartA1 = new Button("fixCartA1");
+	   fixCartA1.addActionListener(new ActionListener() {
+		   public void actionPerformed(ActionEvent e) {
+			   warehouse.fixCart(warehouse.getCarts().iterator().next());
+		   }
+	   });
+	   
 	   
 	   controlPanel.add(timer);
 	   controlPanel.add(state);
 	   controlPanel.add(play);
 	   controlPanel.add(pause);
 	   controlPanel.add(stop);
+	   controlPanel.add(breakCartA1);
+	   controlPanel.add(fixCartA1);
 	   
 	   mainFrame.setVisible(true);
       

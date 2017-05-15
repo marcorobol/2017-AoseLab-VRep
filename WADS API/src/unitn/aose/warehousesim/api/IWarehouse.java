@@ -24,4 +24,8 @@ public interface IWarehouse extends IWarehouseMonitor {
 	
 	void stop();
 	
+	void breakCart(CartRef cart);
+	
+	void fixCart(CartRef cart);
+	
 }

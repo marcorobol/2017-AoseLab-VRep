@@ -21,7 +21,7 @@ public class RobotData extends Observable {
 	/**
 	 * MovementState
 	 */
-	public static final int MS_STOP = 0, MS_RUNNINGFORWARD = 1, MS_RUNNINGBACKWARD = 2, MS_STOPPING = 3;
+	public static final int MS_STOP = 0, MS_RUNNINGFORWARD = 1, MS_RUNNINGBACKWARD = 2, MS_STOPPING = 3, MS_BROKEN = 4;
 
 	public static int getMovementStatus(MovementState ms) {
 		return ms.ordinal();
@@ -35,6 +35,8 @@ public class RobotData extends Observable {
 			return MovementState.runningBackward;
 		case MS_RUNNINGFORWARD:
 			return MovementState.runningForward;
+		case MS_BROKEN:
+			return MovementState.broken;
 		case MS_STOPPING:
 		default:
 			return MovementState.stopping;

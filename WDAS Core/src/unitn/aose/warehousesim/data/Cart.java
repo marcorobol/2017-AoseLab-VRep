@@ -342,18 +342,24 @@ public class Cart implements CartRef, IRobot {
 
 	@Override
 	public void moveForward() {
+		if(getMovement().get().equals(MovementState.broken))
+			return;
 		adapter.getAdapterCart(this).moveForward();
 		getMovement().set(MovementState.runningForward);
 	}
 
 	@Override
 	public void moveBackward() {
+		if(getMovement().get().equals(MovementState.broken))
+			return;
 		adapter.getAdapterCart(this).moveBackward();
 		getMovement().set(MovementState.runningBackward);
 	}
 
 	@Override
 	public void stopHere() {
+		if(getMovement().get().equals(MovementState.broken))
+			return;
 		Integer index = getPosition().get();
 		if(null != index){
 			adapter.getAdapterCart(this).moveTo(index);
@@ -425,6 +431,13 @@ public class Cart implements CartRef, IRobot {
 	@Override
 	public IObservable<SimulationState> getSimulationState() {
 		return warehouse.getSimulationState();
+	}
+
+	public void setBroken(boolean b) {
+		if(b)
+			movementFSM.set(MovementState.broken);
+		else
+			movementFSM.fix();
 	}
 	
 }
