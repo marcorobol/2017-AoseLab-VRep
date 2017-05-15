@@ -1,1 +1,1 @@
-java -classpath "C:\Program Files (x86)\AOS\JACK-56c\lib\jack.jar;..\..\..\WADS API\bin;..\..\..\WADS Launcher\bin" aos.main.Jack WDASJackAgents.prj
+java -classpath "C:\Program Files (x86)\AOS\JACK-56c\lib\jack.jar;..\..\bin;..\..\..\WADS API\bin;..\..\..\WDAS Launcher\bin;..\..\..\WDAS Core\bin;..\..\..\WDAS AdapterVRep\bin" aos.main.Jack WDASJackAgents.prj
