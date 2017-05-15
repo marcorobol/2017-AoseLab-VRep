@@ -40,7 +40,10 @@
 		</chmod>
 
 		<!-- BeanShell script -->
-		<copy todir="${target}" file="../WDAS Launcher/rootScript.bsh" />
+		<copy todir="${target}" file="../WDAS Launcher/rootScript.bsh" />  	
+	  	<copy todir="${target}/scripts">
+	  		<fileset dir="../WDAS Launcher/scripts"></fileset>
+	  	</copy>
 
 		<!-- V-REP FILES -->
 		<mkdir dir="${target}/vrepFiles" />
