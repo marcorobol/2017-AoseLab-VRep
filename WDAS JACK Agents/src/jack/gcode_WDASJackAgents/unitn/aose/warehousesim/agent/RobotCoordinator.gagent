@@ -85,6 +85,22 @@
     :databases
 	(
 	    <BAPI_FileRef
+		:name  "AgentsToCoordinate"
+		:filename  "unitn/aose/warehousesim/agent/AgentsToCoordinate_-agents.gnd"
+		:label  "private AgentsToCoordinate"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "AccessibleDBList.attrs"
+		:refType  "private"
+		:refName  "agents"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "WarehouseData"
 		:filename  "unitn/aose/warehousesim/agent/WarehouseData_-myWarehouse.gnd"
 		:label  "private WarehouseData"
