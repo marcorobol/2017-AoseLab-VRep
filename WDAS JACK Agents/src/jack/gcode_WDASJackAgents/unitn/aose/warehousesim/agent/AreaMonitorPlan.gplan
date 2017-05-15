@@ -24,9 +24,6 @@ Keep the given area monitored for area state changes
 			:val  "aos.jack.util.cursor.Change"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.agent.AreaState"
-		    >
-		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.AreaState"
 		    >
 		    <BAPI_TextLine
@@ -135,9 +132,9 @@ Keep the given area monitored for area state changes
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
-		:name  "RailInfo"
-		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
-		:label  "uses RailInfo"
+		:name  "AreaInfo"
+		:filename  "unitn/aose/warehousesim/agent/AreaInfo_-areas.gnd"
+		:label  "uses AreaInfo"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -147,7 +144,7 @@ Keep the given area monitored for area state changes
 		    >
 		:attrs  "ReadWriteableDBList.attrs"
 		:refType  "uses"
-		:refName  "rails"
+		:refName  "areas"
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
@@ -180,8 +177,8 @@ Keep the given area monitored for area state changes
         @wait_for(new Change(tm.getAreaMonitor(), false));
         dataLog.log("updating teller machine "+tm+" to state: "+tm.getState().get());
         int areaState = RobotData.getAreaState((AreaState)tm.getState().get());
-        rails.updateAreaState(ev.areaName, areaState);
-        //TODO: if request deposit or withdraw send event!
+        areas.updateAreaState(ev.areaName, areaState);
+        
         if(areaState==RobotData.AS_ELABORATINGDEPOSIT)
         	agent.postEvent(depositRequestedEvent.start(ev.railName, ev.position, ev.isRight, ev.areaName));
         else if(areaState==RobotData.AS_ELABORATINGWITHDRAW)

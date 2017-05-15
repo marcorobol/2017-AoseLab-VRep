@@ -1,0 +1,36 @@
+<BAPI_NamedData
+    :version  52
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	>
+    :name  "agents"
+    :filename  "unitn/aose/warehousesim/agent/AgentsToCoordinate_-agents.gnd"
+    :type  "aos.jack.ed.NamedData"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :user_type
+	<BAPI_FileRef
+	    :name  "AgentsToCoordinate"
+	    :filename  "unitn/aose/warehousesim/agent/AgentsToCoordinate.gdb"
+	    :label  "Type: "
+	    :type  "aos.jack.ed.Database"
+	    :java
+		<BAPI_Java
+		    :pkg
+			<BAPI_TextLine
+			>
+		>
+	    :refType  "Type: "
+	    :hasName  :false
+	    :dropHandlerName  "Data.drop"
+	    :allowsReplace  :true
+	>
+    :prevType  "unitn.aose.warehousesim.agent.AgentsToCoordinate"
+>
