@@ -11,23 +11,24 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IWarehouse.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IRobotMonitor.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api.data"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IRobot.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ITellerMachineMonitor.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{LoadUnloadState.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ICross.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IWarehouseMonitor.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IObservableQueue.java"/>
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ICartPerception.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.agent"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{AreaState.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{MovementState.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{SimulationState.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.tellerMachine"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ITellerMachine.java"/>
-        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IListener.java"/>
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IObservable.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{LoadUnloadState.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api.data"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ICross.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{SimulationState.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IListener.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{AreaState.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IRobotMonitor.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ITellerMachine.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IObservableQueue.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.agent"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IWarehouseMonitor.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IWarehouse.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ITellerMachineMonitor.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{TicketManager.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IRobot.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{MovementState.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.tellerMachine"/>
     </selectedElements>
 </jardesc>
