@@ -39,6 +39,9 @@
   	
   	<!-- BeanShell script -->
   	<copy todir="${build}" file="../WDAS Launcher/rootScript.bsh"/>
+  	<copy todir="${build}/scripts">
+  		<fileset dir="../WDAS Launcher/scripts"></fileset>
+  	</copy>
 
   	<!-- V-REP FILES -->
   	<mkdir dir="${build}/vrepFiles"/>
