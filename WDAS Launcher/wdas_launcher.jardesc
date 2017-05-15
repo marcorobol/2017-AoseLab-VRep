@@ -12,6 +12,5 @@
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <javaElement handleIdentifier="=WDAS Launcher/src"/>
-        <folder path="/WDAS Launcher/lib"/>
     </selectedElements>
 </jardesc>

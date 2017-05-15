@@ -1,4 +1,4 @@
-package unitn.aose.warehousesim.agent;
+package unitn.aose.warehousesim.gui;
 
 import java.awt.*;
 import java.awt.event.*;

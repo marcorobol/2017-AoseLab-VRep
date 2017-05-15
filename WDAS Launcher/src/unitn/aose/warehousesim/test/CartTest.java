@@ -1,4 +1,4 @@
-package unitn.aose.warehousesim.data;
+package unitn.aose.warehousesim.test;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,8 @@ import org.junit.Test;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.MovementWithRespectToMe;
 import unitn.aose.warehousesim.api.data.PositionWithRespectToMe;
+import unitn.aose.warehousesim.data.Cart;
+import unitn.aose.warehousesim.data.Rail;
 import unitn.aose.warehousesim.observable.ObservableCart;
 
 public class CartTest {

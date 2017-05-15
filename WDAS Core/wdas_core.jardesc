@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="WDAS Core/wdas_core.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/WDAS Core/wdas_core.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
@@ -11,10 +11,6 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=WDAS Core/src&lt;unitn.aose.warehousesim.data"/>
-        <javaElement handleIdentifier="=WDAS Core/src&lt;unitn.aose.warehousesim.configuration"/>
-        <javaElement handleIdentifier="=WDAS Core/src&lt;unitn.aose.warehousesim.simulator"/>
-        <javaElement handleIdentifier="=WDAS Core/src&lt;unitn.aose.warehousesim.observable"/>
-        <javaElement handleIdentifier="=WDAS Core/src&lt;unitn.aose.warehousesim.agent{RobotAgentFactory.java"/>
+        <javaElement handleIdentifier="=WDAS Core/src"/>
     </selectedElements>
 </jardesc>

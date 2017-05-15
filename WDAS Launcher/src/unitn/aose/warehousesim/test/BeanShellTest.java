@@ -1,4 +1,4 @@
-package unitn.aose.warehousesim.data;
+package unitn.aose.warehousesim.test;
 
 import static org.junit.Assert.*;
 

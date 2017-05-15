@@ -1,8 +1,10 @@
-package unitn.aose.warehousesim.agent;
+package unitn.aose.warehousesim.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Collection;
+
+import unitn.aose.warehousesim.agent.IRobotAgent;
 
 public class RobotAgentGui {
 
