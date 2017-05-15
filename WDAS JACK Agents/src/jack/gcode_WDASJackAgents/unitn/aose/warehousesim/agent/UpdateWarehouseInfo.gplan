@@ -119,9 +119,9 @@
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
-		:name  "RailInfo"
-		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
-		:label  "uses RailInfo"
+		:name  "AreaInfo"
+		:filename  "unitn/aose/warehousesim/agent/AreaInfo_-areas.gnd"
+		:label  "uses AreaInfo"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -131,7 +131,7 @@
 		    >
 		:attrs  "ReadWriteableDBList.attrs"
 		:refType  "uses"
-		:refName  "rails"
+		:refName  "areas"
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
@@ -203,7 +203,7 @@
             AreaRef a = r.getLeftAreaIn(p);
             dataLog.log("left area at "+p+": "+a.getName());
             boolean isStorage = w.isAStorageArea(a);
-            rails.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
+            areas.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
             if(!isStorage){
                 //monitor the area if it is a deposit area
                 agent.postEvent(ev1.monitor(r.getName(), p, isRight, a.getName()));
@@ -217,7 +217,7 @@
             AreaRef a = r.getRightAreaIn(p);
             dataLog.log("right area at "+p+": "+a.getName());
             boolean isStorage = w.isAStorageArea(a);
-            rails.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
+            areas.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
             if(!isStorage){
                 //monitor the area if it is a deposit area
                 agent.postEvent(ev1.monitor(r.getName(), p, isRight, a.getName()));
@@ -241,7 +241,7 @@
     logical String $rail;
     logical String $otherRail;
     logical String $area;
-    Cursor c = rails.getSharedAreas($rail, $otherRail, $area);
+    Cursor c = areas.getSharedAreas($rail, $otherRail, $area);
     while(c.next()){
         dataLog.log("shared area "+$area.as_string()+" between "+$rail.as_string()+" and "+$otherRail.as_string());    
     }

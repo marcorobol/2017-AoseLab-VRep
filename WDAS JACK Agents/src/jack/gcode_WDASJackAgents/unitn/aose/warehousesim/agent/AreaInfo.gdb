@@ -11,8 +11,8 @@
  * The RobotCoordinator, instead, is aware of all the areas at initialization.
  */`
 	>
-    :name  "RailInfo"
-    :filename  "unitn/aose/warehousesim/agent/RailInfo.gdb"
+    :name  "AreaInfo"
+    :filename  "unitn/aose/warehousesim/agent/AreaInfo.gdb"
     :type  "aos.jack.ed.Database"
     :java
 	<BAPI_Java

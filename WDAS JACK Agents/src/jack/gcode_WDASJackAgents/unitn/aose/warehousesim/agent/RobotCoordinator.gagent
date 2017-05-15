@@ -101,9 +101,9 @@
 		:dropHandlerName  "NamedData.drop"
 	    >
 	    <BAPI_FileRef
-		:name  "RailInfo"
-		:filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
-		:label  "private RailInfo"
+		:name  "AreaInfo"
+		:filename  "unitn/aose/warehousesim/agent/AreaInfo_-areas.gnd"
+		:label  "private AreaInfo"
 		:type  "aos.jack.ed.NamedData"
 		:java
 		    <BAPI_Java
@@ -113,7 +113,7 @@
 		    >
 		:attrs  "AccessibleDBList.attrs"
 		:refType  "private"
-		:refName  "rails"
+		:refName  "areas"
 	    >
 	    <BAPI_FileRef
 		:name  "CrossInfo"

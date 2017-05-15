@@ -306,9 +306,22 @@
 					:list
 					    (
 						<BAPI_Filename
-						    :name  "rails"
-						    :filename  "unitn/aose/warehousesim/agent/RailInfo_-rails.gnd"
-						    :label  "RailInfo"
+						    :name  "areas"
+						    :filename  "unitn/aose/warehousesim/agent/AreaInfo_-areas.gnd"
+						    :label  "AreaInfo"
+						    :type  "aos.jack.ed.NamedData"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
+						<BAPI_Filename
+						    :name  "agents"
+						    :filename  "unitn/aose/warehousesim/agent/AgentsToCoordinate_-agents.gnd"
+						    :label  "AgentsToCoordinate"
 						    :type  "aos.jack.ed.NamedData"
 						    :java
 							<BAPI_Java
@@ -405,8 +418,8 @@
 						>
 						<BAPI_Filename
 						    :name  "rail"
-						    :filename  "unitn/aose/warehousesim/agent/RailInfo_-rail.gnd"
-						    :label  "RailInfo"
+						    :filename  "unitn/aose/warehousesim/agent/AreaInfo_-rail.gnd"
+						    :label  "AreaInfo"
 						    :type  "aos.jack.ed.NamedData"
 						    :java
 							<BAPI_Java
@@ -459,6 +472,18 @@
 			    :list
 				(
 				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/AgentsToCoordinate.gdb"
+					:label  "AgentsToCoordinate"
+					:type  "aos.jack.ed.Database"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
 					:filename  "unitn/aose/warehousesim/agent/CrossInfo.gdb"
 					:label  "CrossInfo"
 					:type  "aos.jack.ed.Database"
@@ -471,8 +496,8 @@
 					    >
 				    >
 				    <BAPI_Filename
-					:filename  "unitn/aose/warehousesim/agent/RailInfo.gdb"
-					:label  "RailInfo"
+					:filename  "unitn/aose/warehousesim/agent/AreaInfo.gdb"
+					:label  "AreaInfo"
 					:type  "aos.jack.ed.Database"
 					:java
 					    <BAPI_Java
