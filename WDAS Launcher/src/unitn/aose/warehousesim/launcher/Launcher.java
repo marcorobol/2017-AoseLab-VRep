@@ -41,6 +41,8 @@ public class Launcher {
 	 */
 	public static final String VAR_WAREHOUSE = "warehouse";
 
+	protected static final String VAR_COORDINATOR = "coordinator";
+
 	public static final String CLASS_ROBOTAGENT = "unitn.aose.warehousesim.agent.RobotController",
 			CLASS_WAREHOUSEAGENT = "unitn.aose.warehousesim.agent.RobotCoordinator";
 
@@ -143,7 +145,12 @@ public class Launcher {
 					for (IRobotAgent robot : agentsList) { // foreach robot
 						i.set(robot.getRobot().getName(), robot);
 					}
+					for (DepositWithdrawAreaRef area : warehouse.getDepositWithdrawAreas()) { // foreach robot
+						ITellerMachine tellerMachine = warehouse.getTellerMachine(area);
+						i.set(tellerMachine.getName(), tellerMachine);
+					}
 					i.set(VAR_WAREHOUSE, warehouse);
+					i.set(VAR_COORDINATOR, coordinator);
 					i.source(SCRIPT_SOURCEFILE);
 				} catch (Exception e) {
 					System.out.println("ERROR: " + e);
