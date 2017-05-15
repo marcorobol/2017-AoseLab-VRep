@@ -18,6 +18,15 @@
 		<BAPI_TextLine
 		    :val  "unitn.aose.warehousesim.agent"
 		>
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.Ticket"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.TicketManager"
+		    >
+		)
 	>
     :handled_event
 	<BAPI_FileRef
@@ -68,6 +77,22 @@
 	>
     :databases
 	(
+	    <BAPI_FileRef
+		:name  "AreaInfo"
+		:filename  "unitn/aose/warehousesim/agent/AreaInfo_-rail.gnd"
+		:label  "uses AreaInfo"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "rail"
+		:dropHandlerName  "NamedData.drop"
+	    >
 	    <BAPI_FileRef
 		:name  "PerceptionInfo"
 		:filename  "unitn/aose/warehousesim/agent/PerceptionInfo_-perception.gnd"
@@ -171,48 +196,49 @@
 {
     dataLog.log("starting " + myRobot.getName()+" test plan");
     myRobot.moveForward();
-    while(myRobot.getPosition()!=3){
-        //keep moving until at 3
+    while(myRobot.getPosition()!=1){
+        //keep moving until at 1
         dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
         @sleep(0.5);
     }
-    myRobot.stopHere();
-    while(myRobot.getMovement()!=RobotData.MS_STOP){
-        dataLog.log(myRobot.getName()+" stopping...");
-        @sleep(0.5);    
-    }
-    dataLog.log(myRobot.getName()+" stopped @ "+myRobot.getPosition());
+    stopRobot();
     @sleep(10);
+    //retrieve the ticket for this deposit operation
+    String ticket = TicketManager.getInstance().getTicketByBox(myRobot.getBoxOnLeft()).getCode();
+    dataLog.log(myRobot.getName()+" acquired ticket "+ticket+" for robot "+myRobot.getBoxOnLeft());
+    //warehouse.getTellerMachine(areaName);
     myRobot.loadLeft();
     dataLog.log(myRobot.getName()+" loading left @ "+myRobot.getPosition());
     @sleep(10);
     myRobot.moveForward();
-    while(myRobot.getPosition()!=7){
-        //keep moving until at 3
+    while(myRobot.getPosition()!=4){
+        //keep moving until at 4
         dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
         @sleep(0.5);
     }
-    myRobot.stopHere();
-    while(myRobot.getMovement()!=RobotData.MS_STOP){
-        dataLog.log(myRobot.getName()+" stopping...");
-        @sleep(0.5);    
-    }
-    dataLog.log(myRobot.getName()+" stopped @ "+myRobot.getPosition());
+    stopRobot();
     @sleep(10);
     myRobot.unloadRight();
     dataLog.log(myRobot.getName()+" unloading right @ "+myRobot.getPosition());
+    //mark the ticket as done
+    TicketManager.getInstance().setTrackingState(ticket, Ticket.TICKET_DONE);
     myRobot.moveBackward();
     @sleep(10);
-            while(myRobot.getPosition()!=0){
+    while(myRobot.getPosition()!=0){
         //keep moving until at 3
         dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
         @sleep(0.5);
     }
+    stopRobot();
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "stopRobot"
+		:val  `stopRobot(){
     myRobot.stopHere();
-    while(myRobot.getMovement()!=RobotData.MS_STOP){
-        dataLog.log(myRobot.getName()+" stopping...");
-        @sleep(0.5);    
-    }
+    logical int $ms; //monitor movement state and wait for the robot to be stopped
+    @wait_for(robotInfo.getMovement($ms) && $ms.as_int()==RobotData.MS_STOP);
     dataLog.log(myRobot.getName()+" stopped @ "+myRobot.getPosition());
 }
 `

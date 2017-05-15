@@ -190,6 +190,24 @@
 			>
 		    )
 	    >
+	    <BAPI_DBQuery
+		:name  "getArea"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&3 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&4 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&5 >
+			>
+		    )
+	    >
 	)
     :vqueries
 	(

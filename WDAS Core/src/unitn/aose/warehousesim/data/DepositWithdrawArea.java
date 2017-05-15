@@ -4,7 +4,6 @@ import java.util.Observable;
 
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ITellerMachine;
-import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.TicketManager;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
@@ -33,7 +32,7 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 				getState().set(AreaState.elaboratingDeposit);
 				areaMonitor.setChanged();
 				TicketManager tm = TicketManager.getInstance();
-				code = tm.getNewTrackingCode();
+				code = tm.getNewTrackingCode(getBox().getName());
 				tm.setTrackingState(code, Ticket.TICKET_STORE);
 			}
 		}
@@ -50,7 +49,7 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 				requestedBox = box;
 				areaMonitor.setChanged();
 				TicketManager tm = TicketManager.getInstance();
-				code = tm.getNewTrackingCode();
+				code = tm.getNewTrackingCode(requestedBox.getName());
 				tm.setTrackingState(code, Ticket.TICKET_RETRIEVE);
 			}
 		}

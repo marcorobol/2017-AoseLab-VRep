@@ -3,8 +3,8 @@ import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.data.Box;
 import unitn.aose.warehousesim.data.Area;
+import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.data.StorageArea;
-
 
 System.out.println("asdasdasd");
 
@@ -20,15 +20,15 @@ RobotMotorA1.testMethod();
 //---- TEST 1 ----
 //start storage procedure
 String ticketCode = t1.requestDeposit();
-if(null != ticketCode){
+if(null == ticketCode){
 	System.err.println("! cannot elaborate deposit");
 	return;
 }
-System.out.println("> waiting for "+box1+" deposit: tracking number "+ticketCode);
-while(ticketManager.getTrackingNumberState(ticketCode)!=Ticket.TICKET_DONE){
-	Thread.sleep(500);
+Ticket ticket = ticketManager.getTicketByCode(ticketCode);
+while(ticket.getState()!=Ticket.TICKET_DONE){
+	System.out.println("> waiting for "+box1+" deposit: tracking number "+ticketCode+ " (state "+ticket.getState()+")");
+	ticketManager.waitForTicket(ticket);
 }
-
 System.out.println("> "+ticketCode+" marked as done");
 a = box1.getArea();
 if(!(a instanceof StorageArea)){

@@ -12,21 +12,26 @@ public class Ticket extends Observable {
 			TICKET_NONE = 0,
 			/** The box has to be stored: carried from a deposit/withdraw area in an internal storage area **/
 			TICKET_STORE = 1,
-/** The box has to be retrieved: carried from a storage area to an appropriate delivery area **/
+			/** The box has to be retrieved: carried from a storage area to an appropriate delivery area **/
 			TICKET_RETRIEVE = 2,
 			/** The box ticket has been completed **/
 			TICKET_DONE = 3;
 	
-	private String code;
+	private final String code, boxName;
 	private int state;
 	
-	public Ticket(String code){
+	public Ticket(final String code, final String boxName){
 		this.code = code;
+		this.boxName = boxName;
 		state = Ticket.TICKET_NONE;
 	}
 
 	public String getCode() {
 		return code;
+	}
+	
+	public String getBoxName(){
+		return boxName;
 	}
 
 	public int getState() {

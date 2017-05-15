@@ -17,6 +17,7 @@ import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.IWarehouse;
+import unitn.aose.warehousesim.api.TicketManager;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationOne;
@@ -39,7 +40,7 @@ public class Launcher {
 	/**
 	 * the beanshell variable used to map the warehouse
 	 */
-	public static final String VAR_WAREHOUSE = "warehouse";
+	public static final String VAR_WAREHOUSE = "warehouse", VAR_TICKETMANAGER = "ticketManager";
 
 	protected static final String VAR_COORDINATOR = "coordinator";
 
@@ -151,6 +152,7 @@ public class Launcher {
 					}
 					i.set(VAR_WAREHOUSE, warehouse);
 					i.set(VAR_COORDINATOR, coordinator);
+					i.set(VAR_TICKETMANAGER, TicketManager.getInstance());
 					i.source(SCRIPT_SOURCEFILE);
 				} catch (Exception e) {
 					System.out.println("ERROR: " + e);
