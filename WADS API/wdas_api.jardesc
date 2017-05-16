@@ -27,6 +27,7 @@
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IWarehouse.java"/>
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{ITellerMachineMonitor.java"/>
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{TicketManager.java"/>
+        <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{Logger.java"/>
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{IRobot.java"/>
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.api{MovementState.java"/>
         <javaElement handleIdentifier="=WADS API/src&lt;unitn.aose.warehousesim.tellerMachine"/>

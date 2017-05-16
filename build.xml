@@ -1,0 +1,10 @@
+<project name="WDAS" default="jar" basedir=".">
+
+	<target name="jar" description="generate jars">
+		<jar destfile="./WADS API/wdas_api.jar" basedir="./WADS API/bin" />
+		<jar destfile="./WDAS AdapterVRep/wdas_adaptervrep.jar" basedir="./WDAS AdapterVRep/bin" />
+		<jar destfile="./WDAS Core/wdas_core.jar" basedir="./WDAS Core/bin" />
+		<jar destfile="./WDAS Launcher/wdas_launcher.jar" basedir="./WDAS Launcher/bin" />
+	</target>
+
+</project>
