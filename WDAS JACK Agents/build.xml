@@ -13,8 +13,6 @@
 		<copy todir="${target}/lib" file="../WDAS Launcher/wdas_launcher.jar" />
 		<copy todir="${target}/lib" file="../WDAS Launcher/lib/bsh-2.0b6.jar" />
 
-		<mkdir dir="${target}/bin" />
-
 		<mkdir dir="${target}/src/jack" />
 		<copy todir="${target}/src/jack">
 			<fileset dir="${src}/jack">
