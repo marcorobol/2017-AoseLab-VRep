@@ -94,6 +94,12 @@ public class Launcher {
 		remoteApi vrep = new remoteApi();
 		int clientID = vrep.simxStart("127.0.0.1", 19997, true, true, 5000, 5);
 		AdapterVRep adapter = new AdapterVRep(vrep, clientID);
+		
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				adapter.stop();
+			}
+		});
 
 		/*
 		 * Warehouse
