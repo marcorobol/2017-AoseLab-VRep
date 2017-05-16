@@ -1,0 +1,2 @@
+set CP="C:\Program Files (x86)\AOS\JACK-56c\lib\jack.jar";.\lib\wdas_api.jar;.\lib\wdas_adaptervrep.jar;.\lib\wdas_core.jar;.\lib\wdas_launcher.jar;.\lib\bsh-2.0b6.jar;.\bin
+java -cp %CP% aos.main.Jack .\src\jack\WDASJackAgents.prj
