@@ -91,14 +91,14 @@ public class SimulationGui {
 		   }
 	   });
 	   
-	   Button breakCartA1 = new Button("breakCartA1");
+	   Button breakCartA1 = new Button("breakFirstCart");
 	   breakCartA1.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
 			   warehouse.breakCart(warehouse.getCarts().iterator().next());
 		   }
 	   });
 	   
-	   Button fixCartA1 = new Button("fixCartA1");
+	   Button fixCartA1 = new Button("fixFirstCart");
 	   fixCartA1.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
 			   warehouse.fixCart(warehouse.getCarts().iterator().next());
@@ -111,8 +111,8 @@ public class SimulationGui {
 	   controlPanel.add(play);
 	   controlPanel.add(pause);
 	   controlPanel.add(stop);
-	   controlPanel.add(breakCartA1);
-	   controlPanel.add(fixCartA1);
+//	   controlPanel.add(breakCartA1);
+//	   controlPanel.add(fixCartA1);
 	   
 	   mainFrame.setVisible(true);
       

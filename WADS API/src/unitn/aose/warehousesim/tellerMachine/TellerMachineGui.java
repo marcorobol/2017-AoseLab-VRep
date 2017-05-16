@@ -15,6 +15,7 @@ import java.util.List;
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.Logger;
 
 public class TellerMachineGui {
 
@@ -27,7 +28,7 @@ public class TellerMachineGui {
    
    
    public TellerMachineGui(List<ITellerMachine> machineList){
-	   System.out.println("starting teller machine gui with "+machineList.size()+" machines");
+	   Logger.out.println("starting teller machine gui with "+machineList.size()+" machines");
 	   this.machineList = machineList;
 	   mainFrame = new Frame("Warehouse Agent GUI");
 	   mainFrame.setSize(400,600);

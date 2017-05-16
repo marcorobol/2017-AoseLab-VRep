@@ -1,5 +1,6 @@
 package unitn.aose.warehousesim.adapter.vrep;
 
+import unitn.aose.warehousesim.api.Logger;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
@@ -58,17 +59,17 @@ public class CartVRep implements IAdapterCart {
         this.jointH = new IntW(1);
         int r = vrep.simxGetObjectHandle(clientID, cartName, jointH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of "+cartName+", error : "+r);
+        	Logger.err.println("Retriving handle of "+cartName+", error : "+r);
         }
 		this.robotH = new IntW(3);
 		r = vrep.simxGetObjectChild(clientID, jointH.getValue(), 0, robotH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of child of "+cartName+", error : "+r);
+        	Logger.err.println("Retriving handle of child of "+cartName+", error : "+r);
         }
 		this.connectorH = new IntW(3);
 		r = vrep.simxGetObjectChild(clientID, robotH.getValue(), 0, connectorH, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of child of "+cartName+", error : "+r);
+        	Logger.err.println("Retriving handle of child of "+cartName+", error : "+r);
         }
 
 		/*
@@ -96,12 +97,12 @@ public class CartVRep implements IAdapterCart {
 //		vrep.simxSetJointTargetVelocity(clientID, jointH.getValue(), 0, remoteApi.simx_opmode_streaming);
 		float apos = adapter.getRail(rail).getStepLenght()*index.intValue();
 		vrep.simxSetJointTargetPosition(clientID, jointH.getValue(), apos, remoteApi.simx_opmode_oneshot);
-		//System.out.println("DEBUG: "+cartName+" stopHere() current: "+positionJointVRep.getValue()+", target: "+apos);
+		//Logger.err.println("DEBUG: "+cartName+" stopHere() current: "+positionJointVRep.getValue()+", target: "+apos);
 	}
 	
 	@Override
 	public void loadBox(BoxRef boxRef, Boolean rightSideOrLeftSide) {
-		System.out.println("DEBUG: "+cartName+" loading "+boxRef+" "+(rightSideOrLeftSide?"right":"left"));
+		Logger.out.println("DEBUG: "+cartName+" loading "+boxRef+" "+(rightSideOrLeftSide?"right":"left"));
 		BoxVRep box = adapter.getBox(boxRef);
 		/*
 		 * Set parent
@@ -109,7 +110,7 @@ public class CartVRep implements IAdapterCart {
 		int r = vrep.simxSetObjectParent(clientID, box.getHandle().getValue(),
 				connectorH.getValue(), false, remoteApi.simx_opmode_streaming);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR "+cartName+" loading "+boxRef+" setting box parent returned "+r+" (expected "+remoteApi.simx_return_ok+")");
+        	Logger.err.println(cartName+" loading "+boxRef+" setting box parent returned "+r+" (expected "+remoteApi.simx_return_ok+")");
         }
         /*
          * Move
@@ -121,7 +122,7 @@ public class CartVRep implements IAdapterCart {
 		r = vrep.simxSetObjectPosition(clientID, box.getHandle().getValue(),
 				remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_oneshot_wait);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR "+cartName+" loading "+boxRef+" setting object position got "+r+" (expected "+remoteApi.simx_return_ok+")" );
+        	Logger.err.println(cartName+" loading "+boxRef+" setting object position got "+r+" (expected "+remoteApi.simx_return_ok+")" );
         }
 	}
 	
@@ -135,7 +136,7 @@ public class CartVRep implements IAdapterCart {
 		int r = vrep.simxSetObjectParent(clientID, loadedBox.getHandle().getValue(),
 				area.getHandle().getValue(), false, remoteApi.simx_opmode_oneshot);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Setting parent of "+cartName+", error : "+r);
+        	Logger.err.println("Setting parent of "+cartName+", error : "+r);
         }
         /*
          * Move
@@ -147,7 +148,7 @@ public class CartVRep implements IAdapterCart {
 		r = vrep.simxSetObjectPosition(clientID, loadedBox.getHandle().getValue(),
 				remoteApi.sim_handle_parent, posBoxDest, remoteApi.simx_opmode_oneshot_wait);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Moving box "+cartName+", error : "+r);
+        	Logger.err.println("Moving box "+cartName+", error : "+r);
         }
 	}
 	
@@ -157,7 +158,7 @@ public class CartVRep implements IAdapterCart {
 		 */
 		int r = vrep.simxGetJointPosition(clientID, jointH.getValue(), positionJointVRep, remoteApi.simx_opmode_buffer);
         if(r!=remoteApi.simx_return_ok && r!=remoteApi.simx_return_novalue_flag) {
-        	System.out.println("ERROR Retriving joint position "+cart.getName()+", error : "+r);
+        	Logger.err.println("Retriving joint position "+cart.getName()+", error : "+r);
         }
 		Integer posCurrent = Math.round( positionJointVRep.getValue() / adapter.getRail(rail).getStepLenght() );
 		cart.getPosition().set(posCurrent);
@@ -167,7 +168,7 @@ public class CartVRep implements IAdapterCart {
 		 */
 		r = vrep.simxGetObjectVelocity(clientID, robotH.getValue(), velocityVRep, angularVelocityVRep, remoteApi.simx_opmode_buffer);
         if(r!=remoteApi.simx_return_ok && r!=remoteApi.simx_return_novalue_flag) {
-        	System.out.println("ERROR Retriving joint velocity "+cart.getName()+", error : "+r);
+        	Logger.err.println("Retriving joint velocity "+cart.getName()+", error : "+r);
         }
         velocity = (velocityVRep.getArray()[0] + velocityVRep.getArray()[1] + velocityVRep.getArray()[2]);
 		
@@ -176,10 +177,10 @@ public class CartVRep implements IAdapterCart {
 		 */
 		r = vrep.simxGetJointForce(clientID, jointH.getValue(), forceJointVRep, remoteApi.simx_opmode_buffer);
         if(r!=remoteApi.simx_return_ok && r!=remoteApi.simx_return_novalue_flag) {
-        	System.out.println("ERROR Retriving joint position "+cart.getName()+", error : "+r);
+        	Logger.err.println("Retriving joint position "+cart.getName()+", error : "+r);
         }
         /*
-    	System.out.println("DEBUG Robot "+cart.getName()+
+    	Logger.println("DEBUG Robot "+cart.getName()+
     			" pos: "+intFormat.format(cart.getPosition().get())+
     			", vel: "+floatFormat.format(velocity)+
     			", force: "+floatFormat.format(forceJointVRep.getValue())+

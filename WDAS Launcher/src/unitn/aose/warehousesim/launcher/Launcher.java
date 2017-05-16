@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import coppelia.remoteApi;
 import unitn.aose.warehousesim.adapter.vrep.AdapterVRep;
 import unitn.aose.warehousesim.adapter.vrep.ConfiguratorVRep;
 import unitn.aose.warehousesim.agent.IRobotAgent;
@@ -15,10 +14,10 @@ import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.IWarehouse;
+import unitn.aose.warehousesim.api.Logger;
 import unitn.aose.warehousesim.api.TicketManager;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
-import unitn.aose.warehousesim.configuration.ConfigurationOne;
 import unitn.aose.warehousesim.configuration.ConfigurationThree;
 import unitn.aose.warehousesim.configuration.IConfigurator;
 import unitn.aose.warehousesim.gui.AgentGui;
@@ -29,6 +28,7 @@ import unitn.aose.warehousesim.simulator.SimulationGui;
 import unitn.aose.warehousesim.simulator.Warehouse;
 import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 import bsh.Interpreter;
+import coppelia.remoteApi;
 
 public class Launcher {
 
@@ -62,7 +62,7 @@ public class Launcher {
 			IRobot r = warehouse.getRobot(c);
 			IRobotAgent ra = factory.createAgent(r);
 			if (null == ra) {
-				System.out.println("ERROR no agent created for robot " + r.getName());
+				Logger.err.println("no agent created for robot " + r.getName());
 			} else {
 				raList.add(ra);
 				r.getSimulationTime().registerListener(new IListener<Long>() {
@@ -79,7 +79,7 @@ public class Launcher {
 	private static IWarehouseAgent getCoordinatorAgent(RobotAgentFactory factory, IWarehouse warehouse) {
 		IWarehouseAgent wa = factory.createAgent(warehouse);
 		if (null == wa) {
-			System.out.println("ERROR no agent created for warehouse " + warehouse);
+			Logger.err.println("no agent created for warehouse " + warehouse);
 		} else {
 			// XXX: initialize?
 		}
@@ -115,15 +115,15 @@ public class Launcher {
 		Collection<IRobotAgent> agentsList = getRobotAgents(caFactory, warehouse);
 		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse);
 
-		// XXX: I just want to use a single agent at this time for testing
-		// FIXME: remove this code to restore normal behaviour
-		Collection<IRobotAgent> tempAgentsList = new LinkedList<IRobotAgent>();
-		for (IRobotAgent a : agentsList) {
-			if (a.getRobot().getName().equals("RobotMotorA1")) {
-				tempAgentsList.add(a);
-				break;
-			}
-		}
+//		// XXX: I just want to use a single agent at this time for testing
+//		// FIXME: remove this code to restore normal behaviour
+//		Collection<IRobotAgent> tempAgentsList = new LinkedList<IRobotAgent>();
+//		for (IRobotAgent a : agentsList) {
+//			if (a.getRobot().getName().equals("RobotMotorA1")) {
+//				tempAgentsList.add(a);
+//				break;
+//			}
+//		}
 		coordinator.coordinate(agentsList);
 
 		/*
@@ -155,14 +155,14 @@ public class Launcher {
 					i.set(VAR_TICKETMANAGER, TicketManager.getInstance());
 					i.source(SCRIPT_SOURCEFILE);
 				} catch (Exception e) {
-					System.out.println("ERROR: " + e);
+					Logger.err.println("ERROR: " + e);
 				}
 			}
 		};
 		beanShellThread.start();
 
 		/*
-		 * TellerMachines
+		 * TellerMachinesGui
 		 */
 		List<ITellerMachine> machineList = new ArrayList<ITellerMachine>();
 		for (DepositWithdrawAreaRef a : warehouse.getDepositWithdrawAreas()) {
@@ -173,7 +173,7 @@ public class Launcher {
 		/*
 		 * SimulationGui
 		 */
-		SimulationGui simulationGui = new SimulationGui(adapter, warehouse);
+		new SimulationGui(adapter, warehouse);
 
 		/*
 		 * Update and triggering cycles

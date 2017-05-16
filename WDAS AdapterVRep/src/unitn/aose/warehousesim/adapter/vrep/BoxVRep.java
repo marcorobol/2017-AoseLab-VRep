@@ -2,6 +2,7 @@ package unitn.aose.warehousesim.adapter.vrep;
 
 import coppelia.IntW;
 import coppelia.remoteApi;
+import unitn.aose.warehousesim.api.Logger;
 import unitn.aose.warehousesim.data.Box;
 
 public class BoxVRep {
@@ -35,7 +36,7 @@ public class BoxVRep {
 		handle = new IntW(0);
         int r = vrep.simxGetObjectHandle(clientID, box.getName(), handle, remoteApi.simx_opmode_blocking);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Retriving handle of "+box.getName()+", error : "+r);
+        	Logger.err.println("Retriving handle of "+box.getName()+", error : "+r);
         }
 	}
 	

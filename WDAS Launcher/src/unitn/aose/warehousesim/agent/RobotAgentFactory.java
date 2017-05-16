@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.IWarehouseMonitor;
+import unitn.aose.warehousesim.api.Logger;
 
 /**
  * 
@@ -30,7 +31,7 @@ public class RobotAgentFactory {
 	 */
 	public IRobotAgent createAgent(IRobot robot){
 		IRobotAgent ra=null;
-		System.out.println("DEBUG creating agent for "+robot.getName());
+		Logger.out.println("DEBUG creating agent for "+robot.getName());
 		try {
 			Class<?> raclass = Class.forName(agentClassName);
 			Constructor<?> rac = raclass.getConstructor(IRobot.class);
@@ -60,7 +61,7 @@ public class RobotAgentFactory {
 	
 	public IWarehouseAgent createAgent(IWarehouseMonitor warehouse){
 		IWarehouseAgent ra=null;
-		System.out.println("DEBUG creating coordinator agent for "+warehouse);
+		Logger.out.println("DEBUG creating coordinator agent for "+warehouse);
 		try {
 			Class<?> raclass = Class.forName(coordinatorAgentClassName);
 			Constructor<?> rac = raclass.getConstructor(IWarehouseMonitor.class);

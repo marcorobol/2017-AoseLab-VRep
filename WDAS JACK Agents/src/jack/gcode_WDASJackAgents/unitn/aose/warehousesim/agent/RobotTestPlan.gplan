@@ -21,10 +21,10 @@
 	    :imports
 		(
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.data.Ticket"
+			:val  "unitn.aose.warehousesim.api.TicketManager"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.TicketManager"
+			:val  "unitn.aose.warehousesim.api.data.Ticket"
 		    >
 		)
 	>
@@ -196,24 +196,28 @@
 {
     dataLog.log("starting " + myRobot.getName()+" test plan");
     myRobot.moveForward();
+    dataLog.log("waiting for "+myRobot.getName()+" @ 1");
     while(myRobot.getPosition()!=1){
         //keep moving until at 1
-        dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
+        //dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
         @sleep(0.5);
     }
     stopRobot();
     @sleep(10);
     //retrieve the ticket for this deposit operation
-    String ticket = TicketManager.getInstance().getTicketByBox(myRobot.getBoxOnLeft()).getCode();
-    dataLog.log(myRobot.getName()+" acquired ticket "+ticket+" for robot "+myRobot.getBoxOnLeft());
+    String ticket;
+    if(myRobot.getBoxOnLeft()!=null)
+    	ticket = TicketManager.getInstance().getTicketByBox(myRobot.getBoxOnLeft()).getCode();
+    dataLog.log(myRobot.getName()+" acquired ticket "+ticket+" for box "+myRobot.getBoxOnLeft());
     //warehouse.getTellerMachine(areaName);
     myRobot.loadLeft();
     dataLog.log(myRobot.getName()+" loading left @ "+myRobot.getPosition());
     @sleep(10);
     myRobot.moveForward();
+    dataLog.log("waiting for "+myRobot.getName()+" @ 4");
     while(myRobot.getPosition()!=4){
         //keep moving until at 4
-        dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
+        //dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
         @sleep(0.5);
     }
     stopRobot();
@@ -221,12 +225,14 @@
     myRobot.unloadRight();
     dataLog.log(myRobot.getName()+" unloading right @ "+myRobot.getPosition());
     //mark the ticket as done
-    TicketManager.getInstance().setTrackingState(ticket, Ticket.TICKET_DONE);
+    if(ticket!="")
+    	TicketManager.getInstance().setTrackingState(ticket, Ticket.TICKET_DONE);
     myRobot.moveBackward();
     @sleep(10);
+    dataLog.log("waiting for "+myRobot.getName()+" @ 0");
     while(myRobot.getPosition()!=0){
         //keep moving until at 3
-        dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
+        //dataLog.log(myRobot.getName()+" @ "+myRobot.getPosition());
         @sleep(0.5);
     }
     stopRobot();

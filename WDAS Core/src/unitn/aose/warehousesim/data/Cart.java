@@ -9,6 +9,7 @@ import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.LoadUnloadState;
+import unitn.aose.warehousesim.api.Logger;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.SimulationState;
 import unitn.aose.warehousesim.api.data.AreaRef;
@@ -80,7 +81,7 @@ public class Cart implements CartRef, IRobot {
 
 				crossBehind.set( getRail().getCrosses().get(pos-1) );
 				crossHere.set( getRail().getCrosses().get(pos) );
-				System.out.println(name + " @ " + pos + " : Ahead " + crossAhead.get() + " Behind: " + crossBehind.get() + " Here: " + crossHere.get());
+				Logger.out.println(name + " @ " + pos + " : Ahead " + crossAhead.get() + " Behind: " + crossBehind.get() + " Here: " + crossHere.get());
 				/*
 				 * Update perceptions
 				 */

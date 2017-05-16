@@ -2,10 +2,12 @@ package unitn.aose.warehousesim.adapter.vrep;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import coppelia.FloatWA;
 import coppelia.IntW;
 import coppelia.remoteApi;
 import unitn.aose.warehousesim.api.IWarehouse;
+import unitn.aose.warehousesim.api.Logger;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.CartRef;
@@ -116,7 +118,7 @@ public class AdapterVRep implements IAdapter {
 				int r = vrep.simxSetObjectParent(clientID, b.getHandle().getValue(),
 						a.getHandle().getValue(), false, remoteApi.simx_opmode_blocking);
 		        if(r!=remoteApi.simx_return_ok) {
-		        	System.out.println("ERROR Setting parent of box " + box.getName() +". Error : "+r);
+		        	Logger.err.println("Setting parent of box " + box.getName() +". Error : "+r);
 		        }
 		        /*
 		         * Move
@@ -128,7 +130,7 @@ public class AdapterVRep implements IAdapter {
 				r = vrep.simxSetObjectPosition(clientID, b.getHandle().getValue(),
 						remoteApi.sim_handle_parent, posBoxStart, remoteApi.simx_opmode_blocking);
 		        if(r!=remoteApi.simx_return_ok) {
-		        	System.out.println("ERROR Setting position of box " + box.getName() +". Error : "+r);
+		        	Logger.out.println("ERROR Setting position of box " + box.getName() +". Error : "+r);
 		        }
 		        
 		        b.setDeleted(false);
@@ -154,7 +156,7 @@ public class AdapterVRep implements IAdapter {
 		int r = vrep.simxSetObjectPosition(clientID, b.getHandle().getValue(),
 				remoteApi.sim_handle_parent, posBoxStart, remoteApi.simx_opmode_oneshot_wait);
         if(r!=remoteApi.simx_return_ok) {
-        	System.out.println("ERROR Setting position of box " + ref.getName() +". Error : "+r);
+        	Logger.err.println("Setting position of box " + ref.getName() +". Error : "+r);
         }
         
         b.setDeleted(true);
@@ -173,13 +175,13 @@ public class AdapterVRep implements IAdapter {
 		 * Update simulation state
 		 */
 		vrep.simxGetInMessageInfo(clientID, vrep.simx_headeroffset_server_state, remoteState);
-//		System.out.println(remoteState.getValue());
+//		Logger.println(remoteState.getValue());
 		int i = remoteState.getValue();
 		boolean[] bits = new boolean[3];
 		bits[0] = Math.floor(i/1)%2 != 0;
 		bits[1] = Math.floor(i/2)%2 != 0;
 		bits[2] = Math.floor(i/4)%2 != 0;
-		//System.out.println("" + bits[0] + bits[1] + bits[2] );
+		//Logger.println("" + bits[0] + bits[1] + bits[2] );
 		if(!bits[0])
 			warehouse.stop();
 		else if(bits[1])

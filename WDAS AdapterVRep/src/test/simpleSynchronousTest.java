@@ -15,8 +15,6 @@ package test;
 //
 // This file was automatically created for V-REP release V3.3.2 on August 29th 2016
 
-import coppelia.IntW;
-import coppelia.IntWA;
 import coppelia.remoteApi;
 
 // This small example illustrates how to use the remote API
