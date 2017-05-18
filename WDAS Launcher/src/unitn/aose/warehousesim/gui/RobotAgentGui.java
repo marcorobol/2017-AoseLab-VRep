@@ -14,7 +14,7 @@ public class RobotAgentGui {
    
    public RobotAgentGui(Collection<IRobotAgent> agents){
 	   mainFrame = new Frame("Warehouse Agent GUI");
-	   mainFrame.setSize(300,400);
+	   mainFrame.setSize(400,400);
 	   mainFrame.setLayout(new GridLayout(agents.size(), 1));
 	   mainFrame.addWindowListener(new WindowAdapter() {
 		   public void windowClosing(WindowEvent windowEvent){
@@ -37,6 +37,7 @@ public class RobotAgentGui {
 	   name.setText(agent.name());
 	   
 	   TextField position = new TextField();
+	   position.setColumns(3);
 	   
 	   Button goToPosition = new Button("goToPosition");
 	   goToPosition.addActionListener(new ActionListener() {

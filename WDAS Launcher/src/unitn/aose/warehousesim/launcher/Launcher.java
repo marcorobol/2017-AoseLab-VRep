@@ -187,7 +187,7 @@ public class Launcher {
 		for (DepositWithdrawAreaRef a : warehouse.getDepositWithdrawAreas()) {
 			machineList.add(warehouse.getTellerMachine(a));
 		}
-		new TellerMachineGui(machineList);
+		new TellerMachineGui(machineList, warehouse);
 
 		/*
 		 * SimulationGui

@@ -18,8 +18,6 @@ public interface ITellerMachineMonitor {
 	
 	IObservable<AreaState> getState();
 	
-//	BoxRef getRequestedBox();
-	
 	ITicket getGeneratedTicket();
 	
 	/**

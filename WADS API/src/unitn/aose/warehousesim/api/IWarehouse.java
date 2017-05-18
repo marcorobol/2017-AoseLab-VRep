@@ -6,6 +6,8 @@ import unitn.aose.warehousesim.api.data.CartRef;
 
 public interface IWarehouse extends IWarehouseMonitor {
 
+	BoxRef getBox(String boxName);
+	
 	BoxRef createBox(AreaRef area);
 	
 	BoxRef createBox(String areaName);

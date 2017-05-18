@@ -21,16 +21,6 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 	}
 	
 	@Override
-	public void setBox(Box box) {
-		super.setBox(box);
-	}
-	
-//	@Override
-//	public BoxRef getRequestedBox() {
-//		return requestedBox;
-//	}
-	
-	@Override
 	public ITicket getGeneratedTicket() {
 		return ticket;
 	}
