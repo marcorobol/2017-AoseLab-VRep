@@ -1,5 +1,7 @@
 package unitn.aose.warehousesim.data;
 
+import java.util.Observable;
+
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 import unitn.aose.warehousesim.api.data.BoxRef;
@@ -80,5 +82,10 @@ public class Area implements AreaRef {
 	@Override
 	public int hashCode() {
 		return name.hashCode();
+	}
+
+	@Override
+	public Observable getAreaMonitor(){
+		return this.areaMonitor;
 	}
 }

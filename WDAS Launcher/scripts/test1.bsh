@@ -1,6 +1,7 @@
 //WAREHOUSE TEST1
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.AreaState;
+import unitn.aose.warehousesim.api.ITicket;
 import unitn.aose.warehousesim.data.Box;
 import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.api.data.Ticket;
@@ -15,21 +16,18 @@ ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
 System.out.println("# "+box1+" created at "+t1);
 System.out.println("# "+box2+" created at StorageAreaA1");
 
-RobotMotorA1.testMethod();
-
 //---- TEST 1 ----
 //start storage procedure
-String ticketCode = t1.requestDeposit();
-if(null == ticketCode){
+ITicket ticket = t1.requestDeposit();
+if(null == ticket){
 	System.err.println("! cannot elaborate deposit");
 	return;
 }
-Ticket ticket = ticketManager.getTicketByCode(ticketCode);
 while(ticket.getState()!=Ticket.TICKET_DONE){
-	System.out.println("> waiting for "+box1+" deposit: tracking number "+ticketCode+ " (state "+ticket.getState()+")");
+	System.out.println("> waiting for "+box1+" deposit: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
 	ticketManager.waitForTicket(ticket);
 }
-System.out.println("> "+ticketCode+" marked as done");
+System.out.println("> "+ticket.getCode()+" marked as done");
 a = box1.getArea();
 if(!(a instanceof StorageArea)){
 	System.err.println("! "+box1+" not correctly stored");
@@ -39,13 +37,13 @@ if(!(a instanceof StorageArea)){
 
 //---- TEST 2 ----
 //start retrieval procedure
-ticketCode = t1.requestWithdraw(box2);
+ticket = t1.requestWithdraw(box2);
 //TODO: verify withdraw available
-System.out.println("> waiting for "+box1+" withdraw: tracking number "+ticketCode);
-while(ticketManager.getTrackingNumberState(ticketCode)!=Ticket.TICKET_DONE){
+System.out.println("> waiting for "+box1+" withdraw: tracking number "+ticket.getCode());
+while(ticketManager.getTrackingNumberState(ticket.getCode())!=Ticket.TICKET_DONE){
 	Thread.sleep(500);
 }
-System.out.println("> "+ticketCode+" marked as done");
+System.out.println("> "+ticket.getCode()+" marked as done");
 a = box1.getArea();
 if(t1 == a){
 	System.err.println("! "+box1+" not in the requested area");

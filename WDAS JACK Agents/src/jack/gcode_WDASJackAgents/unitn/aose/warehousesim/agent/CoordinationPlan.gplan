@@ -205,6 +205,7 @@
 		:lab  "body"
 		:val  `body()
 {   
+    dataLog.log("handling coordination request "+ev.ticketCode+" to "+(ev.deposit?"deposit":"withdraw")+" box "+ev.boxName+" at "+ev.areaName);
     /*
      * This is just a stub for a coordination plan,
      * showing what APIs are available
@@ -244,30 +245,32 @@
     //IDEALLY
     //1. optinally perform initialization of all robots (e.g. discovery)
     //2. start monitoring requests (tellermachines states)
-	// isn't this started from the UpdateWarehouseInfo plan???
+    // isn't this started from the UpdateWarehouseInfo plan???
     //3. issue commands to robots to achieve requests
-    
     
     //send goal to robots
     Iterator it = ev.robotAgents.iterator();
     while(it.hasNext()){
         IRobotAgent a = (IRobotAgent)it.next();
-        agent.send(a.name(), startRobotsEvent.start());
-        agents.add(a.name(), 0);
+        agents.add(a.name(), 1); //booking the agent
+        StartRobotsEvent start = startRobotsEvent.start();
+        @send(a.name(), start);
+        dataLog.log("waiting for "+a.name()+" to finish...");
+        //@wait_for(start.replied());
     }
 
 //        //monitor area states
 //        Iterator it = myWarehouse.getWarehouse().getDepositWithdrawAreas().iterator();
 //        while(it.hasNext()){
-//        	DepositWithdrawAreaRef a = (DepositWithdrawAreaRef)it.next();
-//        	String area = a.getName();
-//    	//        	agent.postEvent(areaMonitorEvent.monitor($rail.as_string(), $pos.as_integer(), $right.as_boolean(), $area.as_string()));
-//    	//        }
-//    	//        logical String $area;
-//    	//        Cursor c = rails.getDepositWithdrawAreas($area); 
-//    	//        while(c.next()){
-//    	//        	String area = $area.as_string();
-//    	//          dataLog.log("deposit withdraw area: "+area);
+//          DepositWithdrawAreaRef a = (DepositWithdrawAreaRef)it.next();
+//          String area = a.getName();
+//      //          agent.postEvent(areaMonitorEvent.monitor($rail.as_string(), $pos.as_integer(), $right.as_boolean(), $area.as_string()));
+//      //        }
+//      //        logical String $area;
+//      //        Cursor c = rails.getDepositWithdrawAreas($area); 
+//      //        while(c.next()){
+//      //          String area = $area.as_string();
+//      //          dataLog.log("deposit withdraw area: "+area);
 //            //retrieve all the area data, including position
 //            logical String $rail;
 //            logical int $pos;
@@ -276,9 +279,9 @@
 //            logical int $areaState;
 //            Cursor ac = rails.getRail($rail, $pos, $right, $storage, area, $areaState);
 //            if(ac.next()){
-//            	agent.postEvent(areaMonitorEvent.monitor($rail.as_string(), $pos.as_int(), $right.as_boolean(), area));
+//              agent.postEvent(areaMonitorEvent.monitor($rail.as_string(), $pos.as_int(), $right.as_boolean(), area));
 //            } else 
-//            	dataLog.log("no beliefset for deposit withdraw area: "+area);
+//              dataLog.log("no beliefset for deposit withdraw area: "+area);
 //        }
     
 }

@@ -28,6 +28,19 @@
     :evfields
 	(
 	    <BAPI_EventField
+		:name  "ticketCode"
+	    >
+	    <BAPI_EventField
+		:name  "deposit"
+		:type  "boolean"
+	    >
+	    <BAPI_EventField
+		:name  "areaName"
+	    >
+	    <BAPI_EventField
+		:name  "boxName"
+	    >
+	    <BAPI_EventField
 		:name  "robotAgents"
 		:type  "Collection"
 	    >
@@ -36,7 +49,11 @@
 	(
 	    <BAPI_Text
 		:lab  "start"
-		:val  `start(Collection robotAgents){
+		:val  `start(String ticketCode, boolean deposit, String areaName, String boxName, Collection robotAgents){
+    this.ticketCode = ticketCode;
+    this.deposit = deposit;
+    this.areaName = areaName;
+    this.boxName = boxName;
     this.robotAgents = robotAgents;
 }
 `

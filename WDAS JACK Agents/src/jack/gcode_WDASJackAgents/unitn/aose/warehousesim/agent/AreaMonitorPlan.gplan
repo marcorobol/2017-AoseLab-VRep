@@ -24,7 +24,13 @@ Keep the given area monitored for area state changes
 			:val  "aos.jack.util.cursor.Change"
 		    >
 		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.AreaRef"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.AreaState"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.BoxRef"
 		    >
 		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.ITellerMachine"
@@ -78,41 +84,6 @@ Keep the given area monitored for area state changes
 `
 	    :isLabelEditable  :false
 	>
-    :posted_events
-	(
-	    <BAPI_FileRef
-		:name  "DepositRequestedEvent"
-		:filename  "unitn/aose/warehousesim/agent/DepositRequestedEvent.gevent"
-		:label  "posts DepositRequestedEvent"
-		:type  "aos.jack.ed.Event"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "PlanEventList.attrs"
-		:refType  "posts"
-		:refName  "depositRequestedEvent"
-		:dropHandlerName  "NamedEvent.drop"
-	    >
-	    <BAPI_FileRef
-		:name  "WithdrawRequestedEvent"
-		:filename  "unitn/aose/warehousesim/agent/WithdrawRequestedEvent.gevent"
-		:label  "posts WithdrawRequestedEvent"
-		:type  "aos.jack.ed.Event"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "PlanEventList.attrs"
-		:refType  "posts"
-		:refName  "withdrawRequestedEvent"
-		:dropHandlerName  "NamedEvent.drop"
-	    >
-	)
     :databases
 	(
 	    <BAPI_FileRef
@@ -170,19 +141,19 @@ Keep the given area monitored for area state changes
 		:lab  "body"
 		:val  `body()
 {
-    ITellerMachine tm = myWarehouse.getWarehouse().getTellerMachine(ev.areaName);
-    dataLog.log("AreaMonitorPlan monitoring area "+tm);
+    AreaRef a = myWarehouse.getWarehouse().getArea(ev.areaName);
+    dataLog.log("AreaMonitorPlan monitoring area "+a);
     for(;true;){
         //wait for the areastate to be changed
-        @wait_for(new Change(tm.getAreaMonitor(), false));
-        dataLog.log("updating teller machine "+tm+" to state: "+tm.getState().get());
-        int areaState = RobotData.getAreaState((AreaState)tm.getState().get());
-        areas.updateAreaState(ev.areaName, areaState);
-        
-        if(areaState==RobotData.AS_ELABORATINGDEPOSIT)
-        	agent.postEvent(depositRequestedEvent.start(ev.railName, ev.position, ev.isRight, ev.areaName));
-        else if(areaState==RobotData.AS_ELABORATINGWITHDRAW)
-        	agent.postEvent(withdrawRequestedEvent.start(ev.railName, ev.position, ev.isRight, ev.areaName));
+        @wait_for(new Change(a.getAreaMonitor(), false));
+        int areaState = RobotData.getAreaState((AreaState)a.getState().get());
+        BoxRef b = a.getBox();
+        String boxName = null;
+        if(null!=b){
+            boxName = b.getName();
+        }
+        dataLog.log("updating area "+a+" to state: "+a.getState().get()+" (box "+boxName+")");
+        areas.updateAreaState(ev.areaName, areaState, boxName);
     }
 }
 `

@@ -15,7 +15,6 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 	private ITicket ticket = null;
 	private final IWarehouse warehouse;
 
-	
 	public DepositWithdrawArea(String name, IAdapter adapter, IWarehouse warehouse) {
 		super(name, adapter);
 		this.warehouse = warehouse;
@@ -62,10 +61,5 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 			}
 		}
 		return ticket;
-	}
-	
-	@Override
-	public Observable getAreaMonitor(){
-		return this.areaMonitor;
 	}
 }

@@ -277,15 +277,15 @@
         //fetch additional area data
         int areaState = myRobot.getAreaState(isRight);
         boolean isStorage = myRobot.isStorageArea(isRight);
-        rail.add(myRobot.getRail(), position, isRight, isStorage, areaName, areaState);
+        rail.add(myRobot.getRail(), position, isRight, isStorage, areaName, areaState, null);
         //this area is shared if there is a cross ahead or behind
         //let's add the other rail even if we don't know anything about the other rail
         //so that the getSharedAreas could work appropriately
         //XXX: right or left side parameter depends on direction of rail which we are not aware of
         if(null != crossAhead){
-            rail.add(crossAhead, -1, false, isStorage, areaName, areaState);
+            rail.add(crossAhead, -1, false, isStorage, areaName, areaState, null);
         }else if (null != crossBehind){
-            rail.add(crossBehind, -1, false, isStorage, areaName, areaState);
+            rail.add(crossBehind, -1, false, isStorage, areaName, areaState, null);
         }
     }
 }

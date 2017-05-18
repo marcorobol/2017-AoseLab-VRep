@@ -54,17 +54,10 @@
 `
 		    >
 		    <BAPI_Text
-			:lab  "void coordinate"
-			:val  `public void coordinate(Collection robotAgents){
-    postEvent(coordinateEvent.start(robotAgents));
-}
-`
-		    >
-		    <BAPI_Text
 			:lab  "void handleRequest"
-			:val  `public void handleRequest(String ticketCode, int requestType, String areaNameAssociatedToTheTM, String boxName, Collection agents){
-		//TODO
-	}
+			:val  `public void handleRequest(String ticketCode, boolean deposit, String areaNameAssociatedToTheTM, String boxName, Collection agents){
+    postEvent(coordinateEvent.start(ticketCode, deposit, areaNameAssociatedToTheTM, boxName, agents));
+}
 `
 		    >
 		)
@@ -171,40 +164,6 @@
 	)
     :events
 	(
-	    <BAPI_FileRef
-		:name  "WithdrawRequestedEvent"
-		:filename  "unitn/aose/warehousesim/agent/WithdrawRequestedEvent.gevent"
-		:label  "handles"
-		:type  "aos.jack.ed.Event"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "NamedEventList.attrs"
-		:refType  "handles"
-		:hasName  :false
-		:refName  "ev2"
-		:dropHandlerName  "NamedEvent.drop"
-	    >
-	    <BAPI_FileRef
-		:name  "DepositRequestedEvent"
-		:filename  "unitn/aose/warehousesim/agent/DepositRequestedEvent.gevent"
-		:label  "handles"
-		:type  "aos.jack.ed.Event"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "NamedEventList.attrs"
-		:refType  "handles"
-		:hasName  :false
-		:refName  "ev1"
-		:dropHandlerName  "NamedEvent.drop"
-	    >
 	    <BAPI_FileRef
 		:name  "AreaMonitorEvent"
 		:filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
@@ -320,38 +279,6 @@
 	)
     :plans
 	(
-	    <BAPI_FileRef
-		:name  "DepositRequestedPlan"
-		:filename  "unitn/aose/warehousesim/agent/DepositRequestedPlan.gplan"
-		:label  "uses"
-		:type  "aos.jack.ed.Plan"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "PlanList.attrs"
-		:refType  "uses"
-		:hasName  :false
-		:dropHandlerName  "Plan.drop"
-	    >
-	    <BAPI_FileRef
-		:name  "WithdrawRequestedPlan"
-		:filename  "unitn/aose/warehousesim/agent/WithdrawRequestedPlan.gplan"
-		:label  "uses"
-		:type  "aos.jack.ed.Plan"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "PlanList.attrs"
-		:refType  "uses"
-		:hasName  :false
-		:dropHandlerName  "Plan.drop"
-	    >
 	    <BAPI_FileRef
 		:name  "AreaMonitorPlan"
 		:filename  "unitn/aose/warehousesim/agent/AreaMonitorPlan.gplan"

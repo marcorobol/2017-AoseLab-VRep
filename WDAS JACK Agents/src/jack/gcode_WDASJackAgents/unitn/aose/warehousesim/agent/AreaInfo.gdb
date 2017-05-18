@@ -57,6 +57,9 @@
 		:name  "areaState"
 		:type  "int"
 	    >
+	    <BAPI_DBField =6
+		:name  "box"
+	    >
 	)
     :queries
 	(
@@ -88,6 +91,10 @@
 			    :ref
 				<&5 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
@@ -114,6 +121,10 @@
 			    :ref
 				<&5 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
@@ -139,6 +150,10 @@
 			<BAPI_InternalRef
 			    :ref
 				<&5 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
 			>
 		    )
 	    >
@@ -166,6 +181,10 @@
 			    :ref
 				<&5 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
@@ -188,6 +207,10 @@
 			    :ref
 				<&5 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
+			>
 		    )
 	    >
 	    <BAPI_DBQuery
@@ -206,6 +229,44 @@
 			    :ref
 				<&5 >
 			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
+			>
+		    )
+	    >
+	    <BAPI_DBQuery
+		:name  "getAreaByBox"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&0 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&3 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&4 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&5 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
+			>
 		    )
 	    >
 	)
@@ -221,8 +282,9 @@
     logical int _$position;
     logical boolean _$right;
     logical int _$areaState;
+    logical String _$box;
     boolean isStorage = false;
-    return getAreas(_$rail, _$position, _$right, isStorage, $area, _$areaState);
+    return getAreas(_$rail, _$position, _$right, isStorage, $area, _$areaState, _$box);
 }
 `
 			:isLabelEditable  :false
@@ -239,7 +301,8 @@
     logical boolean _$right;
     logical int _$areaState;
     boolean isStorage = true;
-    return getAreas(_$rail, _$position, _$right, isStorage, $area, _$areaState);
+    logical String _$box;
+    return getAreas(_$rail, _$position, _$right, isStorage, $area, _$areaState, _$box);
 }
 `
 			:isLabelEditable  :false
@@ -255,7 +318,8 @@
     logical boolean _$right;
     logical int _$areaState;
     boolean isStorage = true;
-    return getAreas(rail, _$position, _$right, isStorage, $area, _$areaState);
+    logical String _$box;
+    return getAreas(rail, _$position, _$right, isStorage, $area, _$areaState, _$box);
 }
 `
 			:isLabelEditable  :false
@@ -271,14 +335,16 @@
     logical boolean _$right;
     logical boolean _$storage;
     logical int _$areaState;
+    logical String _$box;
     //get all the areas of the given rail...
     logical int _$otherPos;
     logical boolean _$otherRight;
     logical boolean _$otherStorage;
     logical int _$otherAreaState;
+    logical String _$otherBox;
     //and all the rails with that has that area
-    return get($rail, _$position, _$right, _$storage, $area, _$areaState) && 
-        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string(), _$otherAreaState) && 
+    return get($rail, _$position, _$right, _$storage, $area, _$areaState, _$box) && 
+        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string(), _$otherAreaState, _$otherBox) && 
         $otherRail.as_string()!=$rail.as_string();
 }
 `
@@ -295,14 +361,16 @@
     logical boolean _$right;
     logical boolean _$storage;
     logical int _$areaState;
+    logical String _$box;
     //get all the areas of the given rail...
     logical int _$otherPos;
     logical boolean _$otherRight;
     logical boolean _$otherStorage;
     logical int _$otherAreaState;
+    logical String _$otherBox;
     //and all the rails with that has that area
-    return getAreas(rail, _$position, _$right, _$storage, $area, _$areaState) && 
-        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string(), _$otherAreaState) && 
+    return getAreas(rail, _$position, _$right, _$storage, $area, _$areaState, _$box) && 
+        getRail($otherRail, _$otherPos, _$otherRight, _$otherStorage, $area.as_string(), _$otherAreaState, _$otherBox) && 
         $otherRail.as_string()!=rail;
 }
 `
@@ -319,14 +387,16 @@
     logical boolean _$right;
     logical boolean _$storage;
     logical int _$areaState;
+    logical String _$box;
     //get all the areas of the given rail...
     logical int _$otherPos;
     logical boolean _$otherRight;
     logical boolean _$otherStorage;
     logical int _$otherAreaState;
+    logical String _$otherBox;
     //and all the rails with that has that area
-    return getAreas(rail, _$position, _$right, _$storage, $area, _$areaState) && 
-        getAreas(otherRail, _$otherPos, _$otherRight, _$otherStorage, $area, _$otherAreaState);        
+    return getAreas(rail, _$position, _$right, _$storage, $area, _$areaState, _$box) && 
+        getAreas(otherRail, _$otherPos, _$otherRight, _$otherStorage, $area, _$otherAreaState, _$otherBox);        
 }
 `
 			:isLabelEditable  :false
@@ -338,15 +408,16 @@
 		:definition
 		    <BAPI_Text
 			:lab  "updateAreaState"
-			:val  `int updateAreaState(String area, int areaState){
+			:val  `int updateAreaState(String area, int areaState, String boxName){
     logical String $rail;
     logical int $position;
     logical boolean $right;
     logical boolean $storage;
-    logical int $areaState;
+    logical int _$areaState;
+    logical String _$box;
     //get all rails with such area
-    Cursor c = getRail($rail, $position, $right, $storage, area, $areaState);
-    //an area can be set on different rails: store all the raildata
+    Cursor c = getRail($rail, $position, $right, $storage, area, _$areaState, _$box);
+    //an area can be set on different rails: store all the raildata so that we can preserve them and readd them all
     List rails = new ArrayList();
     while(c.next()){
         rails.add(new Object[]{$rail.as_string(), $position.as_int(), $right.as_boolean(), $storage.as_boolean()});
@@ -354,7 +425,7 @@
     //now update the rail data with the areastate
     for(int i=0; i<rails.size(); ++i){
         Object[] railData = (Object[])rails.get(i);
-        add((String)railData[0], (int)railData[1], (boolean)railData[2], (boolean)railData[3], area, areaState);
+        add((String)railData[0], (int)railData[1], (boolean)railData[2], (boolean)railData[3], area, areaState, boxName);
     }
     return rails.size();
 }

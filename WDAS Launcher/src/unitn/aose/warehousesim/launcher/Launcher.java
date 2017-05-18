@@ -20,7 +20,6 @@ import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationThree;
 import unitn.aose.warehousesim.configuration.IConfigurator;
-import unitn.aose.warehousesim.data.TicketManager;
 import unitn.aose.warehousesim.gui.AgentGui;
 import unitn.aose.warehousesim.gui.RobotAgentGui;
 import unitn.aose.warehousesim.gui.TellerMachineGui;
@@ -60,8 +59,8 @@ public class Launcher {
 	private static Collection<IRobotAgent> getRobotAgents(RobotAgentFactory factory, IWarehouse warehouse) {
 		final Collection<IRobotAgent> raList = new LinkedList<IRobotAgent>();
 		for (CartRef c : warehouse.getCarts()) {
-			IRobot r = warehouse.getRobot(c);
-			IRobotAgent ra = factory.createAgent(r);
+			final IRobot r = warehouse.getRobot(c);
+			final IRobotAgent ra = factory.createAgent(r);
 			if (null == ra) {
 				Logger.err.println("no agent created for robot " + r.getName());
 			} else {
@@ -90,7 +89,7 @@ public class Launcher {
 							if(tm.getGeneratedTicket()!=null)
 								wa.handleRequest(
 									tm.getGeneratedTicket().getCode(),
-									tm.getGeneratedTicket().getState(),
+									tm.getState().get()==AreaState.elaboratingDeposit,
 									a.getName(),
 									tm.getGeneratedTicket().getBox().getName(),
 									agentsList);
@@ -145,7 +144,6 @@ public class Launcher {
 //				break;
 //			}
 //		}
-		coordinator.coordinate(agentsList);
 
 		/*
 		 * Agents Gui

@@ -194,8 +194,13 @@
 		:lab  "body"
 		:val  `body()
 {
-    dataLog.log("starting " + myRobot.getName()+" test plan");
-    myRobot.moveForward();
+    dataLog.log("starting " + myRobot.getName()+" test plan (pos: "+myRobot.getPosition()+")");
+    if(myRobot.getPosition()>1){
+        myRobot.moveBackward();
+        dataLog.log("moving backward!");
+    }else{
+        myRobot.moveForward();
+    }
     dataLog.log("waiting for "+myRobot.getName()+" @ 1");
     while(myRobot.getPosition()!=1){
         //keep moving until at 1
@@ -204,12 +209,6 @@
     }
     stopRobot();
     @sleep(10);
-//        //retrieve the ticket for this deposit operation
-//        String ticket;
-//        if(myRobot.getBoxOnLeft()!=null)
-//        	ticket = TicketManager.getInstance().getTicketByBox(myRobot.getBoxOnLeft()).getCode();
-//        dataLog.log(myRobot.getName()+" acquired ticket "+ticket+" for box "+myRobot.getBoxOnLeft());
-    //warehouse.getTellerMachine(areaName);
     myRobot.loadLeft();
     dataLog.log(myRobot.getName()+" loading left @ "+myRobot.getPosition());
     @sleep(10);
@@ -224,9 +223,10 @@
     @sleep(10);
     myRobot.unloadRight();
     dataLog.log(myRobot.getName()+" unloading right @ "+myRobot.getPosition());
-//        //mark the ticket as done
-//        if(ticket!="")
-//        	TicketManager.getInstance().setTrackingState(ticket, Ticket.TICKET_DONE);
+    //mission accomplished!
+    @reply(ev, null);
+    
+    //return to base
     myRobot.moveBackward();
     @sleep(10);
     dataLog.log("waiting for "+myRobot.getName()+" @ 0");

@@ -30,6 +30,9 @@
 			:val  "unitn.aose.warehousesim.api.data.AreaRef"
 		    >
 		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.BoxRef"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.data.RailRef"
 		    >
 		)
@@ -200,38 +203,37 @@
         for(int i=0; i<leftAreas.length; ++i){
             //add each area in the rails beliefset
             int p = leftAreas[i].intValue();
-            AreaRef a = r.getLeftAreaIn(p);
-            dataLog.log("left area at "+p+": "+a.getName());
-            boolean isStorage = w.isAStorageArea(a);
-            areas.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
-            if(!isStorage){
-                //monitor the area if it is a deposit area
-                agent.postEvent(ev1.monitor(r.getName(), p, isRight, a.getName()));
-            }
+            addArea(w, r, p, isRight);
         }
         //right areas
         isRight = true;
         for(int i=0; i<rightAreas.length; ++i){
             //add each area in the rails beliefset
             int p = rightAreas[i].intValue();
-            AreaRef a = r.getRightAreaIn(p);
-            dataLog.log("right area at "+p+": "+a.getName());
-            boolean isStorage = w.isAStorageArea(a);
-            areas.add(r.getName(), p, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN);
-            if(!isStorage){
-                //monitor the area if it is a deposit area
-                agent.postEvent(ev1.monitor(r.getName(), p, isRight, a.getName()));
-            }
+            addArea(w, r, p, isRight);
         }
     }
     
     checkSharedAreas();
     checkCrosses();
-    
-    //start monitoring depositwithdraw areas
-    
-
     dataLog.log("warehouse info updated!");
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "addArea"
+		:val  `addArea(IWarehouseMonitor w, RailRef r, int pos, boolean isRight){
+    AreaRef a = isRight?r.getRightAreaIn(pos):r.getLeftAreaIn(pos);
+    dataLog.log("right area at "+pos+": "+a.getName());
+    boolean isStorage = w.isAStorageArea(a);
+    BoxRef b = a.getBox();
+    String bname = null;
+    if(null!=b){
+        bname = b.getName();
+    }
+    areas.add(r.getName(), pos, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN, bname);
+    //start monitoring the area so that when the areastate change, the belief is updated
+    agent.postEvent(ev1.monitor(r.getName(), pos, isRight, a.getName()));
 }
 `
 	    >
