@@ -1,10 +1,12 @@
-package unitn.aose.warehousesim.api;
+package unitn.aose.warehousesim.data;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import unitn.aose.warehousesim.api.ITicket;
+import unitn.aose.warehousesim.api.ITicketManager;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.Ticket;
 
@@ -13,16 +15,7 @@ import unitn.aose.warehousesim.api.data.Ticket;
  * @author matteo.pedrotti@deltainformatica.eu
  *
  */
-public class TicketManager {
-	
-	private static TicketManager instance;
-	
-	public synchronized static TicketManager getInstance(){
-		if(null == instance){
-			instance = new TicketManager();
-		}
-		return instance;
-	}
+public class TicketManager implements ITicketManager {
 	
 	/**
 	 * Map of ticket codes and tickets
@@ -30,7 +23,7 @@ public class TicketManager {
 	private Map<String, Ticket> codeToTicketMap;
 	private int progressiveId;
 	
-	private TicketManager(){
+	public TicketManager(){
 		codeToTicketMap = new HashMap<String, Ticket>();
 	}
 	

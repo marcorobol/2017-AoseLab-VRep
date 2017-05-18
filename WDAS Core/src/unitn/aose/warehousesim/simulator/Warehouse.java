@@ -7,6 +7,7 @@ import java.util.Set;
 import unitn.aose.warehousesim.api.IObservable;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.ITicketManager;
 import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.SimulationState;
 import unitn.aose.warehousesim.api.data.AreaRef;
@@ -21,6 +22,7 @@ import unitn.aose.warehousesim.data.Cart;
 import unitn.aose.warehousesim.data.DepositWithdrawArea;
 import unitn.aose.warehousesim.data.Rail;
 import unitn.aose.warehousesim.data.StorageArea;
+import unitn.aose.warehousesim.data.TicketManager;
 import unitn.aose.warehousesim.observable.ObservableLong;
 import unitn.aose.warehousesim.observable.ObservableSimulationState;
 
@@ -38,6 +40,7 @@ public class Warehouse implements IWarehouse {
     private final Map<String, BoxRef> boxIndex;
     private final Map<BoxRef, Box> boxes = new HashMap<BoxRef, Box>();
 	private final Map<CartRef, Cart> carts = new HashMap<CartRef, Cart>();
+	private final TicketManager ticketManager;
 	
 	
 	
@@ -49,6 +52,7 @@ public class Warehouse implements IWarehouse {
 		simulationTime.set(0l);
 		simulationState = new ObservableSimulationState(simulationTime);
 		simulationState.set(SimulationState.stopped);
+		ticketManager = new TicketManager();
 	}
 	
 	public IAdapter getAdapter() {
@@ -80,7 +84,7 @@ public class Warehouse implements IWarehouse {
 	}
 
 	public Area defineDepositWithdrawArea(String name) {
-		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter);
+		DepositWithdrawArea a = new DepositWithdrawArea(name, adapter, this);
 		depositWithdrawAreas.put(a, a);
 		areaIndex.put(name, a);
 		return a;
@@ -272,6 +276,11 @@ public class Warehouse implements IWarehouse {
 	@Override
 	public void fixCart(CartRef cart) {
 		carts.get(cart).setBroken(false);
+	}
+
+	@Override
+	public ITicketManager getTicketManager() {
+		return ticketManager;
 	}
 	
 }

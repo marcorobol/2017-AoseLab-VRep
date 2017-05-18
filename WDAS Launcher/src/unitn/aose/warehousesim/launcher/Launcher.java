@@ -16,18 +16,18 @@ import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.Logger;
-import unitn.aose.warehousesim.api.TicketManager;
 import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationThree;
 import unitn.aose.warehousesim.configuration.IConfigurator;
+import unitn.aose.warehousesim.data.TicketManager;
 import unitn.aose.warehousesim.gui.AgentGui;
 import unitn.aose.warehousesim.gui.RobotAgentGui;
+import unitn.aose.warehousesim.gui.TellerMachineGui;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
 import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
 import unitn.aose.warehousesim.simulator.SimulationGui;
 import unitn.aose.warehousesim.simulator.Warehouse;
-import unitn.aose.warehousesim.tellerMachine.TellerMachineGui;
 import bsh.Interpreter;
 import coppelia.remoteApi;
 
@@ -173,7 +173,7 @@ public class Launcher {
 					}
 					i.set(VAR_WAREHOUSE, warehouse);
 					i.set(VAR_COORDINATOR, coordinator);
-					i.set(VAR_TICKETMANAGER, TicketManager.getInstance());
+					i.set(VAR_TICKETMANAGER, warehouse.getTicketManager());
 					i.source(SCRIPT_SOURCEFILE);
 				} catch (Exception e) {
 					Logger.err.println("ERROR: " + e);

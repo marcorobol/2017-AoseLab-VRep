@@ -1,4 +1,4 @@
-package unitn.aose.warehousesim.tellerMachine;
+package unitn.aose.warehousesim.gui;
 
 import java.awt.Button;
 import java.awt.FlowLayout;

@@ -5,15 +5,16 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import unitn.aose.warehousesim.api.ITicket;
-import unitn.aose.warehousesim.api.TicketManager;
+import unitn.aose.warehousesim.api.ITicketManager;
 import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.data.Box;
+import unitn.aose.warehousesim.data.TicketManager;
 
 public class TicketTest {
 
 	@Test
 	public void ticketManagerTest() {
-		TicketManager tm = TicketManager.getInstance();
+		ITicketManager tm = new TicketManager();
 		Box box1 = new Box("box1");
 		Box box2 = new Box("box2");
 		ITicket code1 = tm.getNewTicket(box1, true);
