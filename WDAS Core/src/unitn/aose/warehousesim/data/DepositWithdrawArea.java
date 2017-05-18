@@ -31,7 +31,6 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 		if(currentAreaState.equals(AreaState.boxAvailable)) {
 			if(!currentAreaState.equals(AreaState.elaboratingDeposit)){
 				getState().set(AreaState.elaboratingDeposit);
-				areaMonitor.setChanged();
 				TicketManager tm = TicketManager.getInstance();
 				ticket = tm.getNewTicket(getBox(), true);
 			}
@@ -49,6 +48,7 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 				areaMonitor.setChanged();
 				TicketManager tm = TicketManager.getInstance();
 				ticket = tm.getNewTicket(requestedBox, false);
+				areaMonitor.setChanged();
 			}
 		}
 		return ticket;

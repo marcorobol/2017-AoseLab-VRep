@@ -86,12 +86,14 @@ public class Launcher {
 				ITellerMachine tm = warehouse.getTellerMachine(a);
 				tm.getState().registerListener(new IListener<AreaState>() {
 					public void notifyChanged(AreaState value) {
-						wa.handleRequest(
-								tm.getGeneratedTicket().getCode(),
-								tm.getGeneratedTicket().getState(),
-								a.getName(),
-								tm.getGeneratedTicket().getBox().getName(),
-								agentsList);
+						if(tm.getState().get()==AreaState.elaboratingDeposit || tm.getState().get()==AreaState.elaboratingWithdraw)
+							if(tm.getGeneratedTicket()!=null)
+								wa.handleRequest(
+									tm.getGeneratedTicket().getCode(),
+									tm.getGeneratedTicket().getState(),
+									a.getName(),
+									tm.getGeneratedTicket().getBox().getName(),
+									agentsList);
 					}
 				});
 			}

@@ -35,7 +35,7 @@ public class TellerMachineGui {
 	   this.machineList = machineList;
 	   this.warehouse = warehouse;
 	   mainFrame = new Frame("Warehouse Agent GUI");
-	   mainFrame.setSize(500,600);
+	   mainFrame.setSize(600,600);
 	   mainFrame.setLayout(new GridLayout(machineList.size(), 1));
 	   mainFrame.addWindowListener(new WindowAdapter() {
 		   public void windowClosing(WindowEvent windowEvent){
@@ -103,7 +103,10 @@ public class TellerMachineGui {
 	   Button withdraw = new Button("requestWithdraw");
 	   withdraw.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-        	 m.requestWithdraw(warehouse.getBox(boxName.getText()));
+			   if(warehouse.getBox(boxName.getText())!=null)
+				   m.requestWithdraw(warehouse.getBox(boxName.getText()));
+			   else
+				   boxName.setText("invalidBoxName");
 		   }
 	   });
 	   

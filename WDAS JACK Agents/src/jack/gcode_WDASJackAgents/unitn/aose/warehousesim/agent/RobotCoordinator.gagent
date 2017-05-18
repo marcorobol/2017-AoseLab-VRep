@@ -60,6 +60,13 @@
 }
 `
 		    >
+		    <BAPI_Text
+			:lab  "void handleRequest"
+			:val  `public void handleRequest(String ticketCode, int requestType, String areaNameAssociatedToTheTM, String boxName, Collection agents){
+		//TODO
+	}
+`
+		    >
 		)
 	>
     :constructor
