@@ -18,7 +18,9 @@ public interface ITellerMachineMonitor {
 	
 	IObservable<AreaState> getState();
 	
-	BoxRef getRequestedBox();
+//	BoxRef getRequestedBox();
+	
+	ITicket getGeneratedTicket();
 	
 	/**
 	 * Box currently stored in this teller machine

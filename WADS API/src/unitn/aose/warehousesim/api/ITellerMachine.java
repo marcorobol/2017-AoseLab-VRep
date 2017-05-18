@@ -8,14 +8,14 @@ public interface ITellerMachine extends ITellerMachineMonitor {
 	 * Take the box and bring it inside the warehouse
 	 * @return
 	 */
-	String requestDeposit();
+	ITicket requestDeposit();
 
 	/**
 	 * Bring the given box in this area
 	 * @param box
 	 * @return
 	 */
-	String requestWithdraw(BoxRef box);
+	ITicket requestWithdraw(BoxRef box);
 	
 	BoxRef createBox();
 	

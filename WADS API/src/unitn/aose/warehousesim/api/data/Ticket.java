@@ -2,36 +2,45 @@ package unitn.aose.warehousesim.api.data;
 
 import java.util.Observable;
 
-public class Ticket extends Observable {
+import unitn.aose.warehousesim.api.ITicket;
+
+public class Ticket extends Observable implements ITicket {
 
 	/**
 	 * Ticket states are assigned to mark the ongoing process.
 */
 	public static final int 
-			/** No ticket for this box (yet) **/
-			TICKET_NONE = 0,
-			/** The box has to be stored: carried from a deposit/withdraw area in an internal storage area **/
-			TICKET_STORE = 1,
-			/** The box has to be retrieved: carried from a storage area to an appropriate delivery area **/
-			TICKET_RETRIEVE = 2,
-			/** The box ticket has been completed **/
+			/** The ticket has just been generated **/
+			TICKET_GENERATED = 0,
+			/** The request is in elaboration **/
+			TICKET_ELABORATING = 1,
+			/** The request cannot be processed **/
+			TICKET_ERROR = 2,
+			/** The request has been completed **/
 			TICKET_DONE = 3;
 	
-	private final String code, boxName;
+	private final String code;
+	private final BoxRef box;
+	/**
+	 * TRUE: box has to be stored: carried from a deposit/withdraw area in an internal storage area
+	 * FALSE: box has to be retrieved: carried from a storage area to an appropriate delivery area
+	 */
+	private final boolean depositOrWithdraw;
 	private int state;
 	
-	public Ticket(final String code, final String boxName){
+	public Ticket(final String code, final BoxRef box, final boolean depositOrWithdraw){
 		this.code = code;
-		this.boxName = boxName;
-		state = Ticket.TICKET_NONE;
+		this.box = box;
+		this.depositOrWithdraw = depositOrWithdraw;
+		state = Ticket.TICKET_GENERATED;
 	}
 
 	public String getCode() {
 		return code;
 	}
 	
-	public String getBoxName(){
-		return boxName;
+	public BoxRef getBox(){
+		return box;
 	}
 
 	public int getState() {
@@ -63,4 +72,10 @@ public class Ticket extends Observable {
 	public String toString(){
 		return this.getClass().getSimpleName()+"[code:"+code+";state:"+state+"]";
 	}
+
+	@Override
+	public boolean depositOrWithdrawRequest() {
+		return depositOrWithdraw;
+	}
+
 }

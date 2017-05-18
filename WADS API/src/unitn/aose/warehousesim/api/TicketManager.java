@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.Ticket;
 
 /**
@@ -12,8 +13,8 @@ import unitn.aose.warehousesim.api.data.Ticket;
  * @author matteo.pedrotti@deltainformatica.eu
  *
  */
-public class TicketManager implements Observer {
-
+public class TicketManager {
+	
 	private static TicketManager instance;
 	
 	public synchronized static TicketManager getInstance(){
@@ -27,12 +28,10 @@ public class TicketManager implements Observer {
 	 * Map of ticket codes and tickets
 	 */
 	private Map<String, Ticket> codeToTicketMap;
-	private Map<String, Ticket> boxToTicketMap;
 	private int progressiveId;
 	
 	private TicketManager(){
 		codeToTicketMap = new HashMap<String, Ticket>();
-		boxToTicketMap = new HashMap<String, Ticket>();
 	}
 	
 	/**
@@ -43,37 +42,18 @@ public class TicketManager implements Observer {
 		return Integer.toHexString(progressiveId++);
 	}
 	
-	public synchronized String getNewTrackingCode(final String boxName){
+	public synchronized ITicket getNewTicket(final BoxRef box, final boolean depositOrWithdraw){
 		final String code = nextCode();
-		Ticket t = new Ticket(code, boxName);
+		Ticket t = new Ticket(code, box, depositOrWithdraw);
 		codeToTicketMap.put(code, t);
-		boxToTicketMap.put(boxName, t);
-		return code;
+		return t;
  	}
-	
-	public synchronized void setTrackingState(String code, int state){
-		Ticket t = codeToTicketMap.get(code);
-		if(null != t){
-			t.setState(state);
-		}
-	}
-	
-	public synchronized int getTrackingNumberState(String code){
-		int tstate = Ticket.TICKET_NONE;
-		Ticket t = codeToTicketMap.get(code);
-		if(null != t){
-			tstate = t.getState();
-		}
-		return tstate;
-	}
 	
 	public synchronized Ticket getTicketByCode(String code){
 		return codeToTicketMap.get(code);
 	}
 	
-	public synchronized Ticket getTicketByBox(String boxName){
-		return boxToTicketMap.get(boxName);
-	}
+	
 	
 	/**
 	 * This blocking call will wait for the ticket to change value
@@ -82,21 +62,22 @@ public class TicketManager implements Observer {
 	 */
 	public void waitForTicket(Ticket ticket) throws InterruptedException{
 		synchronized(ticket){
-			ticket.addObserver(this);
+			Observer o = new Observer() {
+				public void update(Observable o, Object arg) {
+					synchronized(ticket){
+						ticket.notifyAll();
+					}
+				}
+			};
+			ticket.addObserver(o);
 			try{
 				ticket.wait();
 			}catch(InterruptedException e){
 				throw e;
 			} finally {
-				ticket.deleteObserver(this);
+				ticket.deleteObserver(o);
 			}
 		}
 	}
 
-	@Override
-	public void update(Observable ticket, Object arg) {
-		synchronized(ticket){
-			ticket.notifyAll();
-		}
-	}
 }

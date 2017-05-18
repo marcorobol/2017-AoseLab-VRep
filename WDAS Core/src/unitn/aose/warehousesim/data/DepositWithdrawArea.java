@@ -4,44 +4,53 @@ import java.util.Observable;
 
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.ITicket;
 import unitn.aose.warehousesim.api.TicketManager;
 import unitn.aose.warehousesim.api.data.BoxRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
-import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.simulator.IAdapter;
 
 public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef, ITellerMachine {
 
 	private BoxRef requestedBox;
+	private ITicket ticket = null;
+
 	
 	public DepositWithdrawArea(String name, IAdapter adapter) {
 		super(name, adapter);
 	}
-
+	
 	@Override
-	public BoxRef getRequestedBox() {
-		return requestedBox;
+	public void setBox(Box box) {
+		super.setBox(box);
 	}
-
+	
+//	@Override
+//	public BoxRef getRequestedBox() {
+//		return requestedBox;
+//	}
+	
 	@Override
-	public String requestDeposit() {
-		String code = null;
+	public ITicket getGeneratedTicket() {
+		return ticket;
+	}
+	
+	@Override
+	public ITicket requestDeposit() {
 		AreaState currentAreaState = getState().get();
 		if(currentAreaState.equals(AreaState.boxAvailable)) {
 			if(!currentAreaState.equals(AreaState.elaboratingDeposit)){
 				getState().set(AreaState.elaboratingDeposit);
 				areaMonitor.setChanged();
 				TicketManager tm = TicketManager.getInstance();
-				code = tm.getNewTrackingCode(getBox().getName());
-				tm.setTrackingState(code, Ticket.TICKET_STORE);
+				ticket = tm.getNewTicket(getBox(), true);
 			}
 		}
-		return code;
+		return ticket;
 	}
 
 	@Override
-	public String requestWithdraw(BoxRef box) {
-		String code = null;
+	public ITicket requestWithdraw(BoxRef box) {
 		AreaState currentAreaState = getState().get();
 		if(currentAreaState.equals(AreaState.free)) {
 			if(!currentAreaState.equals(AreaState.elaboratingWithdraw)){
@@ -49,11 +58,10 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 				requestedBox = box;
 				areaMonitor.setChanged();
 				TicketManager tm = TicketManager.getInstance();
-				code = tm.getNewTrackingCode(requestedBox.getName());
-				tm.setTrackingState(code, Ticket.TICKET_RETRIEVE);
+				ticket = tm.getNewTicket(requestedBox, false);
 			}
 		}
-		return code;
+		return ticket;
 	}
 	
 	@Override

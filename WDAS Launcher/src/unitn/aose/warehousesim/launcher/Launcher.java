@@ -10,6 +10,7 @@ import unitn.aose.warehousesim.adapter.vrep.ConfiguratorVRep;
 import unitn.aose.warehousesim.agent.IRobotAgent;
 import unitn.aose.warehousesim.agent.IWarehouseAgent;
 import unitn.aose.warehousesim.agent.RobotAgentFactory;
+import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IRobot;
 import unitn.aose.warehousesim.api.ITellerMachine;
@@ -76,12 +77,24 @@ public class Launcher {
 		return raList;
 	}
 
-	private static IWarehouseAgent getCoordinatorAgent(RobotAgentFactory factory, IWarehouse warehouse) {
+	private static IWarehouseAgent getCoordinatorAgent(RobotAgentFactory factory, IWarehouse warehouse, Collection<IRobotAgent> agentsList) {
 		IWarehouseAgent wa = factory.createAgent(warehouse);
 		if (null == wa) {
 			Logger.err.println("no agent created for warehouse " + warehouse);
 		} else {
-			// XXX: initialize?
+			for (final DepositWithdrawAreaRef a : warehouse.getDepositWithdrawAreas()) {
+				ITellerMachine tm = warehouse.getTellerMachine(a);
+				tm.getState().registerListener(new IListener<AreaState>() {
+					public void notifyChanged(AreaState value) {
+						wa.handleRequest(
+								tm.getGeneratedTicket().getCode(),
+								tm.getGeneratedTicket().getState(),
+								a.getName(),
+								tm.getGeneratedTicket().getBox().getName(),
+								agentsList);
+					}
+				});
+			}
 		}
 		return wa;
 	}
@@ -119,7 +132,7 @@ public class Launcher {
 		 */
 		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
 		Collection<IRobotAgent> agentsList = getRobotAgents(caFactory, warehouse);
-		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse);
+		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse, agentsList);
 
 //		// XXX: I just want to use a single agent at this time for testing
 //		// FIXME: remove this code to restore normal behaviour
