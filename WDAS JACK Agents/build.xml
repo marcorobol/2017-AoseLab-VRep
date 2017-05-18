@@ -4,7 +4,7 @@
 	<property name="release" location="release" />
 	<property name="release_name" value="aose_warehouse" />
 
-	<target name="build" depends="clean, javadoc" description="collects all the data in a target folder">
+	<target name="build" depends="clean, javadoc, jar" description="collects all the data in a target folder">
 		<mkdir dir="${target}" />
 		<mkdir dir="${target}/lib" />
 		<copy todir="${target}/lib" file="../WADS API/wdas_api.jar" />
@@ -40,10 +40,11 @@
 		</chmod>
 
 		<!-- BeanShell script -->
-		<copy todir="${target}" file="../WDAS Launcher/rootScript.bsh" />  	
-	  	<copy todir="${target}/scripts">
-	  		<fileset dir="../WDAS Launcher/scripts"></fileset>
-	  	</copy>
+		<copy todir="${target}" file="../WDAS Launcher/rootScript.bsh" />
+		<copy todir="${target}/scripts">
+			<fileset dir="../WDAS Launcher/scripts">
+			</fileset>
+		</copy>
 
 		<!-- V-REP FILES -->
 		<mkdir dir="${target}/vrepFiles" />
@@ -81,24 +82,91 @@
 			</fileset>
 		</javadoc>
 	</target>
-	
+
+	<target name="compile">
+		<javac destdir="../WADS API/bin" debug="false">
+			<include name="**/*.java" />
+			<src path="../WADS API/src" />
+		</javac>
+
+		<javac destdir="../WDAS Core/bin" debug="false">
+			<include name="**/*.java" />
+			<src path="../WDAS Core/src" />
+			<classpath>
+				<fileset dir="../WADS API/bin" />
+			</classpath>
+		</javac>
+
+		<javac destdir="../WDAS AdapterVRep/bin" debug="false">
+			<include name="**/*.java" />
+			<src path="../WDAS AdapterVRep/src" />
+			<classpath>
+				<fileset dir="../WADS API/bin" />
+				<fileset dir="../WDAS Core/bin" />
+			</classpath>
+		</javac>
+
+		<javac destdir="../WDAS Launcher/bin" debug="false">
+			<include name="**/*.java" />
+			<src path="../WDAS Launcher/src" />
+			<classpath>
+				<fileset dir="../WADS API/bin" />
+				<fileset dir="../WDAS Core/bin" />
+				<fileset dir="../WDAS AdapterVRep/bin" />
+				<fileset dir="../WDAS Launcher/lib">
+					<include name="bsh-2.0b6.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+
+
+	</target>
+	<!-- javac -> wads /bin
+		target -> cancellare contenuto cartelle bin -->
+	<target name="jar" depends="compile" description="generates java files, compiles and prepares a jar">
+		<jar destfile="../WADS API/wdas_api.jar">
+			<fileset dir="../WADS API/bin">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+		<jar destfile="../WDAS AdapterVRep/wdas_adaptervrep.jar">
+			<fileset dir="../WDAS AdapterVRep/bin">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+		<jar destfile="../WDAS Core/wdas_core.jar">
+			<fileset dir="../WDAS Core/bin">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+		<jar destfile="../WDAS Launcher/wdas_launcher.jar">
+			<fileset dir="../WDAS Launcher/bin">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+	</target>
+
 	<target name="release" depends="build" description="prepares a folder with the latest compiled data">
-		<buildnumber file="build.num"/>
+		<buildnumber file="build.num" />
 		<tstamp>
 			<format property="TODAY" pattern="yyyyMMdd" />
 		</tstamp>
-		<property name="build" value="build${build.number}"/>
-		
-		<mkdir dir="${build}"/>
+		<property name="build" value="build${build.number}" />
+
+		<mkdir dir="${build}" />
 		<copydir src="${target}" dest="${build}" />
-		
-		<mkdir dir="${release}"/>
+
+		<mkdir dir="${release}" />
 		<zip destfile="${release}/${release_name}_${build.number}_${TODAY}.zip">
-			<fileset dir="${build}"/>
+			<fileset dir="${build}" />
 		</zip>
 	</target>
 
 	<target name="clean" description="clean up previous target folder, if available">
 		<delete dir="${target}" />
 	</target>
+
+
+
+
 </project>
