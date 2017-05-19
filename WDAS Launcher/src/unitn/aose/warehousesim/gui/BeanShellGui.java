@@ -27,8 +27,13 @@ public class BeanShellGui {
 	   
 	   
 	   
-	   Label header = new Label();
-	   header.setText("This is just a sample script. The rootScript is always executed at start.");
+	   Label header1 = new Label();
+	   header1.setText("This is just a sample script from the guiscript.bsh file");
+	   Label header2 = new Label();
+	   header2.setText("Feel free to test your scripts here.\n");
+	   Label header3 = new Label();
+	   header3.setText("The file rootScript.bsh is always executed at start up.");
+	   
 	   
 	   TextArea console = new TextArea();
 	   console.setColumns(300);
@@ -75,7 +80,9 @@ public class BeanShellGui {
 
 	   mainFrame.add(console);
 	   Panel buttonsPanel = new Panel();
-	   buttonsPanel.add(header);
+	   buttonsPanel.add(header1);
+	   buttonsPanel.add(header2);
+	   buttonsPanel.add(header3);
 	   buttonsPanel.add(run);
 	   buttonsPanel.add(kill);
 	   buttonsPanel.add(err);

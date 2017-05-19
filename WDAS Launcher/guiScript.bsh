@@ -1,0 +1,52 @@
+//WAREHOUSE TEST1
+import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.AreaState;
+import unitn.aose.warehousesim.api.ITicket;
+import unitn.aose.warehousesim.data.Box;
+import unitn.aose.warehousesim.data.Area;
+import unitn.aose.warehousesim.api.data.Ticket;
+import unitn.aose.warehousesim.data.StorageArea;
+
+System.out.println("> Script debug.bsh");
+
+//setup warehouse
+Box box1 = warehouse.createBox("PickAreaA");
+Box box2 = warehouse.createBox("StorageAreaA1");
+ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
+System.out.println("# "+box1+" created at "+t1);
+System.out.println("# "+box2+" created at StorageAreaA1");
+
+//---- TEST 1 ----
+//start storage procedure
+ITicket ticket = t1.requestDeposit();
+if(null == ticket){
+	System.err.println("! cannot elaborate deposit");
+	return;
+}
+while(ticket.getState()!=Ticket.TICKET_DONE){
+	System.out.println("> waiting for "+box1+" deposit: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
+	ticketManager.waitForTicket(ticket);
+}
+System.out.println("> "+ticket.getCode()+" marked as done");
+a = box1.getArea();
+if(!(a instanceof StorageArea)){
+	System.err.println("! "+box1+" not correctly stored");
+}else{
+	System.out.println("> "+box1+" stored at "+a);
+}
+
+//---- TEST 2 ----
+//start retrieval procedure
+ticket = t1.requestWithdraw(box2);
+//TODO: verify withdraw available
+System.out.println("> waiting for "+box1+" withdraw: tracking number "+ticket.getCode());
+while(ticketManager.getTrackingNumberState(ticket.getCode())!=Ticket.TICKET_DONE){
+	Thread.sleep(500);
+}
+System.out.println("> "+ticket.getCode()+" marked as done");
+a = box1.getArea();
+if(t1 == a){
+	System.err.println("! "+box1+" not in the requested area");
+}else{
+	System.out.println("> "+box1+" ready for withdrawal at "+t1);
+}

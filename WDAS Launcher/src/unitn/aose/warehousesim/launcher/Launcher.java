@@ -40,6 +40,11 @@ public class Launcher {
 	 * the beanshell script file that will be executed on startup
 	 */
 	public static final String SCRIPT_SOURCEFILE = "rootScript.bsh";
+	
+	/**
+	 * the beanshell script file which content will be copied in the gui
+	 */
+	public static final String SCRIPT_GUIFILE = "guiScript.bsh";
 
 	/**
 	 * the beanshell variable used to map the warehouse
@@ -202,7 +207,7 @@ public class Launcher {
 		String rootScript = "";
 		byte[] encoded = new byte[0];
 		try {
-			encoded = Files.readAllBytes(Paths.get("./"+SCRIPT_SOURCEFILE));
+			encoded = Files.readAllBytes(Paths.get("./"+SCRIPT_GUIFILE));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
