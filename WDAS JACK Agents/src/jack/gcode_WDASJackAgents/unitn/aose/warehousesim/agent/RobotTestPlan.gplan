@@ -30,9 +30,9 @@
 	>
     :handled_event
 	<BAPI_FileRef
-	    :name  "StartRobotsEvent"
-	    :filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
-	    :label  "handles StartRobotsEvent"
+	    :name  "TestRobotEvent"
+	    :filename  "unitn/aose/warehousesim/agent/TestRobotEvent.gevent"
+	    :label  "handles TestRobotEvent"
 	    :type  "aos.jack.ed.Event"
 	    :java
 		<BAPI_Java

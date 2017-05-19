@@ -6,8 +6,8 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	>
-    :name  "StartRobotsEvent"
-    :filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
+    :name  "TestRobotEvent"
+    :filename  "unitn/aose/warehousesim/agent/TestRobotEvent.gevent"
     :type  "aos.jack.ed.Event"
     :java
 	<BAPI_Java

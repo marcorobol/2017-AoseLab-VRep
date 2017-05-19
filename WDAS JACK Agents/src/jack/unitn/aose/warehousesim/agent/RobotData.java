@@ -416,7 +416,7 @@ public class RobotData extends Observable {
 	}
 
 	public void loadRight() {
-		robot.loadLeft();
+		robot.loadRight();
 	}
 
 	public void unloadLeft() {

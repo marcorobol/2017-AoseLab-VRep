@@ -135,6 +135,18 @@
 					:list
 					    (
 						<BAPI_Filename
+						    :filename  "unitn/aose/warehousesim/agent/BoxTransferPlan.gplan"
+						    :label  "BoxTransferPlan"
+						    :type  "aos.jack.ed.Plan"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
+						<BAPI_Filename
 						    :filename  "unitn/aose/warehousesim/agent/UpdateRobotInfo.gplan"
 						    :label  "UpdateRobotInfo"
 						    :type  "aos.jack.ed.Plan"
@@ -184,6 +196,18 @@
 					:tag  "ContainerDesc.events"
 					:list
 					    (
+						<BAPI_Filename
+						    :filename  "unitn/aose/warehousesim/agent/TestRobotEvent.gevent"
+						    :label  "TestRobotEvent"
+						    :type  "aos.jack.ed.Event"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
 						<BAPI_Filename
 						    :filename  "unitn/aose/warehousesim/agent/GoToPositionEvent.gevent"
 						    :label  "GoToPositionEvent"
@@ -254,8 +278,20 @@
 					    >
 				    >
 				    <BAPI_Filename
-					:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
-					:label  "StartRobotsEvent"
+					:filename  "unitn/aose/warehousesim/agent/BoxTransferEvent.gevent"
+					:label  "BoxTransferEvent"
+					:type  "aos.jack.ed.Event"
+					:java
+					    <BAPI_Java
+						:pkg
+						    <BAPI_TextLine
+							:val  "unitn.aose.warehousesim.agent"
+						    >
+					    >
+				    >
+				    <BAPI_Filename
+					:filename  "unitn/aose/warehousesim/agent/ResponseEvent.gevent"
+					:label  "ResponseEvent"
 					:type  "aos.jack.ed.Event"
 					:java
 					    <BAPI_Java

@@ -27,6 +27,9 @@
 			:val  "unitn.aose.warehousesim.api.ITellerMachine"
 		    >
 		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.ITicket"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.data.BoxRef"
 		    >
 		    <BAPI_TextLine
@@ -84,9 +87,9 @@
     :posted_events
 	(
 	    <BAPI_FileRef
-		:name  "StartRobotsEvent"
-		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
-		:label  "sends StartRobotsEvent"
+		:name  "BoxTransferEvent"
+		:filename  "unitn/aose/warehousesim/agent/BoxTransferEvent.gevent"
+		:label  "sends BoxTransferEvent"
 		:type  "aos.jack.ed.Event"
 		:java
 		    <BAPI_Java
@@ -96,7 +99,7 @@
 		    >
 		:attrs  "PlanEventList.attrs"
 		:refType  "sends"
-		:refName  "startRobotsEvent"
+		:refName  "transfer"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	)
@@ -201,45 +204,34 @@
     //XXX: maybe this represents the context?
     Cursor rc = areas.getRail($rail, $pos, $right, $storage, ev.areaName, $areaState, $box);
     rc.next();
-    dataLog.log("1 coordinates found");
     
     //2. find nearest (?) robot on such rail
     logical String $agent;
     logical int $status;
     Cursor ac = agents.getAgents($agent, $status, $rail.as_string());
     ac.next();
-    dataLog.log("2 agent found");
-    //TODO: find an available and coordinate with other agents
-    //FIXME: how to know agent position on rail?
+    //TODO: bid the best agent to use
     
     //3. find nearest available storage area
     String depositArea = areas.getNearestFreeStorageArea($rail.as_string(), $pos.as_int());
     null!=depositArea; //assert depostArea not null
-    logical String $depoRail;
     logical int $depoPos;
     logical boolean $depoRight;
     logical boolean $depoStorage;
     logical int $depoState;
     logical String $depoBox;
-    Cursor dc = areas.getRail($depoRail, $depoPos, $depoRight, $depoStorage, depositArea, $depoState, $depoBox);
+		//let's use the same $rail got from the initial query
+    Cursor dc = areas.getRail($rail, $depoPos, $depoRight, $depoStorage, depositArea, $depoState, $depoBox);
     dc.next();
     
     //4. send goal to robot to load from tellermachine and unload into storage
     dataLog.log("agent "+$agent.as_string()+" to pickup from "+$rail.as_string()+"@"+$pos.as_int()+($right.as_boolean()?"right":"left")+" and deposit at "+depositArea);
-   
-    //send goal to robots
-    /*
-    Iterator it = ev.robotAgents.iterator();
-    while(it.hasNext()){
-        IRobotAgent a = (IRobotAgent)it.next();
-        agents.add(a.name(), 1); //booking the agent
-        StartRobotsEvent start = startRobotsEvent.start();
-        @send(a.name(), start);
-        dataLog.log("waiting for "+a.name()+" to finish...");
-        //@wait_for(start.replied());
-    }
-    */
-    
+
+    BoxTransferEvent t = transfer.transfer($pos.as_int(), $right.as_boolean(), $depoPos.as_int(), $depoRight.as_boolean());
+    @send($agent.as_string(), t);
+    @wait_for(t.replied());
+    ResponseEvent r = (ResponseEvent) t.getReply();
+    dataLog.log("command completed with response: "+r.message);
 }
 `
 	    >
@@ -251,9 +243,11 @@
 `
 	    >
 	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
-		:lab  "success"
-		:val  `success(){
-    dataLog.log("SUCCESS: deposit completed");           
+		:lab  "pass"
+		:val  `pass(){
+    dataLog.log("SUCCESS: deposit completed");
+    ITicket ticket = myWarehouse.getWarehouse().getTicketManager().getTicketByCode(ev.ticketCode);
+    ticket.setState(ITicket.TICKET_DONE);
 }
 `
 	    >

@@ -84,9 +84,9 @@
     :posted_events
 	(
 	    <BAPI_FileRef
-		:name  "StartRobotsEvent"
-		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
-		:label  "sends StartRobotsEvent"
+		:name  "BoxTransferEvent"
+		:filename  "unitn/aose/warehousesim/agent/BoxTransferEvent.gevent"
+		:label  "sends BoxTransferEvent"
 		:type  "aos.jack.ed.Event"
 		:java
 		    <BAPI_Java
@@ -96,7 +96,7 @@
 		    >
 		:attrs  "PlanEventList.attrs"
 		:refType  "sends"
-		:refName  "startRobotsEvent"
+		:refName  "transfer"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	)
@@ -191,18 +191,7 @@
 {   
     dataLog.log("handling withdraw request "+ev.ticketCode+" for box "+ev.boxName+" at "+ev.areaName);
     
-    //send goal to robots
-    /*
-    Iterator it = ev.robotAgents.iterator();
-    while(it.hasNext()){
-        IRobotAgent a = (IRobotAgent)it.next();
-        agents.add(a.name(), 1); //booking the agent
-        StartRobotsEvent start = startRobotsEvent.start();
-        @send(a.name(), start);
-        dataLog.log("waiting for "+a.name()+" to finish...");
-        //@wait_for(start.replied());
-    }
-    */
+    
 }
 `
 	    >

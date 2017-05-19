@@ -24,10 +24,10 @@
 			:val  "java.util.Iterator"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.IWarehouseMonitor"
+			:val  "unitn.aose.warehousesim.api.AreaState"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.AreaState"
+			:val  "unitn.aose.warehousesim.api.IWarehouseMonitor"
 		    >
 		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.data.AreaRef"
@@ -102,7 +102,7 @@
 		    >
 		:attrs  "PlanEventList.attrs"
 		:refType  "posts"
-		:refName  "ev1"
+		:refName  "areaMonitor"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	)
@@ -237,7 +237,7 @@
     int areaState = RobotData.getAreaState((AreaState)a.getState().get());
     areas.add(r.getName(), pos, isRight, isStorage, a.getName(), areaState, bname);
     //start monitoring the area so that when the areastate change, the belief is updated
-    agent.postEvent(ev1.monitor(r.getName(), pos, isRight, a.getName()));
+    agent.postEvent(areaMonitor.monitor(r.getName(), pos, isRight, a.getName()));
 }
 `
 	    >
