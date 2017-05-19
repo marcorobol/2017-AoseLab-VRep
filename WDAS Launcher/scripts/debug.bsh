@@ -35,4 +35,18 @@ if(!(a instanceof StorageArea)){
 	System.out.println("> "+box1+" stored at "+a);
 }
 
-
+//---- TEST 2 ----
+//start retrieval procedure
+ticket = t1.requestWithdraw(box2);
+//TODO: verify withdraw available
+System.out.println("> waiting for "+box1+" withdraw: tracking number "+ticket.getCode());
+while(ticketManager.getTrackingNumberState(ticket.getCode())!=Ticket.TICKET_DONE){
+	Thread.sleep(500);
+}
+System.out.println("> "+ticket.getCode()+" marked as done");
+a = box1.getArea();
+if(t1 == a){
+	System.err.println("! "+box1+" not in the requested area");
+}else{
+	System.out.println("> "+box1+" ready for withdrawal at "+t1);
+}
