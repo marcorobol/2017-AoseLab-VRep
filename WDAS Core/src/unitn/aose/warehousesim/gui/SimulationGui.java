@@ -1,4 +1,4 @@
-package unitn.aose.warehousesim.simulator;
+package unitn.aose.warehousesim.gui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import unitn.aose.warehousesim.api.IListener;
 import unitn.aose.warehousesim.api.IWarehouse;
 import unitn.aose.warehousesim.api.SimulationState;
+import unitn.aose.warehousesim.simulator.IAdapter;
 
 public class SimulationGui {
 
@@ -19,7 +20,7 @@ public class SimulationGui {
    public SimulationGui(IAdapter adapter, IWarehouse warehouse){
 	   this.adapter = adapter;
 	   this.warehouse = warehouse;
-	   mainFrame = new Frame("Warehouse Agent GUI");
+	   mainFrame = new Frame("Simulation GUI");
 	   mainFrame.setSize(500,100);
 	   mainFrame.setLayout(new FlowLayout());
 	   mainFrame.addWindowListener(new WindowAdapter() {

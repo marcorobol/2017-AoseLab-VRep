@@ -20,12 +20,12 @@ import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationThree;
 import unitn.aose.warehousesim.configuration.IConfigurator;
-import unitn.aose.warehousesim.gui.AgentGui;
+import unitn.aose.warehousesim.gui.RobotGui;
 import unitn.aose.warehousesim.gui.RobotAgentGui;
+import unitn.aose.warehousesim.gui.SimulationGui;
 import unitn.aose.warehousesim.gui.TellerMachineGui;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
 import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
-import unitn.aose.warehousesim.simulator.SimulationGui;
 import unitn.aose.warehousesim.simulator.Warehouse;
 import bsh.Interpreter;
 import coppelia.remoteApi;
@@ -152,7 +152,7 @@ public class Launcher {
 		for (CartRef c : warehouse.getCarts())
 			robotList.add(warehouse.getRobot(c));
 		// new Thread(new AgentJava(robotList)).start();
-		new AgentGui(robotList);
+		new RobotGui(robotList);
 		new RobotAgentGui(agentsList);
 
 		/*

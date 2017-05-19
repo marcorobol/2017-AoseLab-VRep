@@ -1,6 +1,7 @@
 package unitn.aose.warehousesim.gui;
 
 import java.awt.Button;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -34,8 +35,8 @@ public class TellerMachineGui {
 	   Logger.out.println("starting teller machine gui with "+machineList.size()+" machines");
 	   this.machineList = machineList;
 	   this.warehouse = warehouse;
-	   mainFrame = new Frame("Warehouse Agent GUI");
-	   mainFrame.setSize(600,600);
+	   mainFrame = new Frame("TellerMachine GUI");
+	   mainFrame.setSize(800,600);
 	   mainFrame.setLayout(new GridLayout(machineList.size(), 1));
 	   mainFrame.addWindowListener(new WindowAdapter() {
 		   public void windowClosing(WindowEvent windowEvent){
@@ -52,7 +53,6 @@ public class TellerMachineGui {
 //	   mainFrame.add(headerLabel);
 	   for(ITellerMachine r : machineList)
 		   mainFrame.add(createMachinePanel(r));
-//	   mainFrame.add(statusLabel);
 	   mainFrame.setVisible(true);
    }
    
@@ -64,15 +64,22 @@ public class TellerMachineGui {
 	   Label name = new Label();
 	   name.setText(m.getName());
 	   
-	   Label state = new Label();
+	   TextField state = new TextField();
+	   state.setColumns(15);
+	   state.setEditable(false);
 	   state.setText(m.getState().get().name());
-	   Label requestedBox = new Label();
-	   Label ticket = new Label();
+	   TextField requestedBox = new TextField();
+	   requestedBox.setColumns(8);
+	   requestedBox.setEditable(false);
+	   TextField ticket = new TextField();
+	   ticket.setColumns(3);
+	   ticket.setEditable(false);
 	   m.getState().registerListener(new IListener<AreaState>() {
     	  public void notifyChanged(AreaState value) {
     		  state.setText(value.name());
     		  ticket.setText((m.getGeneratedTicket()!=null?m.getGeneratedTicket().getCode():"no ticket"));
     		  requestedBox.setText((m.getGeneratedTicket()!=null?m.getGeneratedTicket().getBox().getName():"no ticket"));
+    		  controlPanel.validate();
     	  }
 	   });
 	   
@@ -119,8 +126,6 @@ public class TellerMachineGui {
 	   controlPanel.add(deposit);
 	   controlPanel.add(withdraw);
 	   controlPanel.add(boxName);
-	   
-	   mainFrame.setVisible(true);
       
 	   return controlPanel;
 	}

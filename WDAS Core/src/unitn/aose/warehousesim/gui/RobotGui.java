@@ -11,7 +11,7 @@ import unitn.aose.warehousesim.api.LoadUnloadState;
 import unitn.aose.warehousesim.api.MovementState;
 import unitn.aose.warehousesim.api.data.AreaRef;
 
-public class AgentGui {
+public class RobotGui {
 
    private Frame mainFrame;
 //   private Label headerLabel;
@@ -21,10 +21,10 @@ public class AgentGui {
    
    
    
-   public AgentGui(List<IRobot> robotList){
+   public RobotGui(List<IRobot> robotList){
 	   this.robotList = robotList;
-	   mainFrame = new Frame("Warehouse Agent GUI");
-	   mainFrame.setSize(1200,400);
+	   mainFrame = new Frame("Robot GUI");
+	   mainFrame.setSize(1300,400);
 	   mainFrame.setLayout(new GridLayout(robotList.size(), 1));
 	   mainFrame.addWindowListener(new WindowAdapter() {
 		   public void windowClosing(WindowEvent windowEvent){
@@ -53,7 +53,9 @@ public class AgentGui {
 	   Label name = new Label();
 	   name.setText(robot.getName());
 	   
-	   Label movement = new Label();
+	   TextField movement = new TextField();
+	   movement.setColumns(10);
+	   movement.setEditable(false);
 	   movement.setText(robot.getMovement().get().name());
 	   robot.getMovement().registerListener(new IListener<MovementState>() {
     	  public void notifyChanged(MovementState value) {
@@ -61,7 +63,9 @@ public class AgentGui {
     	  }
 	   });
 	   
-	   Label position = new Label();
+	   TextField position = new TextField();
+	   position.setColumns(12);
+	   position.setEditable(false);
 	   position.setText("Position:    ");
 	   robot.getPosition().registerListener(new IListener<Integer>() {
     	  public void notifyChanged(Integer pos) {
@@ -69,7 +73,9 @@ public class AgentGui {
     	  }
 	   });
 	   
-	   Label loadUnload = new Label();
+	   TextField loadUnload = new TextField();
+	   loadUnload.setColumns(10);
+	   loadUnload.setEditable(false);
 	   loadUnload.setText(robot.getLoadUnload().get().name());
 	   robot.getLoadUnload().registerListener(new IListener<LoadUnloadState>() {
     	  public void notifyChanged(LoadUnloadState value) {
@@ -98,7 +104,9 @@ public class AgentGui {
 		   }
 	   });
 	   
-	   Label areaLeft = new Label();
+	   TextField areaLeft = new TextField();
+	   areaLeft.setColumns(8);
+	   areaLeft.setEditable(false);
 	   areaLeft.setText("left:         ");
 	   robot.getAreaOnLeft().registerListener(new IListener<AreaRef>() {
     	  public void notifyChanged(AreaRef value) {
@@ -107,7 +115,9 @@ public class AgentGui {
     	  }
 	   });
 	   
-	   Label areaRight = new Label();
+	   TextField areaRight = new TextField();
+	   areaRight.setColumns(8);
+	   areaRight.setEditable(false);
 	   areaRight.setText("right:         ");
 	   robot.getAreaOnRight().registerListener(new IListener<AreaRef>() {
     	  public void notifyChanged(AreaRef value) {
@@ -144,7 +154,9 @@ public class AgentGui {
 		   }
 	   });
 	   
-	   Label cross = new Label();
+	   TextField cross = new TextField();
+	   cross.setColumns(10);
+	   cross.setEditable(false);
 	   cross.setText("Cross:               ");
 	   robot.getCrossHere().registerListener(new IListener<ICross>() {
 		   public void notifyChanged(ICross value) {
