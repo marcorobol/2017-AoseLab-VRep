@@ -7,7 +7,7 @@ import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.data.StorageArea;
 
-System.out.println("> Script test1.bsh");
+System.out.println("> Script debug.bsh");
 
 //setup warehouse
 Box box1 = warehouse.createBox("PickAreaA");

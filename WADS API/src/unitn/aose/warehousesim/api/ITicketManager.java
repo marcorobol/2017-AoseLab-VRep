@@ -11,9 +11,10 @@ public interface ITicketManager {
 	
 	/**
 	 * This blocking call will wait for the ticket to change value
-	 * @param ticket
-	 * @throws InterruptedException
+	 * @param ticket the ticket to monitor
+	 * @param maxMillis how long to wait for the ticket
+	 * @throws InterruptedException if this thread has been marked as interrupted
 	 */
-	void waitForTicket(Ticket ticket) throws InterruptedException;
+	void waitForTicket(Ticket ticket, long maxMillis) throws InterruptedException;
 
 }

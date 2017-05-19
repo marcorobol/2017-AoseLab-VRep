@@ -1,4 +1,4 @@
 //waiting for
 Thread.sleep(500);
 //loading external script
-source("./scripts/test1.bsh");
+source("./scripts/test2.bsh");

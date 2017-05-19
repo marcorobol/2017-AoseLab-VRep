@@ -1,0 +1,22 @@
+//WAREHOUSE TEST1
+import unitn.aose.warehousesim.api.ITellerMachine;
+import unitn.aose.warehousesim.api.AreaState;
+import unitn.aose.warehousesim.api.ITicket;
+import unitn.aose.warehousesim.data.Box;
+import unitn.aose.warehousesim.data.Area;
+import unitn.aose.warehousesim.api.data.Ticket;
+import unitn.aose.warehousesim.data.StorageArea;
+
+System.out.println("> Script test3.bsh");
+
+//setup warehouse
+Box box1 = warehouse.createBox("PickAreaA");
+Box box2 = warehouse.createBox("StorageAreaA1");
+ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
+System.out.println("# "+box1+" created at "+t1);
+System.out.println("# "+box2+" created at StorageAreaA1");
+
+//---- TEST 3 ----
+
+
+
