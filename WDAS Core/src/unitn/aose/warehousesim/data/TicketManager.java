@@ -53,7 +53,7 @@ public class TicketManager implements ITicketManager {
 	 * @param ticket
 	 * @throws InterruptedException
 	 */
-	public void waitForTicket(Ticket ticket) throws InterruptedException{
+	public void waitForTicket(Ticket ticket, long maxMillis) throws InterruptedException{
 		synchronized(ticket){
 			Observer o = new Observer() {
 				public void update(Observable o, Object arg) {
@@ -64,7 +64,7 @@ public class TicketManager implements ITicketManager {
 			};
 			ticket.addObserver(o);
 			try{
-				ticket.wait();
+				ticket.wait(maxMillis);
 			}catch(InterruptedException e){
 				throw e;
 			} finally {
