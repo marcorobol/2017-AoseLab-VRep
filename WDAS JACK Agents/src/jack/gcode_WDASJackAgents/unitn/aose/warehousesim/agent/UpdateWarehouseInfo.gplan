@@ -27,6 +27,9 @@
 			:val  "unitn.aose.warehousesim.api.IWarehouseMonitor"
 		    >
 		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.AreaState"
+		    >
+		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.data.AreaRef"
 		    >
 		    <BAPI_TextLine
@@ -177,20 +180,20 @@
 		:val  `body()
 {
     IWarehouseMonitor w = myWarehouse.getWarehouse();
-    dataLog.log("updating warehouse info from "+w+"...");
+    //dataLog.log("updating warehouse info from "+w+"...");
     
     //loading areas of all the rails
     Iterator it = w.getRails().iterator();
     while(it.hasNext()){
         RailRef r = (RailRef)it.next();
-        dataLog.log("loading rail: "+r.getName());
+        //dataLog.log("loading rail: "+r.getName());
         
         //get cross positions for this rail
         Integer[] crossePositions = r.getCrossPositions();
         for(int i=0; i<crossePositions.length; ++i){
             int p = crossePositions[i].intValue();
             RailRef crossedRail = r.getCrossedRailAt(p);
-            dataLog.log("cross at "+p+": "+crossedRail.getName());
+            //dataLog.log("cross at "+p+": "+crossedRail.getName());
             crosses.add(r.getName(), p, crossedRail.getName());
         }
         
@@ -214,8 +217,8 @@
         }
     }
     
-    checkSharedAreas();
-    checkCrosses();
+    //checkSharedAreas();
+    //checkCrosses();
     dataLog.log("warehouse info updated!");
 }
 `
@@ -224,14 +227,15 @@
 		:lab  "addArea"
 		:val  `addArea(IWarehouseMonitor w, RailRef r, int pos, boolean isRight){
     AreaRef a = isRight?r.getRightAreaIn(pos):r.getLeftAreaIn(pos);
-    dataLog.log("right area at "+pos+": "+a.getName());
+    //dataLog.log("right area at "+pos+": "+a.getName());
     boolean isStorage = w.isAStorageArea(a);
     BoxRef b = a.getBox();
     String bname = null;
     if(null!=b){
         bname = b.getName();
     }
-    areas.add(r.getName(), pos, isRight, isStorage, a.getName(), RobotData.AS_UNKNOWN, bname);
+    int areaState = RobotData.getAreaState((AreaState)a.getState().get());
+    areas.add(r.getName(), pos, isRight, isStorage, a.getName(), areaState, bname);
     //start monitoring the area so that when the areastate change, the belief is updated
     agent.postEvent(ev1.monitor(r.getName(), pos, isRight, a.getName()));
 }

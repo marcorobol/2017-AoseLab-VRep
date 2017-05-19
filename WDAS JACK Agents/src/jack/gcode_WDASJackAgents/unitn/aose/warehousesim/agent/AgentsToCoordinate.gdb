@@ -54,7 +54,7 @@
 		    )
 	    >
 	    <BAPI_DBQuery
-		:name  "get"
+		:name  "getRail"
 		:logicals
 		    (
 			<BAPI_InternalRef
@@ -68,7 +68,7 @@
 		    )
 	    >
 	    <BAPI_DBQuery
-		:name  "get"
+		:name  "getAgents"
 		:logicals
 		    (
 			<BAPI_InternalRef

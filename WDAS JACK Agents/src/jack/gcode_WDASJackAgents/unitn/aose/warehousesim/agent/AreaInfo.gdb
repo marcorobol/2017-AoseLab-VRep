@@ -214,6 +214,28 @@
 		    )
 	    >
 	    <BAPI_DBQuery
+		:name  "getAreas"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&4 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&6 >
+			>
+		    )
+	    >
+	    <BAPI_DBQuery
 		:name  "getArea"
 		:logicals
 		    (
@@ -320,6 +342,38 @@
     boolean isStorage = true;
     logical String _$box;
     return getAreas(rail, _$position, _$right, isStorage, $area, _$areaState, _$box);
+}
+`
+			:isLabelEditable  :false
+		    >
+	    >
+	    <BAPI_ViewQuery
+		:name  "getNearestFreeStorageArea"
+		:type  :function
+		:definition
+		    <BAPI_Text
+			:lab  "getNearestFreeStorageArea"
+			:val  `String getNearestFreeStorageArea(String rail, int position){
+    String nearestArea = null; //the area name to return
+    logical int $position;
+    logical boolean $right;
+    boolean isStorage = true; //for the sake of clarity
+    logical String $area;
+    logical String $box;
+    Cursor c = getAreas(rail, $position, $right, isStorage, $area, RobotData.AS_FREE, $box);
+    int mindp = 15; //hardcoded max distance on the rail
+    while(c.next()){
+        int dp = position - $position.as_int();
+        if(dp<0) dp = -dp; //we need to keep the absolute value of distance
+        if(dp < mindp){
+            //if the area distance is less than the previously set min distance...
+            mindp = dp;
+            //set the new min distance and save the area name
+            nearestArea = $area.as_string();
+        }
+    }
+    //if no free areas are available, this will return null
+    return nearestArea;
 }
 `
 			:isLabelEditable  :false

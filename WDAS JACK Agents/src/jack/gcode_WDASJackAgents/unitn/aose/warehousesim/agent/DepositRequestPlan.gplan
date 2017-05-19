@@ -190,6 +190,42 @@
 		:val  `body()
 {   
     dataLog.log("handling deposit request "+ev.ticketCode+" for box "+ev.boxName+" from "+ev.areaName);
+    
+    //1. find coordinates (rail, position and side) the area is on
+    logical String $rail;
+    logical int $pos;
+    logical boolean $right;
+    logical boolean $storage;
+    logical int $areaState;
+    logical String $box;
+    //XXX: maybe this represents the context?
+    Cursor rc = areas.getRail($rail, $pos, $right, $storage, ev.areaName, $areaState, $box);
+    rc.next();
+    dataLog.log("1 coordinates found");
+    
+    //2. find nearest (?) robot on such rail
+    logical String $agent;
+    logical int $status;
+    Cursor ac = agents.getAgents($agent, $status, $rail.as_string());
+    ac.next();
+    dataLog.log("2 agent found");
+    //TODO: find an available and coordinate with other agents
+    //FIXME: how to know agent position on rail?
+    
+    //3. find nearest available storage area
+    String depositArea = areas.getNearestFreeStorageArea($rail.as_string(), $pos.as_int());
+    null!=depositArea; //assert depostArea not null
+    logical String $depoRail;
+    logical int $depoPos;
+    logical boolean $depoRight;
+    logical boolean $depoStorage;
+    logical int $depoState;
+    logical String $depoBox;
+    Cursor dc = areas.getRail($depoRail, $depoPos, $depoRight, $depoStorage, depositArea, $depoState, $depoBox);
+    dc.next();
+    
+    //4. send goal to robot to load from tellermachine and unload into storage
+    dataLog.log("agent "+$agent.as_string()+" to pickup from "+$rail.as_string()+"@"+$pos.as_int()+($right.as_boolean()?"right":"left")+" and deposit at "+depositArea);
    
     //send goal to robots
     /*
@@ -204,6 +240,20 @@
     }
     */
     
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "fail"
+		:val  `fail(){
+    dataLog.log("FAIL: unable to deposit!");   
+}
+`
+	    >
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "success"
+		:val  `success(){
+    dataLog.log("SUCCESS: deposit completed");           
 }
 `
 	    >

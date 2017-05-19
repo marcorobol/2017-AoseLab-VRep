@@ -81,7 +81,7 @@ public class Cart implements CartRef, IRobot {
 
 				crossBehind.set( getRail().getCrosses().get(pos-1) );
 				crossHere.set( getRail().getCrosses().get(pos) );
-				Logger.out.println(name + " @ " + pos + " : Ahead " + crossAhead.get() + " Behind: " + crossBehind.get() + " Here: " + crossHere.get());
+				//Logger.out.println(name + " @ " + pos + " : Ahead " + crossAhead.get() + " Behind: " + crossBehind.get() + " Here: " + crossHere.get());
 				/*
 				 * Update perceptions
 				 */
