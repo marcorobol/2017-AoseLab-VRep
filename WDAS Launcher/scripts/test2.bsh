@@ -7,39 +7,39 @@ import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.data.StorageArea;
 
-System.out.println("> Script test1.bsh");
-
-final String tellerMachine = "PickAreaD";
-final String storageArea = "StorageAreaA1";
-final long timeout = 30000; //ms
+System.out.println("> Script test2.bsh");
 
 //setup warehouse
-Box box1 = warehouse.createBox(tellerMachine);
-Box box2 = warehouse.createBox(storageArea);
-ITellerMachine t1 = warehouse.getTellerMachine(tellerMachine);
-System.out.println("# "+box1+" created at "+t1);
-System.out.println("# "+box2+" created at "+storageArea);
+Box box1 = warehouse.createBox("StorageAreaA1");
 
+ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
 
-//---- TEST 1 ----
-//start storage procedure
-ITicket ticket = t1.requestDeposit();
+System.out.println("# "+box1+" created at StorageAreaA1");
+
+//---- TEST 2 ----
+ticket = t1.requestWithdraw(box1); //bring the box1 
+
 if(null == ticket){
 	System.err.println("! cannot elaborate deposit");
 	return;
 }
-System.out.println("> waiting for "+box1+" deposit: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
-ticketManager.waitForTicket(ticket, timeout);
+
+System.out.println("> waiting for "+box1+" withdraw: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
+ticketManager.waitForTicket(ticket, 20000); //wait 20 seconds
 if(ticket.getState()!=Ticket.TICKET_DONE){
 	System.err.println("! ticket expired and not done");
 	return;
 }
 
-// final verification
 System.out.println("> "+ticket.getCode()+" marked as done");
 a = box1.getArea();
-if(!warehouse.isAStorageArea(a)){
+if(!(a instanceof StorageArea)){
 	System.err.println("! "+box1+" not correctly stored");
 }else{
 	System.out.println("> "+box1+" stored at "+a);
 }
+
+
+
+
+

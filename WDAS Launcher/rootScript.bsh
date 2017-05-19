@@ -1,4 +1,3 @@
-
 //the test to run
 final String TEST = "./scripts/test1.bsh"; 
 

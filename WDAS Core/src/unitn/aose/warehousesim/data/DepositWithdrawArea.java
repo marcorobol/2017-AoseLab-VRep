@@ -1,7 +1,5 @@
 package unitn.aose.warehousesim.data;
 
-import java.util.Observable;
-
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.ITicket;
@@ -38,7 +36,6 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 				 */
 				ticket = warehouse.getTicketManager().getNewTicket(getBox(), true);
 				getState().set(AreaState.elaboratingDeposit);
-				areaMonitor.setChanged();
 			}
 		}
 		return ticket;
@@ -57,7 +54,6 @@ public class DepositWithdrawArea extends Area implements DepositWithdrawAreaRef,
 				 */
 				ticket = warehouse.getTicketManager().getNewTicket(box, false);
 				getState().set(AreaState.elaboratingWithdraw);
-				areaMonitor.setChanged();
 			}
 		}
 		return ticket;

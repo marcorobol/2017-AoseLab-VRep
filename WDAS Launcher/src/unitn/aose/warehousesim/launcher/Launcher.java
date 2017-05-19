@@ -1,5 +1,8 @@
 package unitn.aose.warehousesim.launcher;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -20,12 +23,13 @@ import unitn.aose.warehousesim.api.data.CartRef;
 import unitn.aose.warehousesim.api.data.DepositWithdrawAreaRef;
 import unitn.aose.warehousesim.configuration.ConfigurationThree;
 import unitn.aose.warehousesim.configuration.IConfigurator;
-import unitn.aose.warehousesim.gui.AgentGui;
+import unitn.aose.warehousesim.gui.BeanShellGui;
+import unitn.aose.warehousesim.gui.RobotGui;
 import unitn.aose.warehousesim.gui.RobotAgentGui;
+import unitn.aose.warehousesim.gui.SimulationGui;
 import unitn.aose.warehousesim.gui.TellerMachineGui;
 import unitn.aose.warehousesim.simulator.AdapterSyncronousTriggeringCycle;
 import unitn.aose.warehousesim.simulator.AdapterUpdateCycle;
-import unitn.aose.warehousesim.simulator.SimulationGui;
 import unitn.aose.warehousesim.simulator.Warehouse;
 import bsh.Interpreter;
 import coppelia.remoteApi;
@@ -144,7 +148,9 @@ public class Launcher {
 //				break;
 //			}
 //		}
-
+		
+		
+		
 		/*
 		 * Agents Gui
 		 */
@@ -152,26 +158,36 @@ public class Launcher {
 		for (CartRef c : warehouse.getCarts())
 			robotList.add(warehouse.getRobot(c));
 		// new Thread(new AgentJava(robotList)).start();
-		new AgentGui(robotList);
+		new RobotGui(robotList);
 		new RobotAgentGui(agentsList);
-
+		
+		
+		
 		/*
-		 * Beanshell
+		 * Beanshell interpreter
+		 */
+		Interpreter i = new Interpreter();
+		try {
+			for (IRobotAgent robot : agentsList) { // foreach robot
+				i.set(robot.getRobot().getName(), robot);
+			}
+			for (DepositWithdrawAreaRef area : warehouse.getDepositWithdrawAreas()) { // foreach robot
+				ITellerMachine tellerMachine = warehouse.getTellerMachine(area);
+				i.set(tellerMachine.getName(), tellerMachine);
+			}
+			i.set(VAR_WAREHOUSE, warehouse);
+			i.set(VAR_COORDINATOR, coordinator);
+			i.set(VAR_TICKETMANAGER, warehouse.getTicketManager());
+		} catch (Exception e) {
+			Logger.err.println("ERROR: " + e);
+		}
+		
+		/*
+		 * Beanshell start root script
 		 */
 		Thread beanShellThread = new Thread("beanshell") {
 			public void run() {
-				Interpreter i = new Interpreter();
 				try {
-					for (IRobotAgent robot : agentsList) { // foreach robot
-						i.set(robot.getRobot().getName(), robot);
-					}
-					for (DepositWithdrawAreaRef area : warehouse.getDepositWithdrawAreas()) { // foreach robot
-						ITellerMachine tellerMachine = warehouse.getTellerMachine(area);
-						i.set(tellerMachine.getName(), tellerMachine);
-					}
-					i.set(VAR_WAREHOUSE, warehouse);
-					i.set(VAR_COORDINATOR, coordinator);
-					i.set(VAR_TICKETMANAGER, warehouse.getTicketManager());
 					i.source(SCRIPT_SOURCEFILE);
 				} catch (Exception e) {
 					Logger.err.println("ERROR: " + e);
@@ -179,7 +195,22 @@ public class Launcher {
 			}
 		};
 		beanShellThread.start();
-
+		
+		/*
+		 * BeanshellGui
+		 */
+		String rootScript = "";
+		byte[] encoded = new byte[0];
+		try {
+			encoded = Files.readAllBytes(Paths.get("./"+SCRIPT_SOURCEFILE));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		rootScript = new String(encoded);
+		new BeanShellGui(i, rootScript);
+		
+		
+		
 		/*
 		 * TellerMachinesGui
 		 */
@@ -188,12 +219,16 @@ public class Launcher {
 			machineList.add(warehouse.getTellerMachine(a));
 		}
 		new TellerMachineGui(machineList, warehouse);
-
+		
+		
+		
 		/*
 		 * SimulationGui
 		 */
 		new SimulationGui(adapter, warehouse);
 
+		
+		
 		/*
 		 * Update and triggering cycles
 		 */
@@ -205,6 +240,10 @@ public class Launcher {
 		Thread astcThread = new Thread(new AdapterSyncronousTriggeringCycle(adapter, warehouse));
 		astcThread.setName("AdapterSyncronousTriggeringCycle");
 		astcThread.start();
+	}
+	
+	private void populateJavaBeanInterpreter(Interpreter i) {
+		
 	}
 
 }
