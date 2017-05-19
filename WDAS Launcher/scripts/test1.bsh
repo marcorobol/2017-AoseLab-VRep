@@ -23,10 +23,13 @@ if(null == ticket){
 	System.err.println("! cannot elaborate deposit");
 	return;
 }
-while(ticket.getState()!=Ticket.TICKET_DONE){
-	System.out.println("> waiting for "+box1+" deposit: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
-	ticketManager.waitForTicket(ticket);
+System.out.println("> waiting for "+box1+" deposit: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
+ticketManager.waitForTicket(ticket, 20000);
+if(ticket.getState()!=Ticket.TICKET_DONE){
+	System.err.println("! ticket expired and not done");
+	return;
 }
+
 System.out.println("> "+ticket.getCode()+" marked as done");
 a = box1.getArea();
 if(!(a instanceof StorageArea)){
