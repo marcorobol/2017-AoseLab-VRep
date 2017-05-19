@@ -11,6 +11,8 @@ import unitn.aose.warehousesim.api.data.StorageAreaRef;
 
 public interface IWarehouseMonitor {
 
+	ITicketManager getTicketManager();
+	
 	Set<StorageAreaRef> getStorageAreas();
 	
 	Set<DepositWithdrawAreaRef> getDepositWithdrawAreas();

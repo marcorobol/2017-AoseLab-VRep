@@ -69,9 +69,8 @@
 	    :lab  "Context"
 	    :val  `context()
 {
-    //quando il robot non Ã¨ gia nella posizione data
-    robotInfo.getPosition($pos) && $pos.as_int() != ev.position 
-        || robotInfo.getMovement($ms) && $ms.as_int() !=  RobotData.MS_STOP;
+    //quando il robot non è gia nella posizione data
+    robotInfo.getPosition($pos);
 }
 `
 	    :init  `context()

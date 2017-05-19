@@ -1,0 +1,54 @@
+<BAPI_Event
+    :version  52
+    :superclass  "MessageEvent"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+* Request an agent to move a box from a position to another
+*/`
+	>
+    :name  "BoxTransferEvent"
+    :filename  "unitn/aose/warehousesim/agent/BoxTransferEvent.gevent"
+    :type  "aos.jack.ed.Event"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :evfields
+	(
+	    <BAPI_EventField
+		:name  "fromPosition"
+		:type  "int"
+	    >
+	    <BAPI_EventField
+		:name  "fromRight"
+		:type  "boolean"
+	    >
+	    <BAPI_EventField
+		:name  "toPosition"
+		:type  "int"
+	    >
+	    <BAPI_EventField
+		:name  "toRight"
+		:type  "boolean"
+	    >
+	)
+    :evconstr
+	(
+	    <BAPI_Text
+		:lab  "transfer"
+		:val  `transfer(int fromPosition, boolean fromRight, int toPosition, boolean toRight){
+    this.fromPosition = fromPosition;
+    this.fromRight = fromRight;
+    this.toPosition = toPosition;
+    this.toRight = toRight;
+}
+`
+	    >
+	)
+>

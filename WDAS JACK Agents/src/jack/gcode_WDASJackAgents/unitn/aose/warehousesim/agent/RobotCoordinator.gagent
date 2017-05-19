@@ -172,6 +172,22 @@
     :events
 	(
 	    <BAPI_FileRef
+		:name  "BoxTransferEvent"
+		:filename  "unitn/aose/warehousesim/agent/BoxTransferEvent.gevent"
+		:label  "sends BoxTransferEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "NamedEventList.attrs"
+		:refType  "sends"
+		:refName  "ev2"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	    <BAPI_FileRef
 		:name  "AreaMonitorEvent"
 		:filename  "unitn/aose/warehousesim/agent/AreaMonitorEvent.gevent"
 		:label  "posts AreaMonitorEvent"
@@ -235,22 +251,6 @@
 		:refType  "handles"
 		:hasName  :false
 		:refName  "ev"
-		:dropHandlerName  "NamedEvent.drop"
-	    >
-	    <BAPI_FileRef
-		:name  "StartRobotsEvent"
-		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
-		:label  "sends StartRobotsEvent"
-		:type  "aos.jack.ed.Event"
-		:java
-		    <BAPI_Java
-			:pkg
-			    <BAPI_TextLine
-			    >
-		    >
-		:attrs  "NamedEventList.attrs"
-		:refType  "sends"
-		:refName  "startRobotsEvent"
 		:dropHandlerName  "NamedEvent.drop"
 	    >
 	    <BAPI_FileRef

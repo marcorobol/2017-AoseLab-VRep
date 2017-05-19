@@ -1,0 +1,38 @@
+<BAPI_Event
+    :version  52
+    :superclass  "MessageEvent"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+* Sent from a controller in response to a command
+**/`
+	>
+    :name  "ResponseEvent"
+    :filename  "unitn/aose/warehousesim/agent/ResponseEvent.gevent"
+    :type  "aos.jack.ed.Event"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :evfields
+	(
+	    <BAPI_EventField
+		:name  "message"
+	    >
+	)
+    :evconstr
+	(
+	    <BAPI_Text
+		:lab  "response"
+		:val  `response(String message){
+    this.message = message;
+}
+`
+	    >
+	)
+>

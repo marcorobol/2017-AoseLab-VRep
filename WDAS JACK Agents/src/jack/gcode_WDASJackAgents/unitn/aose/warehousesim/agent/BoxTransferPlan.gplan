@@ -1,0 +1,165 @@
+<BAPI_Plan
+    :version  52
+    :superclass  "Plan"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+* Makes the robot to bring a box from a position to another
+**/`
+	>
+    :name  "BoxTransferPlan"
+    :filename  "unitn/aose/warehousesim/agent/BoxTransferPlan.gplan"
+    :type  "aos.jack.ed.Plan"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	>
+    :handled_event
+	<BAPI_FileRef
+	    :name  "BoxTransferEvent"
+	    :filename  "unitn/aose/warehousesim/agent/BoxTransferEvent.gevent"
+	    :label  "handles BoxTransferEvent"
+	    :type  "aos.jack.ed.Event"
+	    :java
+		<BAPI_Java
+		    :pkg
+			<BAPI_TextLine
+			>
+		>
+	    :refType  "handles"
+	    :refName  "ev"
+	    :dropHandlerName  "NamedEvent.drop"
+	    :allowsReplace  :true
+	>
+    :relevant
+	<BAPI_Text
+	    :lab  "Relevance"
+	    :val  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :init  `static boolean relevant(<<HandlesType>> ev)
+{
+    return true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :context
+	<BAPI_Text
+	    :lab  "Context"
+	    :val  `context()
+{
+    true;
+}
+`
+	    :init  `context()
+{
+    true;
+}
+`
+	    :isLabelEditable  :false
+	>
+    :posted_events
+	(
+	    <BAPI_FileRef
+		:name  "GoToPositionEvent"
+		:filename  "unitn/aose/warehousesim/agent/GoToPositionEvent.gevent"
+		:label  "posts GoToPositionEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "posts"
+		:refName  "go"
+	    >
+	    <BAPI_FileRef
+		:name  "ResponseEvent"
+		:filename  "unitn/aose/warehousesim/agent/ResponseEvent.gevent"
+		:label  "sends ResponseEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "sends"
+		:refName  "response"
+	    >
+	)
+    :databases
+	(
+	    <BAPI_FileRef
+		:name  "RobotData"
+		:filename  "unitn/aose/warehousesim/agent/RobotData_-myRobot.gnd"
+		:label  "uses RobotData"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "myRobot"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	    <BAPI_FileRef
+		:name  "DataLog"
+		:filename  "unitn/aose/warehousesim/agent/DataLog_-dataLog.gnd"
+		:label  "uses DataLog"
+		:type  "aos.jack.ed.NamedData"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "ReadWriteableDBList.attrs"
+		:refType  "uses"
+		:refName  "dataLog"
+		:dropHandlerName  "NamedData.drop"
+	    >
+	)
+    :reasoning_methods
+	(
+	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
+		:lab  "body"
+		:val  `body()
+{
+    dataLog.log("transferring box from "+ev.fromPosition+">"+(ev.fromRight?"r":"l")+" to "+ev.toPosition+">"+(ev.fromRight?"r":"l"));
+    //move to frompos
+    @subtask(go.goToPosition(ev.fromPosition));
+    //load on the right side
+    if(ev.fromRight){
+        myRobot.loadRight();
+    }else{
+        myRobot.loadLeft();
+    }
+    //move to topos
+    @subtask(go.goToPosition(ev.toPosition));
+    //unload on thr right side        
+    if(ev.toRight){
+        myRobot.unloadRight();
+    }else{
+        myRobot.unloadLeft();
+    }
+    @reply(ev, response.response("transfer completed"));
+}
+`
+	    >
+	)
+>

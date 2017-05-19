@@ -9,10 +9,13 @@ import unitn.aose.warehousesim.data.StorageArea;
 
 System.out.println("> Script test1.bsh");
 
+final String tellerMachine = "PickAreaD";
+final long timeout = 30000; //ms
+
 //setup warehouse
-Box box1 = warehouse.createBox("PickAreaA");
+Box box1 = warehouse.createBox(tellerMachine);
 Box box2 = warehouse.createBox("StorageAreaA1");
-ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
+ITellerMachine t1 = warehouse.getTellerMachine(tellerMachine);
 System.out.println("# "+box1+" created at "+t1);
 System.out.println("# "+box2+" created at StorageAreaA1");
 
@@ -24,15 +27,16 @@ if(null == ticket){
 	return;
 }
 System.out.println("> waiting for "+box1+" deposit: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
-ticketManager.waitForTicket(ticket, 20000);
+ticketManager.waitForTicket(ticket, timeout);
 if(ticket.getState()!=Ticket.TICKET_DONE){
 	System.err.println("! ticket expired and not done");
 	return;
 }
 
+// final verification
 System.out.println("> "+ticket.getCode()+" marked as done");
 a = box1.getArea();
-if(!(a instanceof StorageArea)){
+if(!warehouse.isAStorageArea(a)){
 	System.err.println("! "+box1+" not correctly stored");
 }else{
 	System.out.println("> "+box1+" stored at "+a);
