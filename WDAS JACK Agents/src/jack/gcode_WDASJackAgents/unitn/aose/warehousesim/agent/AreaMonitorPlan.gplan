@@ -24,16 +24,16 @@ Keep the given area monitored for area state changes
 			:val  "aos.jack.util.cursor.Change"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.data.AreaRef"
-		    >
-		    <BAPI_TextLine
 			:val  "unitn.aose.warehousesim.api.AreaState"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.data.BoxRef"
+			:val  "unitn.aose.warehousesim.api.ITellerMachine"
 		    >
 		    <BAPI_TextLine
-			:val  "unitn.aose.warehousesim.api.ITellerMachine"
+			:val  "unitn.aose.warehousesim.api.data.AreaRef"
+		    >
+		    <BAPI_TextLine
+			:val  "unitn.aose.warehousesim.api.data.BoxRef"
 		    >
 		)
 	>
@@ -145,7 +145,7 @@ Keep the given area monitored for area state changes
     dataLog.log("AreaMonitorPlan monitoring area "+a);
     for(;true;){
         //wait for the areastate to be changed
-        @wait_for(new Change(a.getAreaMonitor(), false));
+        @wait_for(new Change(a.getState().getMonitor(), false));
         int areaState = RobotData.getAreaState((AreaState)a.getState().get());
         BoxRef b = a.getBox();
         String boxName = null;
