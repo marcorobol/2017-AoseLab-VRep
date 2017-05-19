@@ -6,7 +6,16 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
-* Makes the robot to bring a box from a position to another
+* Makes the robot to bring a box from an area to another.
+* The area is identified by its position and side (right or left).
+* 
+* The transfer is made of 4 steps:
+* 1. move to "from" position (implies on the same rail)
+* 2. load from the "from" side (right or left)
+* 3. move to "to" position
+* 4. unload to the "to" side (right or left)
+* 
+* When the transfer is completed the plan will reply to the triggering event.
 **/`
 	>
     :name  "BoxTransferPlan"
@@ -140,24 +149,25 @@
 		:lab  "body"
 		:val  `body()
 {
-    dataLog.log("transferring box from "+ev.fromPosition+">"+(ev.fromRight?"r":"l")+" to "+ev.toPosition+">"+(ev.fromRight?"r":"l"));
-    //move to frompos
+    dataLog.log("transferring box from "+ev.fromPosition+(ev.fromRight?"r":"l")+" to "+ev.toPosition+(ev.fromRight?"r":"l"));
+    //1. move to fromPosition
     @subtask(go.goToPosition(ev.fromPosition));
-    //load on the right side
+    //2. load on the right or left side
     if(ev.fromRight){
         myRobot.loadRight();
     }else{
         myRobot.loadLeft();
     }
-    //move to topos
+    //3. move to toPosition
     @subtask(go.goToPosition(ev.toPosition));
-    //unload on thr right side        
+    //4. unload on right or left side
     if(ev.toRight){
         myRobot.unloadRight();
     }else{
         myRobot.unloadLeft();
     }
-    @reply(ev, response.response("transfer completed"));
+    //let the coordinator know we finished the transfer
+    @reply(ev, response.message("transfer completed"));
 }
 `
 	    >

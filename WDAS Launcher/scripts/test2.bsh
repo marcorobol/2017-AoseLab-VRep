@@ -1,4 +1,3 @@
-//WAREHOUSE TEST1
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ITicket;
@@ -7,39 +6,43 @@ import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.data.StorageArea;
 
-System.out.println("> Script test2.bsh");
+// --- WAREHOUSE TEST2 ---
+// In this test a box has to be retrieved from the deposit.
+// The box is available in an area on the same rail of the pickup area.
+// The test succeeds if:
+// 1. the ticket is set to done,
+// 2. the box is placed in the appropriate tellermachine,
+// 3. the operation is completed in 20 seconds
+// -----------------------
+final String tellerMachine = "PickAreaA";
+final String storageArea = "StorageAreaA1";
+final long timeout = 20000; //ms
 
 //setup warehouse
-Box box1 = warehouse.createBox("StorageAreaA1");
+Box box1 = warehouse.createBox(storageArea);
+ITellerMachine t1 = warehouse.getTellerMachine(tellerMachine);
+System.out.println("# "+box1+" created at "+storageArea);
 
-ITellerMachine t1 = warehouse.getTellerMachine("PickAreaA");
-
-System.out.println("# "+box1+" created at StorageAreaA1");
-
-//---- TEST 2 ----
-ticket = t1.requestWithdraw(box1); //bring the box1 
-
+//start retrieval procedure
+ITicket ticket = t1.requestWithdraw(box1);
 if(null == ticket){
-	System.err.println("! cannot elaborate deposit");
+	System.err.println("! cannot elaborate withdraw");
 	return;
 }
 
-System.out.println("> waiting for "+box1+" withdraw: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
-ticketManager.waitForTicket(ticket, 20000); //wait 20 seconds
+//waiting for the ticket
+System.out.println("> waiting for "+box1+" withdrawal: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
+ticketManager.waitForTicket(ticket, timeout);
 if(ticket.getState()!=Ticket.TICKET_DONE){
-	System.err.println("! ticket expired and not done");
+	System.err.println("! ticket expired or not done");
 	return;
 }
 
+// final verification
 System.out.println("> "+ticket.getCode()+" marked as done");
 a = box1.getArea();
-if(!(a instanceof StorageArea)){
-	System.err.println("! "+box1+" not correctly stored");
+if(a == t1){
+	System.err.println("! "+box1+" not correctly collected ("+a+" is not "+t1+")");
 }else{
-	System.out.println("> "+box1+" stored at "+a);
+	System.out.println("> "+box1+" collected at "+a);
 }
-
-
-
-
-

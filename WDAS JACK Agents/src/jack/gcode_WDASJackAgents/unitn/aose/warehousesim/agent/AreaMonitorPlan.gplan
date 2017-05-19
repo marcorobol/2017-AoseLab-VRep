@@ -142,7 +142,7 @@ Keep the given area monitored for area state changes
 		:val  `body()
 {
     AreaRef a = myWarehouse.getWarehouse().getArea(ev.areaName);
-    dataLog.log("AreaMonitorPlan monitoring area "+a);
+    //dataLog.log("AreaMonitorPlan monitoring area "+a);
     for(;true;){
         //wait for the areastate to be changed
         @wait_for(new Change(a.getState().getMonitor(), false));
@@ -152,7 +152,7 @@ Keep the given area monitored for area state changes
         if(null!=b){
             boxName = b.getName();
         }
-        dataLog.log("updating area "+a+" to state: "+a.getState().get()+" (box "+boxName+")");
+        //dataLog.log("updating area "+a+" to state: "+a.getState().get()+" (box "+boxName+")");
         areas.updateAreaState(ev.areaName, areaState, boxName);
     }
 }

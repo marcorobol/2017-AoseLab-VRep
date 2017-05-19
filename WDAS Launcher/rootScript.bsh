@@ -1,15 +1,14 @@
-//the test to run
-final String TEST = "./scripts/test1.bsh"; 
-
+//the name of the script to run
+final String test = "test1";
 //waiting for initialization to complete
 Thread.sleep(1000);
-
 //mark start time
 long start = System.currentTimeMillis();
-source(TEST); //execute the test script 
+System.out.println("$ executing script "+TEST);
+source("./scripts/"+test+".bsh");
 long dt = System.currentTimeMillis() - start;
-
-System.out.println("TEST "+TEST+" finished in "+((float)dt/1000f)+" seconds");
+//print total script time
+System.out.println("$ test "+test+" finished in "+((float)dt/1000f)+" seconds");
 Thread.sleep(1000);
 //quit
 System.exit(0);

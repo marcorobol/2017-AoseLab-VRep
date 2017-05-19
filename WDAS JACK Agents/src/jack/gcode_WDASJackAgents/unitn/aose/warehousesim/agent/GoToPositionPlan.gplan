@@ -6,7 +6,9 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
- * 
+ * Let the robot controlled by this agent to move from a position to another.
+ * The robot will move either forward or backward (or stand still if not needed)
+ * until at the required position on its rail.
  */`
 	>
     :name  "GoToPositionPlan"
@@ -69,8 +71,9 @@
 	    :lab  "Context"
 	    :val  `context()
 {
-    //quando il robot non è gia nella posizione data
+    //plan uses the current position as context
     robotInfo.getPosition($pos);
+    //be aware that if no position is available (agent not yet updated) this context fails!
 }
 `
 	    :init  `context()
@@ -194,8 +197,8 @@
 		:lab  "body"
 		:val  `body()
 {
-	dataLog.log("goToPositionPlan");
     int position = ev.position;
+    //movement direction depends on position
     if($pos.as_int() < position){
         myRobot.moveForward();
         dataLog.log("moving forward from "+$pos.as_int()+" to "+position);
@@ -203,10 +206,12 @@
         myRobot.moveBackward();    
         dataLog.log("moving backward from "+$pos.as_int()+" to "+position);
     }
+    //wait to be at position
     logical int $cpos;
     @wait_for(robotInfo.getPosition($cpos) && $cpos.as_int() == position);
-    dataLog.log("stopping at "+position);
+    //require to stop
     myRobot.stopHere();
+    //wait to be stopped
     logical int $cms;
     @wait_for(robotInfo.getMovement($cms) && $cms.as_int() == RobotData.MS_STOP);
     dataLog.log("stopped at "+position);

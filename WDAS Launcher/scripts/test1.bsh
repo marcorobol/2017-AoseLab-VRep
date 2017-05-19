@@ -1,4 +1,3 @@
-//WAREHOUSE TEST1
 import unitn.aose.warehousesim.api.ITellerMachine;
 import unitn.aose.warehousesim.api.AreaState;
 import unitn.aose.warehousesim.api.ITicket;
@@ -7,31 +6,34 @@ import unitn.aose.warehousesim.data.Area;
 import unitn.aose.warehousesim.api.data.Ticket;
 import unitn.aose.warehousesim.data.StorageArea;
 
-System.out.println("> Script test1.bsh");
-
-final String tellerMachine = "PickAreaD";
-final String storageArea = "StorageAreaA1";
-final long timeout = 30000; //ms
+// --- WAREHOUSE TEST1 ---
+// In this test a box has to be stored in the deposit.
+// A free storage are is available on the same rail of the pickup area.
+// The test succeeds if:
+// 1. the ticket is set to done,
+// 2. the box is placed in a storage area
+// 3. the operation is completed in 20 seconds
+// -----------------------
+final String tellerMachine = "PickAreaA";
+final long timeout = 20000; //ms
 
 //setup warehouse
 Box box1 = warehouse.createBox(tellerMachine);
-Box box2 = warehouse.createBox(storageArea);
 ITellerMachine t1 = warehouse.getTellerMachine(tellerMachine);
 System.out.println("# "+box1+" created at "+t1);
-System.out.println("# "+box2+" created at "+storageArea);
 
-
-//---- TEST 1 ----
 //start storage procedure
 ITicket ticket = t1.requestDeposit();
 if(null == ticket){
 	System.err.println("! cannot elaborate deposit");
 	return;
 }
+
+//waiting for the ticket
 System.out.println("> waiting for "+box1+" deposit: tracking number "+ticket.getCode()+ " (state "+ticket.getState()+")");
 ticketManager.waitForTicket(ticket, timeout);
 if(ticket.getState()!=Ticket.TICKET_DONE){
-	System.err.println("! ticket expired and not done");
+	System.err.println("! ticket expired or not done");
 	return;
 }
 
@@ -39,7 +41,7 @@ if(ticket.getState()!=Ticket.TICKET_DONE){
 System.out.println("> "+ticket.getCode()+" marked as done");
 a = box1.getArea();
 if(!warehouse.isAStorageArea(a)){
-	System.err.println("! "+box1+" not correctly stored");
+	System.err.println("! "+box1+" not correctly stored ("+a+" is not a storage area)");
 }else{
 	System.out.println("> "+box1+" stored at "+a);
 }

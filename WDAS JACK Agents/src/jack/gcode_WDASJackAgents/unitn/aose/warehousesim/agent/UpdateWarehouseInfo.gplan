@@ -219,7 +219,6 @@
     
     //checkSharedAreas();
     //checkCrosses();
-    dataLog.log("warehouse info updated!");
 }
 `
 	    >

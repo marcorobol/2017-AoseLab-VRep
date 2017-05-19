@@ -169,9 +169,7 @@
 	    <"BAPI_Text#aos.jack.ed.ReasoningMethod"
 		:lab  "body"
 		:val  `body()
-{   
-    dataLog.log("handling coordination over "+ev.robotAgents.size()+" agents");
- 
+{     
     //add all agents to the beliefset
     Iterator it = ev.robotAgents.iterator();
     while(it.hasNext()){

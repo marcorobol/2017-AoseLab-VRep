@@ -77,7 +77,6 @@
     super("coordinator");
     timer = new SimClock();
     myWarehouse.setWarehouse(warehouse);
-    dataLog.log("agent "+this.getName()+" for "+warehouse+" created");
 
     postEvent(updateInfo.update());
 }

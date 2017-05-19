@@ -28,8 +28,8 @@
     :evconstr
 	(
 	    <BAPI_Text
-		:lab  "response"
-		:val  `response(String message){
+		:lab  "message"
+		:val  `message(String message){
     this.message = message;
 }
 `

@@ -79,7 +79,6 @@ test
     super(robot.getName());
     timer = new SimClock();
     myRobot.setRobot(robot);
-    dataLog.log("agent "+this.getName()+" for "+robot.getName()+" created");
 
     postEvent(updateInfo.update());
 }

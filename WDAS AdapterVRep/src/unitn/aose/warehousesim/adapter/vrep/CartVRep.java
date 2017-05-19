@@ -102,7 +102,7 @@ public class CartVRep implements IAdapterCart {
 	
 	@Override
 	public void loadBox(BoxRef boxRef, Boolean rightSideOrLeftSide) {
-		Logger.out.println("DEBUG: "+cartName+" loading "+boxRef+" "+(rightSideOrLeftSide?"right":"left"));
+		//Logger.out.println("DEBUG: "+cartName+" loading "+boxRef+" "+(rightSideOrLeftSide?"right":"left"));
 		BoxVRep box = adapter.getBox(boxRef);
 		/*
 		 * Set parent
@@ -187,8 +187,6 @@ public class CartVRep implements IAdapterCart {
     			", state: "+cart.getMovement().get()
     			);
     			*/
-    	
-    	
     	
     	/*
     	 * If impossible to move further -> stop
