@@ -195,6 +195,11 @@
 		:val  `body()
 {
     dataLog.log("starting " + myRobot.getName()+" test plan (pos: "+myRobot.getPosition()+")");
+    while(myRobot.getPosition()<0){
+        dataLog.log("waiting for robot initialization...");
+        @sleep(0.5);
+    }
+    //move to position 1
     if(myRobot.getPosition()>1){
         myRobot.moveBackward();
         dataLog.log("moving backward!");

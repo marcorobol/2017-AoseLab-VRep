@@ -195,6 +195,10 @@ public class RobotData extends Observable {
 
 	public RobotData() {
 		cartPerceptions = new ICartPerception[8];
+		//initialize fields to invalid values
+		pos = -1;
+		movementState = -1;
+		loadUnloadState = -1;
 	}
 
 	/// single bit consts to track changed parameters
@@ -254,7 +258,7 @@ public class RobotData extends Observable {
 		// position and movement
 		Integer p = (Integer)robot.getPosition().get();
 		if(null != p && p.intValue() != pos){
-			pos = (null != p) ? (int) p : 0;
+			pos = p.intValue();
 			changed |= CH_POS;
 		}
 		int ms = ((MovementState) robot.getMovement().get()).ordinal();

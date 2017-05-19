@@ -1,1 +1,2 @@
+//loading external script
 source("./scripts/test1.bsh");
