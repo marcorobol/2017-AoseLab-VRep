@@ -25,7 +25,12 @@ public interface IWarehouseAgent extends ISimulationAgent {
 	 * @param deposit if this is a deposit or withdraw request
 	 * @param areaNameAssociatedToTheTM
 	 * @param boxName
-	 * @param agents
 	 */
-	void handleRequest(String ticketCode, boolean deposit, String areaNameAssociatedToTheTM, String boxName, Collection<IRobotAgent> agents);
+	void handleRequest(String ticketCode, boolean deposit, String areaNameAssociatedToTheTM, String boxName);
+	
+	/**
+	 * Tell this coordinate the agents available
+	 * @param robotAgents
+	 */
+	void coordinate(Collection<IRobotAgent> robotAgents);
 }

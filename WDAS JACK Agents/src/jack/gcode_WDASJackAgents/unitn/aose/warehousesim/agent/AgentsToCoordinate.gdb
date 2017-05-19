@@ -29,9 +29,44 @@
 		:name  "status"
 		:type  "int"
 	    >
+	    <BAPI_DBField =2
+		:name  "rail"
+	    >
 	)
     :queries
 	(
+	    <BAPI_DBQuery
+		:name  "get"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&0 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
+		    )
+	    >
+	    <BAPI_DBQuery
+		:name  "get"
+		:logicals
+		    (
+			<BAPI_InternalRef
+			    :ref
+				<&1 >
+			>
+			<BAPI_InternalRef
+			    :ref
+				<&2 >
+			>
+		    )
+	    >
 	    <BAPI_DBQuery
 		:name  "get"
 		:logicals

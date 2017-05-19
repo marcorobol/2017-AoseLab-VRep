@@ -1,0 +1,58 @@
+<BAPI_Event
+    :version  52
+    :superclass  "Event"
+    :doc
+	<BAPI_Text
+	    :hard_lab  "Doc:"
+	    :lab  "Documentation"
+	    :val  `/**
+ * Represents a deposit or withdraw action 
+ * to be carried out by the coordinator.
+ */`
+	>
+    :name  "RequestEvent"
+    :filename  "unitn/aose/warehousesim/agent/RequestEvent.gevent"
+    :type  "aos.jack.ed.Event"
+    :java
+	<BAPI_Java
+	    :pkg
+		<BAPI_TextLine
+		    :val  "unitn.aose.warehousesim.agent"
+		>
+	    :imports
+		(
+		    <BAPI_TextLine
+			:val  "java.util.Collection"
+		    >
+		)
+	>
+    :evfields
+	(
+	    <BAPI_EventField
+		:name  "ticketCode"
+	    >
+	    <BAPI_EventField
+		:name  "deposit"
+		:type  "boolean"
+	    >
+	    <BAPI_EventField
+		:name  "areaName"
+	    >
+	    <BAPI_EventField
+		:name  "boxName"
+	    >
+	)
+    :evconstr
+	(
+	    <BAPI_Text
+		:lab  "start"
+		:val  `start(String ticketCode, boolean deposit, String areaName, String boxName){
+    this.ticketCode = ticketCode;
+    this.deposit = deposit;
+    this.areaName = areaName;
+    this.boxName = boxName;
+}
+`
+	    >
+	)
+>

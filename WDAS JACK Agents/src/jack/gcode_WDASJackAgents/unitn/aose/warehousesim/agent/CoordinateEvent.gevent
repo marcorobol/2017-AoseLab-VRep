@@ -6,7 +6,7 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
- * 
+ * Tells the coordinator the available agents.
  */`
 	>
     :name  "CoordinateEvent"
@@ -28,19 +28,6 @@
     :evfields
 	(
 	    <BAPI_EventField
-		:name  "ticketCode"
-	    >
-	    <BAPI_EventField
-		:name  "deposit"
-		:type  "boolean"
-	    >
-	    <BAPI_EventField
-		:name  "areaName"
-	    >
-	    <BAPI_EventField
-		:name  "boxName"
-	    >
-	    <BAPI_EventField
 		:name  "robotAgents"
 		:type  "Collection"
 	    >
@@ -48,12 +35,8 @@
     :evconstr
 	(
 	    <BAPI_Text
-		:lab  "start"
-		:val  `start(String ticketCode, boolean deposit, String areaName, String boxName, Collection robotAgents){
-    this.ticketCode = ticketCode;
-    this.deposit = deposit;
-    this.areaName = areaName;
-    this.boxName = boxName;
+		:lab  "coordinate"
+		:val  `coordinate(Collection robotAgents){
     this.robotAgents = robotAgents;
 }
 `

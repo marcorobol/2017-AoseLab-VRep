@@ -91,8 +91,7 @@ public class Launcher {
 									tm.getGeneratedTicket().getCode(),
 									tm.getState().get()==AreaState.elaboratingDeposit,
 									a.getName(),
-									tm.getGeneratedTicket().getBox().getName(),
-									agentsList);
+									tm.getGeneratedTicket().getBox().getName());
 					}
 				});
 			}
@@ -134,6 +133,7 @@ public class Launcher {
 		RobotAgentFactory caFactory = new RobotAgentFactory(CLASS_ROBOTAGENT, CLASS_WAREHOUSEAGENT);
 		Collection<IRobotAgent> agentsList = getRobotAgents(caFactory, warehouse);
 		IWarehouseAgent coordinator = getCoordinatorAgent(caFactory, warehouse, agentsList);
+		coordinator.coordinate(agentsList);
 
 //		// XXX: I just want to use a single agent at this time for testing
 //		// FIXME: remove this code to restore normal behaviour

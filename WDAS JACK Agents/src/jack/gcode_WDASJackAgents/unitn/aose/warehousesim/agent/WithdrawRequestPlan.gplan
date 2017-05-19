@@ -6,11 +6,11 @@
 	    :hard_lab  "Doc:"
 	    :lab  "Documentation"
 	    :val  `/**
- * 
+ * Handles a withdraw request
  */`
 	>
-    :name  "CoordinationPlan"
-    :filename  "unitn/aose/warehousesim/agent/CoordinationPlan.gplan"
+    :name  "WithdrawRequestPlan"
+    :filename  "unitn/aose/warehousesim/agent/WithdrawRequestPlan.gplan"
     :type  "aos.jack.ed.Plan"
     :java
 	<BAPI_Java
@@ -36,9 +36,9 @@
 	>
     :handled_event
 	<BAPI_FileRef
-	    :name  "CoordinateEvent"
-	    :filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
-	    :label  "handles CoordinateEvent"
+	    :name  "RequestEvent"
+	    :filename  "unitn/aose/warehousesim/agent/RequestEvent.gevent"
+	    :label  "handles RequestEvent"
 	    :type  "aos.jack.ed.Event"
 	    :java
 		<BAPI_Java
@@ -56,7 +56,7 @@
 	    :lab  "Relevance"
 	    :val  `static boolean relevant(<<HandlesType>> ev)
 {
-    return true;
+    return !ev.deposit;
 }
 `
 	    :init  `static boolean relevant(<<HandlesType>> ev)
@@ -81,6 +81,25 @@
 `
 	    :isLabelEditable  :false
 	>
+    :posted_events
+	(
+	    <BAPI_FileRef
+		:name  "StartRobotsEvent"
+		:filename  "unitn/aose/warehousesim/agent/StartRobotsEvent.gevent"
+		:label  "sends StartRobotsEvent"
+		:type  "aos.jack.ed.Event"
+		:java
+		    <BAPI_Java
+			:pkg
+			    <BAPI_TextLine
+			    >
+		    >
+		:attrs  "PlanEventList.attrs"
+		:refType  "sends"
+		:refName  "startRobotsEvent"
+		:dropHandlerName  "NamedEvent.drop"
+	    >
+	)
     :databases
 	(
 	    <BAPI_FileRef
@@ -170,16 +189,20 @@
 		:lab  "body"
 		:val  `body()
 {   
-    dataLog.log("handling coordination over "+ev.robotAgents.size()+" agents");
- 
-    //add all agents to the beliefset
+    dataLog.log("handling withdraw request "+ev.ticketCode+" for box "+ev.boxName+" at "+ev.areaName);
+    
+    //send goal to robots
+    /*
     Iterator it = ev.robotAgents.iterator();
     while(it.hasNext()){
         IRobotAgent a = (IRobotAgent)it.next();
-        agents.add(a.name(), 0, a.getRobot().getRail().getName());
+        agents.add(a.name(), 1); //booking the agent
+        StartRobotsEvent start = startRobotsEvent.start();
+        @send(a.name(), start);
+        dataLog.log("waiting for "+a.name()+" to finish...");
+        //@wait_for(start.replied());
     }
-    
-    dataLog.log(agents.nFacts()+" agents to coordinate");
+    */
 }
 `
 	    >

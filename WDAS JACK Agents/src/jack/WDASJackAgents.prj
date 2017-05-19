@@ -92,6 +92,30 @@
 							>
 						>
 						<BAPI_Filename
+						    :filename  "unitn/aose/warehousesim/agent/DepositRequestPlan.gplan"
+						    :label  "DepositRequestPlan"
+						    :type  "aos.jack.ed.Plan"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
+						<BAPI_Filename
+						    :filename  "unitn/aose/warehousesim/agent/WithdrawRequestPlan.gplan"
+						    :label  "WithdrawRequestPlan"
+						    :type  "aos.jack.ed.Plan"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
+						<BAPI_Filename
 						    :filename  "unitn/aose/warehousesim/agent/AreaMonitorPlan.gplan"
 						    :label  "AreaMonitorPlan"
 						    :type  "aos.jack.ed.Plan"
@@ -194,6 +218,18 @@
 						<BAPI_Filename
 						    :filename  "unitn/aose/warehousesim/agent/CoordinateEvent.gevent"
 						    :label  "CoordinateEvent"
+						    :type  "aos.jack.ed.Event"
+						    :java
+							<BAPI_Java
+							    :pkg
+								<BAPI_TextLine
+								    :val  "unitn.aose.warehousesim.agent"
+								>
+							>
+						>
+						<BAPI_Filename
+						    :filename  "unitn/aose/warehousesim/agent/RequestEvent.gevent"
+						    :label  "RequestEvent"
 						    :type  "aos.jack.ed.Event"
 						    :java
 							<BAPI_Java
