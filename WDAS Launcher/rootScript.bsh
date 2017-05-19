@@ -11,4 +11,4 @@ long dt = System.currentTimeMillis() - start;
 System.out.println("$ test "+test+" finished in "+((float)dt/1000f)+" seconds");
 Thread.sleep(1000);
 //quit
-System.exit(0);
+//System.exit(0);
